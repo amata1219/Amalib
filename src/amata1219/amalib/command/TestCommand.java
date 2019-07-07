@@ -12,10 +12,10 @@ public class TestCommand implements Command {
 
 		//次の引数を取得する
 		switch(args.next()){
-		case "int-test":
+		case "int":
 			//次の引数がint型に変換可能でなければ戻る
 			if(!args.hasNextInt()){
-				sender.warn("Second argument(index: 1) must be int.");
+				sender.warn("Argument(index: 1) must be int.");
 				return;
 			}
 
@@ -25,7 +25,7 @@ public class TestCommand implements Command {
 			//$インデックスを対応したオブジェクトの文字列に置き換える
 			sender.info(StringTemplate.format("Inputted number is $0", size));
 			return;
-		case "message-test":
+		case "message":
 			//Arguments#getInRange(int, int)は指定範囲内の引数を結合して返す
 			sender.info(StringTemplate.format("Inputted message is $0", args.getInRange(1, args.args.length)));
 			return;
