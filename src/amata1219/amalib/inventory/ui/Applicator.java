@@ -1,11 +1,11 @@
 package amata1219.amalib.inventory.ui;
 
-public interface Applier<T> {
+public interface Applicator<T> {
 
 	default T apply(T value){
-		action(value);
+		applicate(value);
 		return value;
 	}
 
-	void action(T value);
+	void applicate(T value);
 }

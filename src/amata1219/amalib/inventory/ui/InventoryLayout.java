@@ -1,61 +1,93 @@
 package amata1219.amalib.inventory.ui;
 
 import java.util.HashMap;
+import java.util.function.Consumer;
 
-import org.bukkit.Bukkit;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
-import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 
 public class InventoryLayout {
 
-	public String title;
-	public final InventoryUI ui;
-	public final InventoryInformation information;
+	private final InventoryUI ui;
+	private final InventoryInformation information;
+
+	private String title;
 	private final HashMap<Integer, Slot> slots = new HashMap<>();
-	private Applier<Slot> defaultSlotApplier;
-	private Applier<InventoryOpenEvent> actionOnOpen;
-	private Applier<InventoryCloseEvent> actionOnClose;
+	private Applicator<Slot> defaultSlotApplicator;
+	private Consumer<InventoryOpenEvent> actionOnOpen;
+	private Consumer<InventoryCloseEvent> actionOnClose;
 
 	public InventoryLayout(InventoryUI ui, InventoryInformation information){
 		this.ui = ui;
 		this.information = information;
 	}
 
-	public Inventory buildInventory(){
-		Inventory inventory = null;
-
-		int size = information.size;
-		InventoryType type = information.type;
-
-		if(type != null)
-			if(title != null)
-				inventory = Bukkit.createInventory(ui, size, title);
-			else
-				inventory = Bukkit.createInventory(ui, size);
-		else
-			if(title != null)
-				inventory = Bukkit.createInventory(ui, type, title);
-			else
-				inventory = Bukkit.createInventory(ui, type);
-
-		for(int index = 0; index < size; index++)
-			inventory.setItem(index, getSlotAt(index));
+	public Slot getSlotAt(int slotIndex){
+		return slots.containsKey(slotIndex) ? slots.get(slotIndex) : defaultSlotApplicator.apply(new Slot());
 	}
 
-	public Slot getSlotAt(int index){
-		return slots.containsKey(index) ? slots.get(index) : defaultSlotApplier.apply(new Slot());
+	public Inventory buildInventory(){
+		Inventory inventory = createInventory(ui, information, title);
+
+		for(int slotIndex = 0; slotIndex < inventory.getSize(); slotIndex++)
+			inventory.setItem(slotIndex, getSlotAt(slotIndex));
+
+		return inventory;
+	}
+
+	public void defaultSlot(Applicator<Slot> applicate){
+		this.defaultSlotApplicator = applicate;
+	}
+
+	public void put(Applicator<Slot> applicate, int... slotIndexes){
+
+	}
+
+	public void onOpen(Consumer<InventoryOpenEvent> action){
+		actionOnOpen = action;
+	}
+
+	public void onClose(Consumer<InventoryCloseEvent> action){
+		actionOnClose = action;
 	}
 
 	public void fire(InventoryOpenEvent event){
-		if(actionOnOpen != null)
-			actionOnOpen.action(event);
+		actionOnOpen.accept(event);
 	}
 
 	public void fire(InventoryCloseEvent event){
-		if(actionOnClose != null)
-			actionOnClose.action(event);
+		actionOnClose.accept(event);
 	}
+
+	/*
+    fun put(vararg positions: Int, build: SlotCondiment) {
+        positions
+                .map { position -> position to Slot().apply { build(position) } }
+                .filter { (_, slot) -> slot.isAvailable() }
+                .forEach { (position, slot) -> slotMap[position] = slot }
+    }
+
+    fun put(positionRange: IntRange, build: SlotCondiment) {
+        put(positions = *positionRange.toList().toIntArray(), build = build)
+    }
+
+    private fun createInventory(inventoryHolder: InventoryHolder, inventoryInformation: InventoryInformation, title: String?): Inventory {
+        return if (inventoryInformation.size != null) {
+            if (title != null) {
+                Bukkit.createInventory(inventoryHolder, inventoryInformation.size, title)
+            } else {
+                Bukkit.createInventory(inventoryHolder, inventoryInformation.size)
+            }
+        } else {
+            if (title != null) {
+                Bukkit.createInventory(inventoryHolder, inventoryInformation.type, title)
+            } else {
+                Bukkit.createInventory(inventoryHolder, inventoryInformation.type)
+            }
+        }
+    }
+
+	 */
 
 }

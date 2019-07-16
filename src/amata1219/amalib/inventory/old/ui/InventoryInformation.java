@@ -1,4 +1,4 @@
-package amata1219.amalib.inventory.ui;
+package amata1219.amalib.inventory.old.ui;
 
 import org.bukkit.event.inventory.InventoryType;
 

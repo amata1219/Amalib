@@ -1,4 +1,4 @@
-package amata1219.amalib.inventory.ui;
+package amata1219.amalib.inventory.old.ui;
 
 import java.util.ArrayList;
 import java.util.HashMap;
