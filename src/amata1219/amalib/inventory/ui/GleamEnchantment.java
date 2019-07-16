@@ -1,18 +1,18 @@
-package amata1219.amalib.inventory.old.ui;
+package amata1219.amalib.inventory.ui;
 
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.inventory.ItemStack;
 
-public class GlowEnchant extends Enchantment {
+public class GleamEnchantment extends Enchantment {
 
-	public static void register(){
-		Enchantment.registerEnchantment(new GlowEnchant());
+	static{
+		Enchantment.registerEnchantment(new GleamEnchantment());
 	}
 
-	public GlowEnchant() {
-		super(NamespacedKey.minecraft("glow"));
+	public GleamEnchantment() {
+		super(NamespacedKey.minecraft("gleam"));
 	}
 
 	@Override
@@ -27,7 +27,7 @@ public class GlowEnchant extends Enchantment {
 
 	@Override
 	public EnchantmentTarget getItemTarget() {
-		return null;
+		return EnchantmentTarget.ALL;
 	}
 
 	@Override
@@ -37,7 +37,7 @@ public class GlowEnchant extends Enchantment {
 
 	@Override
 	public String getName() {
-		return "glowing";
+		return "gleam";
 	}
 
 	@Override

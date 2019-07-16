@@ -2,46 +2,55 @@ package amata1219.amalib.inventory.ui;
 
 import java.util.HashMap;
 import java.util.function.Consumer;
+import java.util.stream.IntStream;
 
+import org.bukkit.Bukkit;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 
 public class InventoryLayout {
 
 	private final InventoryUI ui;
-	private final InventoryInformation information;
+	private final InventoryOption option;
 
-	private String title;
+	public String title;
 	private final HashMap<Integer, Slot> slots = new HashMap<>();
 	private Applicator<Slot> defaultSlotApplicator;
 	private Consumer<InventoryOpenEvent> actionOnOpen;
 	private Consumer<InventoryCloseEvent> actionOnClose;
 
-	public InventoryLayout(InventoryUI ui, InventoryInformation information){
+	public InventoryLayout(InventoryUI ui, InventoryOption option){
 		this.ui = ui;
-		this.information = information;
+		this.option = option;
 	}
 
 	public Slot getSlotAt(int slotIndex){
-		return slots.containsKey(slotIndex) ? slots.get(slotIndex) : defaultSlotApplicator.apply(new Slot());
+		return slots.containsKey(slotIndex) ? slots.get(slotIndex) : defaultSlotApplicator.applicate(new Slot());
 	}
 
 	public Inventory buildInventory(){
-		Inventory inventory = createInventory(ui, information, title);
+		Inventory inventory = createInventory(ui, option, title);
 
 		for(int slotIndex = 0; slotIndex < inventory.getSize(); slotIndex++)
-			inventory.setItem(slotIndex, getSlotAt(slotIndex));
+			inventory.setItem(slotIndex, getSlotAt(slotIndex).buildIcon().toItemStack());
 
 		return inventory;
 	}
 
-	public void defaultSlot(Applicator<Slot> applicate){
-		this.defaultSlotApplicator = applicate;
+	public void defaultSlot(Applicator<Slot> applicator){
+		defaultSlotApplicator = applicator;
 	}
 
-	public void put(Applicator<Slot> applicate, int... slotIndexes){
+	public void put(Applicator<Slot> slotApplicate, int... slotIndexes){
+		for(int slotIndex : slotIndexes)
+			slots.put(slotIndex, slotApplicate.applicate(new Slot()));
+	}
 
+	public void put(Applicator<Slot> slotApplicate, IntStream range){
+		put(slotApplicate, range.toArray());
 	}
 
 	public void onOpen(Consumer<InventoryOpenEvent> action){
@@ -60,34 +69,19 @@ public class InventoryLayout {
 		actionOnClose.accept(event);
 	}
 
-	/*
-    fun put(vararg positions: Int, build: SlotCondiment) {
-        positions
-                .map { position -> position to Slot().apply { build(position) } }
-                .filter { (_, slot) -> slot.isAvailable() }
-                .forEach { (position, slot) -> slotMap[position] = slot }
-    }
-
-    fun put(positionRange: IntRange, build: SlotCondiment) {
-        put(positions = *positionRange.toList().toIntArray(), build = build)
-    }
-
-    private fun createInventory(inventoryHolder: InventoryHolder, inventoryInformation: InventoryInformation, title: String?): Inventory {
-        return if (inventoryInformation.size != null) {
-            if (title != null) {
-                Bukkit.createInventory(inventoryHolder, inventoryInformation.size, title)
-            } else {
-                Bukkit.createInventory(inventoryHolder, inventoryInformation.size)
-            }
-        } else {
-            if (title != null) {
-                Bukkit.createInventory(inventoryHolder, inventoryInformation.type, title)
-            } else {
-                Bukkit.createInventory(inventoryHolder, inventoryInformation.type)
-            }
-        }
-    }
-
-	 */
+	private Inventory createInventory(InventoryHolder holder, InventoryOption option, String title){
+		int size = option.size;
+		InventoryType type = option.type;
+		if(option.type != null)
+			if(title != null)
+				return Bukkit.createInventory(holder, type, title);
+			else
+				return Bukkit.createInventory(holder, type);
+		else
+			if(title != null)
+				return Bukkit.createInventory(holder, size, title);
+			else
+				return Bukkit.createInventory(holder, size);
+	}
 
 }
