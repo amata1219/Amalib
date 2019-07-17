@@ -2,9 +2,9 @@ package amata1219.amalib.inventory.ui.dsl.event;
 
 import org.bukkit.event.inventory.InventoryOpenEvent;
 
-public class InventoryUIOpenEvent extends InventoryEvent {
+public class UIOpenEvent extends UIEvent {
 
-	public InventoryUIOpenEvent(InventoryOpenEvent event){
+	public UIOpenEvent(InventoryOpenEvent event){
 		super(event.getPlayer(), event);
 	}
 

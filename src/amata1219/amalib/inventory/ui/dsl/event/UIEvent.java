@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 
-public abstract class InventoryEvent {
+public abstract class UIEvent {
 
 	public final Player player;
 	public final List<Player> viewers;
@@ -16,7 +16,7 @@ public abstract class InventoryEvent {
 	public final InventoryView view;
 	public final String eventName;
 
-	public InventoryEvent(HumanEntity human, org.bukkit.event.inventory.InventoryEvent event){
+	public UIEvent(HumanEntity human, org.bukkit.event.inventory.InventoryEvent event){
 		player = (Player) human;
 		viewers = event.getViewers()
 				.stream()

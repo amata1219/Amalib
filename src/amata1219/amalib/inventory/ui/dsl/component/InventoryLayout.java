@@ -14,8 +14,8 @@ import org.bukkit.inventory.InventoryHolder;
 
 import amata1219.amalib.inventory.ui.Applier;
 import amata1219.amalib.inventory.ui.dsl.InventoryUI;
-import amata1219.amalib.inventory.ui.dsl.event.InventoryUICloseEvent;
-import amata1219.amalib.inventory.ui.dsl.event.InventoryUIOpenEvent;
+import amata1219.amalib.inventory.ui.dsl.event.UICloseEvent;
+import amata1219.amalib.inventory.ui.dsl.event.UIOpenEvent;
 import amata1219.amalib.inventory.ui.option.InventoryOption;
 
 public class InventoryLayout {
@@ -27,8 +27,8 @@ public class InventoryLayout {
 	public String title;
 	private final HashMap<Integer, Slot> slots = new HashMap<>();
 	private Applier<Slot> defaultSlotApplier;
-	private Consumer<InventoryUIOpenEvent> actionOnOpen;
-	private Consumer<InventoryUICloseEvent> actionOnClose;
+	private Consumer<UIOpenEvent> actionOnOpen;
+	private Consumer<UICloseEvent> actionOnClose;
 
 	public InventoryLayout(Player player, InventoryUI ui, InventoryOption option){
 		this.player = player;
@@ -62,20 +62,20 @@ public class InventoryLayout {
 		put(slotApplicate, range.toArray());
 	}
 
-	public void onOpen(Consumer<InventoryUIOpenEvent> action){
+	public void onOpen(Consumer<UIOpenEvent> action){
 		actionOnOpen = action;
 	}
 
-	public void onClose(Consumer<InventoryUICloseEvent> action){
+	public void onClose(Consumer<UICloseEvent> action){
 		actionOnClose = action;
 	}
 
 	public void fire(InventoryOpenEvent event){
-		actionOnOpen.accept(new InventoryUIOpenEvent(event));
+		actionOnOpen.accept(new UIOpenEvent(event));
 	}
 
 	public void fire(InventoryCloseEvent event){
-		actionOnClose.accept(new InventoryUICloseEvent(event));
+		actionOnClose.accept(new UICloseEvent(event));
 	}
 
 	private Inventory createInventory(InventoryHolder holder, InventoryOption option, String title){

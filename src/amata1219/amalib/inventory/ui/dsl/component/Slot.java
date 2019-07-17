@@ -7,12 +7,12 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 import amata1219.amalib.inventory.ui.Applier;
-import amata1219.amalib.inventory.ui.dsl.event.InventoryUIClickEvent;
+import amata1219.amalib.inventory.ui.dsl.event.UIClickEvent;
 
 public class Slot {
 
 	private Applier<Icon> iconApplier;
-	private Consumer<InventoryUIClickEvent> actionOnClick;
+	private Consumer<UIClickEvent> actionOnClick;
 
 	public Icon buildIcon(){
 		return iconApplier.apply(new Icon());
@@ -36,12 +36,12 @@ public class Slot {
 		});
 	}
 
-	public void onClick(Consumer<InventoryUIClickEvent> action){
+	public void onClick(Consumer<UIClickEvent> action){
 		actionOnClick = action;
 	}
 
 	public void fire(InventoryClickEvent event){
-		actionOnClick.accept(new InventoryUIClickEvent(event));
+		actionOnClick.accept(new UIClickEvent(event));
 	}
 
 }

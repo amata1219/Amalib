@@ -7,7 +7,7 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-public class InventoryUIClickEvent extends InventoryEvent {
+public class UIClickEvent extends UIEvent {
 
 	public final ClickType click;
 	public final InventoryAction action;
@@ -20,7 +20,7 @@ public class InventoryUIClickEvent extends InventoryEvent {
 	public final Inventory clickedInventory;
 	private InventoryClickEvent event;
 
-	public InventoryUIClickEvent(InventoryClickEvent event) {
+	public UIClickEvent(InventoryClickEvent event) {
 		super(event.getWhoClicked(), event);
 		click = event.getClick();
 		action = event.getAction();
