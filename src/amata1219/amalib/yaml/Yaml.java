@@ -19,7 +19,7 @@ public class Yaml extends YamlConfiguration {
 		this(plugin, plugin.getDataFolder(), fileName);
 	}
 
-	protected Yaml(JavaPlugin plugin, File folder, String fileName){
+	public Yaml(JavaPlugin plugin, File folder, String fileName){
 		this.plugin = plugin;
 		file = new File(folder, fileName + (fileName.endsWith(".yml") ? "" : ".yml"));
 	}
