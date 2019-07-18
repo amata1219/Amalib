@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 
@@ -14,7 +15,7 @@ public abstract class UIEvent {
 	public final List<Player> viewers;
 	public final Inventory inventory;
 	public final InventoryView view;
-	public final String eventName;
+	public final InventoryEvent bukkitEvent;
 
 	public UIEvent(HumanEntity human, org.bukkit.event.inventory.InventoryEvent event){
 		player = (Player) human;
@@ -24,7 +25,7 @@ public abstract class UIEvent {
 				.collect(Collectors.toList());
 		inventory = event.getInventory();
 		view = event.getView();
-		eventName = event.getEventName();
+		bukkitEvent = event;
 	}
 
 }

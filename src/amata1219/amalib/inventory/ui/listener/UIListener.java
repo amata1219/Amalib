@@ -11,53 +11,55 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 
 import amata1219.amalib.inventory.ui.dsl.InventoryUI;
+import amata1219.amalib.inventory.ui.dsl.component.InventoryLayout;
 
 public class UIListener implements Listener {
 
 	@EventHandler
 	public void onOpen(InventoryOpenEvent event){
-		InventoryHolder holder = event.getInventory().getHolder();
-		HumanEntity human = event.getPlayer();
-		if(!isInventoryUI(holder) || !isPlayer(human))
-			return;
+		InventoryLayout layout = getLayout(event.getInventory().getHolder(), event.getPlayer());
 
-		((InventoryUI) holder).openInventory((Player) human);
+		if(layout != null)
+			layout.fire(event);
 	}
 
 	@EventHandler
 	public void onClose(InventoryCloseEvent event){
-		InventoryHolder holder = event.getInventory().getHolder();
-		HumanEntity human = event.getPlayer();
-		if(!isInventoryUI(holder) || !isPlayer(human))
-			return;
+		InventoryLayout layout = getLayout(event.getInventory().getHolder(), event.getPlayer());
+
+		if(layout != null)
+			layout.fire(event);
 	}
 
 	@EventHandler
 	public void onClick(InventoryClickEvent event){
-		Inventory inventory = event.getClickedInventory();
-		if(inventory == null)
-			return;
+		Inventory displayed = event.getInventory();
+		Inventory clicked = event.getClickedInventory();
 
-		InventoryHolder holder = event.getInventory().getHolder();
 		HumanEntity human = event.getWhoClicked();
-		if(!isInventoryUI(holder) || !isPlayer(human))
-			return;
+
+		InventoryLayout layout = null;
+
+		if(displayed != null && clicked == null){
+			layout = getLayout(displayed.getHolder(), human);
+
+			if(layout == null)
+				return;
+
+			layout.fire(event);
+		}else{
+			layout = getLayout(clicked.getHolder(), human);
+
+			if(layout == null)
+				return;
+
+			layout.getSlotAt(event.getSlot()).fire(event);
+		}
+
+		event.setCancelled(true);
 	}
 
-	private void a(Inventory inventory, HumanEntity human){
-		if(inventory == null)
-			return;
-
-		InventoryHolder holder = inventory.getHolder();
-
+	private InventoryLayout getLayout(InventoryHolder holder, HumanEntity human){
+		return holder instanceof InventoryUI && human instanceof Player ? ((InventoryUI) holder).layout().apply((Player) human) : null;
 	}
-
-	public boolean isInventoryUI(InventoryHolder holder){
-		return holder instanceof InventoryUI;
-	}
-
-	public boolean isPlayer(HumanEntity human){
-		return human instanceof Player;
-	}
-
 }

@@ -18,7 +18,6 @@ public class UIClickEvent extends UIEvent {
 	public final int hotbarKey;
 	public final ItemStack cursorItemStack;
 	public final Inventory clickedInventory;
-	private InventoryClickEvent event;
 
 	public UIClickEvent(InventoryClickEvent event) {
 		super(event.getWhoClicked(), event);
@@ -31,19 +30,18 @@ public class UIClickEvent extends UIEvent {
 		hotbarKey = event.getHotbarButton();
 		cursorItemStack = event.getCursor();
 		clickedInventory = event.getClickedInventory();
-		this.event = event;
 	}
 
 	public boolean isRightClick() {
-		return event.isRightClick();
+		return getBukkitClickEvent().isRightClick();
 	}
 
 	public boolean isLeftClick() {
-		return event.isLeftClick();
+		return getBukkitClickEvent().isLeftClick();
 	}
 
 	public boolean isShiftClick() {
-		return event.isShiftClick();
+		return getBukkitClickEvent().isShiftClick();
 	}
 
 	public void setCursor(ItemStack item) {
@@ -51,7 +49,11 @@ public class UIClickEvent extends UIEvent {
 	}
 
 	public void setCurrentItem(ItemStack item) {
-		event.setCurrentItem(item);
+		getBukkitClickEvent().setCurrentItem(item);
+	}
+
+	public InventoryClickEvent getBukkitClickEvent(){
+		return ((InventoryClickEvent) bukkitEvent);
 	}
 
 }

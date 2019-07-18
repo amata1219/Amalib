@@ -6,6 +6,7 @@ import java.util.stream.IntStream;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
@@ -14,6 +15,7 @@ import org.bukkit.inventory.InventoryHolder;
 
 import amata1219.amalib.inventory.ui.Applier;
 import amata1219.amalib.inventory.ui.dsl.InventoryUI;
+import amata1219.amalib.inventory.ui.dsl.event.UIClickEvent;
 import amata1219.amalib.inventory.ui.dsl.event.UICloseEvent;
 import amata1219.amalib.inventory.ui.dsl.event.UIOpenEvent;
 import amata1219.amalib.inventory.ui.option.InventoryOption;
@@ -29,6 +31,7 @@ public class InventoryLayout {
 	private Applier<Slot> defaultSlotApplier;
 	private Consumer<UIOpenEvent> actionOnOpen;
 	private Consumer<UICloseEvent> actionOnClose;
+	private Consumer<UIClickEvent> actionOnClickOutOfUI;
 
 	public InventoryLayout(Player player, InventoryUI ui, InventoryOption option){
 		this.player = player;
@@ -70,12 +73,20 @@ public class InventoryLayout {
 		actionOnClose = action;
 	}
 
+	public void onClickOutOfUI(Consumer<UIClickEvent> action){
+		actionOnClickOutOfUI = action;
+	}
+
 	public void fire(InventoryOpenEvent event){
 		actionOnOpen.accept(new UIOpenEvent(event));
 	}
 
 	public void fire(InventoryCloseEvent event){
 		actionOnClose.accept(new UICloseEvent(event));
+	}
+
+	public void fire(InventoryClickEvent event){
+		actionOnClickOutOfUI.accept(new UIClickEvent(event));
 	}
 
 	private Inventory createInventory(InventoryHolder holder, InventoryOption option, String title){
