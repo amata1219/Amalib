@@ -16,17 +16,13 @@ public class PacketHandler extends ChannelDuplexHandler {
 
 	@Override
 	public void write(ChannelHandlerContext context, Object message, ChannelPromise promise) throws Exception {
-		if(player.isSwimming() && message.getClass().getSimpleName().equalsIgnoreCase("PacketPlayOutRelEntityMove"))
-			return;
-
+		//message is packet
+		//message.getClass().getSimpleName() -> PacketPlayOut～
 		super.write(context, message, promise);
 	}
 
 	@Override
 	public void channelRead(ChannelHandlerContext context, Object message) throws Exception {
-		if(player.isSwimming() && message.getClass().getSimpleName().equalsIgnoreCase("PacketPlayOutRelEntityMove"))
-			return;
-
 		super.channelRead(context, message);
 	}
 

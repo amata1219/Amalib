@@ -27,11 +27,13 @@ public class InventoryLayout {
 	public final InventoryOption option;
 
 	public String title;
+
 	private final HashMap<Integer, Slot> slots = new HashMap<>();
-	private Applier<Slot> defaultSlotApplier;
-	private Consumer<UIOpenEvent> actionOnOpen;
-	private Consumer<UICloseEvent> actionOnClose;
-	private Consumer<UIClickEvent> actionOnClickOutOfUI;
+	private Applier<Slot> defaultSlotApplier = (slot) -> {};
+
+	private Consumer<UIOpenEvent> actionOnOpen = (event) -> {};
+	private Consumer<UICloseEvent> actionOnClose = (event) -> {};
+	private Consumer<UIClickEvent> actionOnClickOutOfInventory = (event) -> {};
 
 	public InventoryLayout(Player player, InventoryUI ui, InventoryOption option){
 		this.player = player;
@@ -74,19 +76,31 @@ public class InventoryLayout {
 	}
 
 	public void onClickOutOfUI(Consumer<UIClickEvent> action){
-		actionOnClickOutOfUI = action;
+		actionOnClickOutOfInventory = action;
 	}
 
 	public void fire(InventoryOpenEvent event){
-		actionOnOpen.accept(new UIOpenEvent(event));
+		fire(new UIOpenEvent(event));
+	}
+
+	public void fire(UIOpenEvent event){
+		actionOnOpen.accept(event);
 	}
 
 	public void fire(InventoryCloseEvent event){
-		actionOnClose.accept(new UICloseEvent(event));
+		fire(new UICloseEvent(event));
+	}
+
+	public void fire(UICloseEvent event){
+		actionOnClose.accept(event);
 	}
 
 	public void fire(InventoryClickEvent event){
-		actionOnClickOutOfUI.accept(new UIClickEvent(event));
+		fire(new UIClickEvent(event));
+	}
+
+	public void fire(UIClickEvent event){
+		actionOnClickOutOfInventory.accept(event);
 	}
 
 	private Inventory createInventory(InventoryHolder holder, InventoryOption option, String title){

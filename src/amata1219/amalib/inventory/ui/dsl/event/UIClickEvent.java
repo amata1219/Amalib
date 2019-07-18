@@ -32,6 +32,10 @@ public class UIClickEvent extends UIEvent {
 		clickedInventory = event.getClickedInventory();
 	}
 
+	public boolean isOutOfInventoryClick(){
+		return clickedInventory == null;
+	}
+
 	public boolean isRightClick() {
 		return getBukkitClickEvent().isRightClick();
 	}

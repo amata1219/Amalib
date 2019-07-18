@@ -12,6 +12,7 @@ import org.bukkit.inventory.InventoryHolder;
 
 import amata1219.amalib.inventory.ui.dsl.InventoryUI;
 import amata1219.amalib.inventory.ui.dsl.component.InventoryLayout;
+import amata1219.amalib.inventory.ui.dsl.event.UIClickEvent;
 
 public class UIListener implements Listener {
 
@@ -36,25 +37,15 @@ public class UIListener implements Listener {
 		Inventory displayed = event.getInventory();
 		Inventory clicked = event.getClickedInventory();
 
-		HumanEntity human = event.getWhoClicked();
+		InventoryLayout layout = getLayout(displayed != null && clicked == null ? displayed.getHolder() : clicked.getHolder(), event.getWhoClicked());
 
-		InventoryLayout layout = null;
+		if(layout == null)
+			return;
 
-		if(displayed != null && clicked == null){
-			layout = getLayout(displayed.getHolder(), human);
+		UIClickEvent uiEvent = new UIClickEvent(event);
 
-			if(layout == null)
-				return;
-
-			layout.fire(event);
-		}else{
-			layout = getLayout(clicked.getHolder(), human);
-
-			if(layout == null)
-				return;
-
-			layout.getSlotAt(event.getSlot()).fire(event);
-		}
+		layout.fire(uiEvent);
+		layout.getSlotAt(event.getSlot()).fire(uiEvent);
 
 		event.setCancelled(true);
 	}

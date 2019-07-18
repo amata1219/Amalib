@@ -21,7 +21,11 @@ public class Yaml extends YamlConfiguration {
 
 	public Yaml(JavaPlugin plugin, File folder, String fileName){
 		this.plugin = plugin;
+
 		file = new File(folder, fileName + (fileName.endsWith(".yml") ? "" : ".yml"));
+
+		if(!file.exists())
+			plugin.saveResource(file.getName(), false);
 	}
 
 	public void save(){

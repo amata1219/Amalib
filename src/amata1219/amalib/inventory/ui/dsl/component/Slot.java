@@ -12,7 +12,7 @@ import amata1219.amalib.inventory.ui.dsl.event.UIClickEvent;
 public class Slot {
 
 	private Applier<Icon> iconApplier;
-	private Consumer<UIClickEvent> actionOnClick;
+	private Consumer<UIClickEvent> actionOnClick = (event) -> {};
 
 	public Icon buildIcon(){
 		return iconApplier.apply(new Icon());
@@ -41,7 +41,11 @@ public class Slot {
 	}
 
 	public void fire(InventoryClickEvent event){
-		actionOnClick.accept(new UIClickEvent(event));
+		fire(new UIClickEvent(event));
+	}
+
+	public void fire(UIClickEvent event){
+		actionOnClick.accept(event);
 	}
 
 }

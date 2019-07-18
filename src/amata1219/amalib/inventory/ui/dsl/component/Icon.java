@@ -22,6 +22,8 @@ import amata1219.amalib.inventory.ui.Applier;
 
 public class Icon {
 
+	private final GleamEnchantment gleamEnchantment = new GleamEnchantment();
+
 	public ItemStack basedItemStack;
 	public Material material = Material.AIR;
 	public int amount = 1;
@@ -66,11 +68,15 @@ public class Icon {
 	}
 
 	public void gleam(){
-		enchantments.put(new GleamEnchantment(), 1);
+		enchantments.put(gleamEnchantment, 1);
+	}
+
+	public boolean isGleaming(){
+		return enchantments.containsKey(gleamEnchantment);
 	}
 
 	public void tarnish(){
-		enchantments.remove(new GleamEnchantment());
+		enchantments.remove(gleamEnchantment);
 	}
 
 	private static class GleamEnchantment extends Enchantment {
