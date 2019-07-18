@@ -23,7 +23,7 @@ import amata1219.amalib.inventory.ui.Applier;
 public class Icon {
 
 	public ItemStack basedItemStack;
-	public Material material;
+	public Material material = Material.AIR;
 	public int amount = 1;
 	public int damage;
 	public String displayName;
