@@ -29,11 +29,11 @@ public class InventoryLayout {
 	public String title;
 
 	private final HashMap<Integer, Slot> slots = new HashMap<>();
-	private Applier<Slot> defaultSlotApplier = (slot) -> {};
+	//public Applier<Slot> defaultSlot;
 
-	private Consumer<UIOpenEvent> actionOnOpen = (event) -> {};
-	private Consumer<UICloseEvent> actionOnClose = (event) -> {};
-	private Consumer<UIClickEvent> actionOnClickOutOfInventory = (event) -> {};
+	/*public Consumer<UIOpenEvent> onOpen;
+	public Consumer<UICloseEvent> onClose;
+	public Consumer<UIClickEvent> onClick;*/
 
 	public InventoryLayout(Player player, InventoryUI ui, InventoryOption option){
 		this.player = player;
@@ -42,21 +42,21 @@ public class InventoryLayout {
 	}
 
 	public Slot getSlotAt(int slotIndex){
-		return slots.containsKey(slotIndex) ? slots.get(slotIndex) : defaultSlotApplier.apply(new Slot());
+		return slots.containsKey(slotIndex) ? slots.get(slotIndex) : ui.defaultSlot().apply(new Slot());
 	}
 
 	public Inventory buildInventory(){
 		Inventory inventory = createInventory(ui, option, title);
 
 		for(int slotIndex = 0; slotIndex < inventory.getSize(); slotIndex++)
-			inventory.setItem(slotIndex, getSlotAt(slotIndex).buildIcon().toItemStack());
+			inventory.setItem(slotIndex, getSlotAt(slotIndex).icon.toItemStack());
 
 		return inventory;
 	}
 
-	public void defaultSlot(Applier<Slot> applier){
+	/*public void defaultSlot(Applier<Slot> applier){
 		defaultSlotApplier = applier;
-	}
+	}*/
 
 	public void put(Applier<Slot> slotApplier, int... slotIndexes){
 		for(int slotIndex : slotIndexes)
@@ -67,7 +67,7 @@ public class InventoryLayout {
 		put(slotApplicate, range.toArray());
 	}
 
-	public void onOpen(Consumer<UIOpenEvent> action){
+	/*public void onOpen(Consumer<UIOpenEvent> action){
 		actionOnOpen = action;
 	}
 
@@ -75,12 +75,13 @@ public class InventoryLayout {
 		actionOnClose = action;
 	}
 
-	public void onClickOutOfUI(Consumer<UIClickEvent> action){
-		actionOnClickOutOfInventory = action;
+	public void onClick(Consumer<UIClickEvent> action){
+		actionOnClick = action;
 	}
 
 	public void fire(InventoryOpenEvent event){
-		fire(new UIOpenEvent(event));
+		if(actionOnOpen != null)
+			actionOnOpen.accept(new UIOpenEvent(event));
 	}
 
 	public void fire(UIOpenEvent event){
@@ -101,7 +102,7 @@ public class InventoryLayout {
 
 	public void fire(UIClickEvent event){
 		actionOnClickOutOfInventory.accept(event);
-	}
+	}*/
 
 	private Inventory createInventory(InventoryHolder holder, InventoryOption option, String title){
 		int size = option.size;

@@ -63,7 +63,7 @@ public class Sender {
 		}
 
 		public boolean isSender(Sender sender){
-			return clazz.isInstance(sender);
+			return clazz.isInstance(sender.sender);
 		}
 
 	}

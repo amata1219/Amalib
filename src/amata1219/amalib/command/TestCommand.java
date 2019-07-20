@@ -1,6 +1,6 @@
 package amata1219.amalib.command;
 
-import amata1219.amalib.StringTemplate;
+import amata1219.amalib.text.StringTemplate;
 
 public class TestCommand implements Command {
 

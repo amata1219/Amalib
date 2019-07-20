@@ -17,22 +17,6 @@ import amata1219.amalib.inventory.ui.dsl.event.UIClickEvent;
 public class UIListener implements Listener {
 
 	@EventHandler
-	public void onOpen(InventoryOpenEvent event){
-		InventoryLayout layout = getLayout(event.getInventory().getHolder(), event.getPlayer());
-
-		if(layout != null)
-			layout.fire(event);
-	}
-
-	@EventHandler
-	public void onClose(InventoryCloseEvent event){
-		InventoryLayout layout = getLayout(event.getInventory().getHolder(), event.getPlayer());
-
-		if(layout != null)
-			layout.fire(event);
-	}
-
-	@EventHandler
 	public void onClick(InventoryClickEvent event){
 		Inventory displayed = event.getInventory();
 		Inventory clicked = event.getClickedInventory();
@@ -48,6 +32,22 @@ public class UIListener implements Listener {
 		layout.getSlotAt(event.getSlot()).fire(uiEvent);
 
 		event.setCancelled(true);
+	}
+
+	@EventHandler
+	public void onOpen(InventoryOpenEvent event){
+		InventoryLayout layout = getLayout(event.getInventory().getHolder(), event.getPlayer());
+
+		if(layout != null)
+			layout.fire(event);
+	}
+
+	@EventHandler
+	public void onClose(InventoryCloseEvent event){
+		InventoryLayout layout = getLayout(event.getInventory().getHolder(), event.getPlayer());
+
+		if(layout != null)
+			layout.fire(event);
 	}
 
 	private InventoryLayout getLayout(InventoryHolder holder, HumanEntity human){

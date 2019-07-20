@@ -48,7 +48,7 @@ public class Amalib extends JavaPlugin {
 			String className = command.getClass().getSimpleName();
 
 			//接尾辞のCommandを削除し小文字化した物をコマンド名とする
-			String commandName = className.substring(0, className.length() - 6).toLowerCase();
+			String commandName = className.substring(0, className.length() - 7).toLowerCase();
 
 			//コマンド名とコマンドを結び付けて登録する
 			this.commands.put(commandName, command);

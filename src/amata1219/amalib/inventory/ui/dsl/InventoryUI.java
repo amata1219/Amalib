@@ -9,6 +9,10 @@ import org.bukkit.inventory.InventoryHolder;
 
 import amata1219.amalib.inventory.ui.Applier;
 import amata1219.amalib.inventory.ui.dsl.component.InventoryLayout;
+import amata1219.amalib.inventory.ui.dsl.component.Slot;
+import amata1219.amalib.inventory.ui.dsl.event.UIClickEvent;
+import amata1219.amalib.inventory.ui.dsl.event.UICloseEvent;
+import amata1219.amalib.inventory.ui.dsl.event.UIOpenEvent;
 import amata1219.amalib.inventory.ui.option.InventoryLine;
 import amata1219.amalib.inventory.ui.option.InventoryOption;
 
@@ -19,6 +23,14 @@ public interface InventoryUI extends InventoryHolder {
 	default void openInventory(Player player){
 		player.openInventory(layout().apply(player).buildInventory());
 	}
+
+	void onClick(UIClickEvent event, InventoryLayout layout);
+
+	void onOpen(UIOpenEvent event, InventoryLayout layout);
+
+	void onClose(UICloseEvent event, InventoryLayout layout);
+
+	Applier<Slot> defaultSlot();
 
 	@Override
 	default Inventory getInventory(){

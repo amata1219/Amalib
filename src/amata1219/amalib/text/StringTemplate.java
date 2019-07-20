@@ -1,4 +1,4 @@
-package amata1219.amalib;
+package amata1219.amalib.text;
 
 public class StringTemplate {
 

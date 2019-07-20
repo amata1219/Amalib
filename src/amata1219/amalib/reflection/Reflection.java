@@ -1,4 +1,4 @@
-package amata1219.amalib;
+package amata1219.amalib.reflection;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;

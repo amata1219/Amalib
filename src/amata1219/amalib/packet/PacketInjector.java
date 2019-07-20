@@ -1,6 +1,6 @@
 package amata1219.amalib.packet;
 
-import static amata1219.amalib.Reflection.*;
+import static amata1219.amalib.reflection.Reflection.*;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

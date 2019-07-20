@@ -6,10 +6,10 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
-import amata1219.amalib.StringTemplate;
 import amata1219.amalib.inventory.ui.dsl.InventoryUI;
 import amata1219.amalib.inventory.ui.dsl.component.InventoryLayout;
 import amata1219.amalib.inventory.ui.option.InventoryLine;
+import amata1219.amalib.text.StringTemplate;
 
 public class SampleUI implements InventoryUI {
 

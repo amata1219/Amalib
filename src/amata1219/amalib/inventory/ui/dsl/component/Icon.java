@@ -1,5 +1,6 @@
 package amata1219.amalib.inventory.ui.dsl.component;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -19,10 +20,11 @@ import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import amata1219.amalib.inventory.ui.Applier;
+import amata1219.amalib.reflection.Reflection;
 
 public class Icon {
 
-	private final GleamEnchantment gleamEnchantment = new GleamEnchantment();
+	private static final GleamEnchantment GLEAM_ENCHANTMENT = new GleamEnchantment();
 
 	public ItemStack basedItemStack;
 	public Material material = Material.AIR;
@@ -32,10 +34,18 @@ public class Icon {
 	public List<String> lore = new ArrayList<>();
 	public Map<Enchantment, Integer> enchantments = new HashMap<>();
 	public Set<ItemFlag> flags = new HashSet<>();
-	private Applier<ItemStack> raw;
+	public Applier<ItemStack> raw;
 
 	static{
-		Enchantment.registerEnchantment(new GleamEnchantment());
+		Field acceptingNew = Reflection.getField(Enchantment.class, "acceptingNew");
+		boolean accept = Reflection.getFieldValue(acceptingNew, null);
+		Reflection.setFieldValue(acceptingNew, null, true);
+		try{
+			Enchantment.registerEnchantment(GLEAM_ENCHANTMENT);
+		}catch(Exception e){
+
+		}
+		Reflection.setFieldValue(acceptingNew, null, accept);
 	}
 
 	public ItemStack toItemStack(){
@@ -56,27 +66,23 @@ public class Icon {
 		if(meta instanceof Damageable)
 			((Damageable) meta).setDamage(damage);
 
-		return raw.apply(item);
+		return raw != null ? raw.apply(item) : item;
 	}
 
 	public void lore(String... texts){
 		lore.addAll(Arrays.asList(texts));
 	}
 
-	public void raw(Applier<ItemStack> applier){
-		raw = applier;
-	}
-
 	public void gleam(){
-		enchantments.put(gleamEnchantment, 1);
+		enchantments.put(GLEAM_ENCHANTMENT, 1);
 	}
 
 	public boolean isGleaming(){
-		return enchantments.containsKey(gleamEnchantment);
+		return enchantments.containsKey(GLEAM_ENCHANTMENT);
 	}
 
 	public void tarnish(){
-		enchantments.remove(gleamEnchantment);
+		enchantments.remove(GLEAM_ENCHANTMENT);
 	}
 
 	private static class GleamEnchantment extends Enchantment {
