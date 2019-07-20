@@ -12,7 +12,10 @@ import org.bukkit.inventory.InventoryHolder;
 
 import amata1219.amalib.inventory.ui.dsl.InventoryUI;
 import amata1219.amalib.inventory.ui.dsl.component.InventoryLayout;
+import amata1219.amalib.inventory.ui.dsl.component.Slot;
 import amata1219.amalib.inventory.ui.dsl.event.UIClickEvent;
+import amata1219.amalib.inventory.ui.dsl.event.UICloseEvent;
+import amata1219.amalib.inventory.ui.dsl.event.UIOpenEvent;
 
 public class UIListener implements Listener {
 
@@ -26,12 +29,14 @@ public class UIListener implements Listener {
 		if(layout == null)
 			return;
 
-		UIClickEvent uiEvent = new UIClickEvent(event);
+		UIClickEvent clickEvent = new UIClickEvent(layout, event);
 
-		layout.fire(uiEvent);
-		layout.getSlotAt(event.getSlot()).fire(uiEvent);
+		Slot slot = layout.getSlotAt(event.getSlot());
 
-		event.setCancelled(true);
+		event.setCancelled(!slot.editable);
+
+		slot.fire(clickEvent);
+		layout.fire(clickEvent);
 	}
 
 	@EventHandler
@@ -39,7 +44,7 @@ public class UIListener implements Listener {
 		InventoryLayout layout = getLayout(event.getInventory().getHolder(), event.getPlayer());
 
 		if(layout != null)
-			layout.fire(event);
+			layout.fire(new UIOpenEvent(layout, event));
 	}
 
 	@EventHandler
@@ -47,7 +52,7 @@ public class UIListener implements Listener {
 		InventoryLayout layout = getLayout(event.getInventory().getHolder(), event.getPlayer());
 
 		if(layout != null)
-			layout.fire(event);
+			layout.fire(new UICloseEvent(layout, event));
 	}
 
 	private InventoryLayout getLayout(InventoryHolder holder, HumanEntity human){

@@ -7,6 +7,9 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import amata1219.amalib.inventory.ui.Applier;
+import amata1219.amalib.inventory.ui.dsl.component.InventoryLayout;
+
 public class UIClickEvent extends UIEvent {
 
 	public final ClickType click;
@@ -19,8 +22,8 @@ public class UIClickEvent extends UIEvent {
 	public final ItemStack cursorItemStack;
 	public final Inventory clickedInventory;
 
-	public UIClickEvent(InventoryClickEvent event) {
-		super(event.getWhoClicked(), event);
+	public UIClickEvent(InventoryLayout layout, InventoryClickEvent event) {
+		super(layout, event.getWhoClicked(), event);
 		click = event.getClick();
 		action = event.getAction();
 		slotType = event.getSlotType();
@@ -30,6 +33,11 @@ public class UIClickEvent extends UIEvent {
 		hotbarKey = event.getHotbarButton();
 		cursorItemStack = event.getCursor();
 		clickedInventory = event.getClickedInventory();
+	}
+
+	public void applyToCurrentItem(Applier<ItemStack> itemApplier){
+		if(currentItemStack != null)
+			itemApplier.apply(currentItemStack);
 	}
 
 	public boolean isOutOfInventoryClick(){

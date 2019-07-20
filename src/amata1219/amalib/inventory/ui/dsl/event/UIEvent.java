@@ -9,15 +9,19 @@ import org.bukkit.event.inventory.InventoryEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 
+import amata1219.amalib.inventory.ui.dsl.component.InventoryLayout;
+
 public abstract class UIEvent {
 
+	public final InventoryLayout layout;
 	public final Player player;
 	public final List<Player> viewers;
 	public final Inventory inventory;
 	public final InventoryView view;
 	public final InventoryEvent bukkitEvent;
 
-	public UIEvent(HumanEntity human, org.bukkit.event.inventory.InventoryEvent event){
+	public UIEvent(InventoryLayout layout, HumanEntity human, org.bukkit.event.inventory.InventoryEvent event){
+		this.layout = layout;
 		player = (Player) human;
 		viewers = event.getViewers()
 				.stream()

@@ -4,11 +4,9 @@ import java.util.HashMap;
 import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
@@ -29,11 +27,11 @@ public class InventoryLayout {
 	public String title;
 
 	private final HashMap<Integer, Slot> slots = new HashMap<>();
-	//public Applier<Slot> defaultSlot;
+	private Applier<Slot> defaultSlot = (slot) -> {};
 
-	/*public Consumer<UIOpenEvent> onOpen;
-	public Consumer<UICloseEvent> onClose;
-	public Consumer<UIClickEvent> onClick;*/
+	private Consumer<UIClickEvent> actionOnClick = (event) -> {};
+	private Consumer<UIOpenEvent> actionOnOpen = (event) -> {};
+	private Consumer<UICloseEvent> actionOnClose = (event) -> {};
 
 	public InventoryLayout(Player player, InventoryUI ui, InventoryOption option){
 		this.player = player;
@@ -42,67 +40,62 @@ public class InventoryLayout {
 	}
 
 	public Slot getSlotAt(int slotIndex){
-		return slots.containsKey(slotIndex) ? slots.get(slotIndex) : ui.defaultSlot().apply(new Slot());
+		return slots.containsKey(slotIndex) ? slots.get(slotIndex) : defaultSlot.apply(new Slot());
 	}
 
 	public Inventory buildInventory(){
 		Inventory inventory = createInventory(ui, option, title);
 
 		for(int slotIndex = 0; slotIndex < inventory.getSize(); slotIndex++)
-			inventory.setItem(slotIndex, getSlotAt(slotIndex).icon.toItemStack());
+			inventory.setItem(slotIndex, getSlotAt(slotIndex).buildIcon().toItemStack());
 
 		return inventory;
 	}
 
-	/*public void defaultSlot(Applier<Slot> applier){
-		defaultSlotApplier = applier;
-	}*/
+	public void put(Applier<Slot> slotApplier, IntStream range){
+		put(slotApplier, range.toArray());
+	}
 
 	public void put(Applier<Slot> slotApplier, int... slotIndexes){
 		for(int slotIndex : slotIndexes)
 			slots.put(slotIndex, slotApplier.apply(new Slot()));
 	}
 
-	public void put(Applier<Slot> slotApplicate, IntStream range){
-		put(slotApplicate, range.toArray());
+	public void remove(IntStream range){
+		remove(range.toArray());
 	}
 
-	/*public void onOpen(Consumer<UIOpenEvent> action){
-		actionOnOpen = action;
-	}
-
-	public void onClose(Consumer<UICloseEvent> action){
-		actionOnClose = action;
+	public void remove(int... slotIndexes){
+		for(int slotIndex : slotIndexes)
+			slots.remove(slotIndex);
 	}
 
 	public void onClick(Consumer<UIClickEvent> action){
+		Validate.notNull(action, "Action can not be null");
 		actionOnClick = action;
 	}
 
-	public void fire(InventoryOpenEvent event){
-		if(actionOnOpen != null)
-			actionOnOpen.accept(new UIOpenEvent(event));
+	public void fire(UIClickEvent event){
+		actionOnClick.accept(event);
+	}
+
+	public void onOpen(Consumer<UIOpenEvent> action){
+		Validate.notNull(action, "Action can not be null");
+		actionOnOpen = action;
 	}
 
 	public void fire(UIOpenEvent event){
 		actionOnOpen.accept(event);
 	}
 
-	public void fire(InventoryCloseEvent event){
-		fire(new UICloseEvent(event));
+	public void onClose(Consumer<UICloseEvent> action){
+		Validate.notNull(action, "Action can not be null");
+		actionOnClose = action;
 	}
 
 	public void fire(UICloseEvent event){
 		actionOnClose.accept(event);
 	}
-
-	public void fire(InventoryClickEvent event){
-		fire(new UIClickEvent(event));
-	}
-
-	public void fire(UIClickEvent event){
-		actionOnClickOutOfInventory.accept(event);
-	}*/
 
 	private Inventory createInventory(InventoryHolder holder, InventoryOption option, String title){
 		int size = option.size;

@@ -38,14 +38,23 @@ public class Icon {
 
 	static{
 		Field acceptingNew = Reflection.getField(Enchantment.class, "acceptingNew");
-		boolean accept = Reflection.getFieldValue(acceptingNew, null);
-		Reflection.setFieldValue(acceptingNew, null, true);
+
+		//状態を保存する
+		final boolean accept = Reflection.getFieldValue(acceptingNew, null);
+
+		//エンチャント登録が許可された状態にする
+		if(accept)
+			Reflection.setFieldValue(acceptingNew, null, true);
+
 		try{
 			Enchantment.registerEnchantment(GLEAM_ENCHANTMENT);
-		}catch(Exception e){
-
+		}catch(IllegalArgumentException e){
+			//既に登録されていれば問題無いので無視する
+		}finally{
+			//元の状態に戻す
+			if(!accept)
+				Reflection.setFieldValue(acceptingNew, null, false);
 		}
-		Reflection.setFieldValue(acceptingNew, null, accept);
 	}
 
 	public ItemStack toItemStack(){
@@ -55,16 +64,20 @@ public class Icon {
 
 		ItemMeta meta = item.getItemMeta();
 
-		meta.setDisplayName(displayName);
-		meta.setLore(lore);
+		if(meta != null){
+			meta.setDisplayName(displayName);
+			meta.setLore(lore);
 
-		for(Entry<Enchantment, Integer> entry : enchantments.entrySet())
-			meta.addEnchant(entry.getKey(), entry.getValue(), true);
+			for(Entry<Enchantment, Integer> entry : enchantments.entrySet())
+				meta.addEnchant(entry.getKey(), entry.getValue(), true);
 
-		meta.addItemFlags(flags.toArray(new ItemFlag[flags.size()]));
+			meta.addItemFlags(flags.toArray(new ItemFlag[flags.size()]));
 
-		if(meta instanceof Damageable)
-			((Damageable) meta).setDamage(damage);
+			if(meta instanceof Damageable)
+				((Damageable) meta).setDamage(damage);
+		}
+
+		item.setItemMeta(meta);
 
 		return raw != null ? raw.apply(item) : item;
 	}
