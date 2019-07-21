@@ -24,7 +24,7 @@ import amata1219.amalib.reflection.Reflection;
 
 public class Icon {
 
-	private static final GleamEnchantment GLEAM_ENCHANTMENT = new GleamEnchantment();
+	public static final GleamEnchantment GLEAM_ENCHANTMENT = new GleamEnchantment();
 
 	public ItemStack basedItemStack;
 	public Material material = Material.AIR;

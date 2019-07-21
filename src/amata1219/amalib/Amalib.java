@@ -1,6 +1,6 @@
 package amata1219.amalib;
 
-import amata1219.amalib.command.TestCommand;
+import amata1219.amalib.inventory.ui.listener.UIListener;
 
 public class Amalib extends Plugin {
 
@@ -14,8 +14,8 @@ public class Amalib extends Plugin {
 
 		);
 
-		registerCommands(
-			new TestCommand()
+		registerListeners(
+			new UIListener()
 		);
 	}
 

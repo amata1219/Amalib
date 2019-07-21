@@ -39,10 +39,6 @@ public class InventoryLayout {
 		this.option = option;
 	}
 
-	public Slot getSlotAt(int slotIndex){
-		return slots.containsKey(slotIndex) ? slots.get(slotIndex) : defaultSlot.apply(new Slot());
-	}
-
 	public Inventory buildInventory(){
 		Inventory inventory = createInventory(ui, option, title);
 
@@ -50,6 +46,15 @@ public class InventoryLayout {
 			inventory.setItem(slotIndex, getSlotAt(slotIndex).buildIcon().toItemStack());
 
 		return inventory;
+	}
+
+	public Slot getSlotAt(int slotIndex){
+		return slots.containsKey(slotIndex) ? slots.get(slotIndex) : defaultSlot.apply(new Slot());
+	}
+
+	public void defaultSlot(Applier<Slot> slotApplier){
+		Validate.notNull(slotApplier, "Slot applier can not be null");
+		defaultSlot = slotApplier;
 	}
 
 	public void put(Applier<Slot> slotApplier, IntStream range){
