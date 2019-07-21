@@ -1,5 +1,6 @@
 package amata1219.amalib.inventory.ui.listener;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -7,8 +8,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.inventory.InventoryView;
 
 import amata1219.amalib.inventory.ui.dsl.InventoryUI;
 import amata1219.amalib.inventory.ui.dsl.component.InventoryLayout;
@@ -55,7 +58,52 @@ public class UIListener implements Listener {
 			layout.fire(new UICloseEvent(layout, event));
 	}
 
-	private InventoryLayout getLayout(InventoryHolder holder, HumanEntity human){
+	@EventHandler
+	public void onQuit(PlayerQuitEvent event){
+		Player player = event.getPlayer();
+		InventoryView opened = player.getOpenInventory();
+		if(opened == null)
+			return;
+
+		InventoryLayout layout = null;
+		Inventory top = opened.getTopInventory();
+		if(top != null){
+			layout = getLayout(top.getHolder(), player);
+			if(layout != null){
+				player.closeInventory();
+				return;
+			}
+		}
+
+		Inventory bottom = opened.getBottomInventory();
+		if(bottom != null){
+			layout = getLayout(bottom.getHolder(), player);
+			if(layout != null)
+				player.closeInventory();
+		}
+	}
+
+	public static void onDisable(){
+		for(Player player : Bukkit.getOnlinePlayers()){
+			InventoryView opened = player.getOpenInventory();
+			if(opened == null)
+				continue;
+
+			tryCloseInventoryUI(player, opened.getTopInventory());
+			tryCloseInventoryUI(player, opened.getBottomInventory());
+		}
+	}
+
+	private static void tryCloseInventoryUI(Player player, Inventory inventory){
+		if(inventory == null)
+			return;
+
+		InventoryLayout layout = getLayout(inventory.getHolder(), player);
+		if(layout != null)
+			player.closeInventory();
+	}
+
+	private static InventoryLayout getLayout(InventoryHolder holder, HumanEntity human){
 		return holder instanceof InventoryUI && human instanceof Player ? ((InventoryUI) holder).layout().apply((Player) human) : null;
 	}
 }

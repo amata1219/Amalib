@@ -36,19 +36,19 @@ public class Icon {
 	public Set<ItemFlag> flags = new HashSet<>();
 	public Applier<ItemStack> raw;
 
-	static{
+	public static void registerGleamEnchant(){
 		Field acceptingNew = Reflection.getField(Enchantment.class, "acceptingNew");
 
 		//状態を保存する
 		final boolean accept = Reflection.getFieldValue(acceptingNew, null);
 
 		//エンチャント登録が許可された状態にする
-		if(accept)
+		if(!accept)
 			Reflection.setFieldValue(acceptingNew, null, true);
 
 		try{
 			Enchantment.registerEnchantment(GLEAM_ENCHANTMENT);
-		}catch(IllegalArgumentException e){
+		}catch(Exception e){
 			//既に登録されていれば問題無いので無視する
 		}finally{
 			//元の状態に戻す
@@ -75,9 +75,9 @@ public class Icon {
 
 			if(meta instanceof Damageable)
 				((Damageable) meta).setDamage(damage);
-		}
 
-		item.setItemMeta(meta);
+			item.setItemMeta(meta);
+		}
 
 		return raw != null ? raw.apply(item) : item;
 	}
