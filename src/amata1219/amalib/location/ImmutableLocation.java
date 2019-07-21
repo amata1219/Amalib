@@ -1,9 +1,9 @@
 package amata1219.amalib.location;
 
-import java.util.function.BiFunction;
-
 import org.bukkit.World;
 
+import amata1219.amalib.math.NumberMath;
+import amata1219.amalib.math.NumberMath.NumberType;
 import amata1219.amalib.text.StringTemplate;
 
 public class ImmutableLocation<N extends Number> {
@@ -18,9 +18,12 @@ public class ImmutableLocation<N extends Number> {
 		this.z = z;
 	}
 
-	@SuppressWarnings("unchecked")
+	public <T extends Number> ImmutableLocation<T> add(NumberType type, T x, T y, T z){
+		return new ImmutableLocation<T>(world, NumberMath.add(x, this.x, type), NumberMath.add(y, this.y, type), NumberMath.add(z, this.z, type));
+	}
+
 	public <T extends Number> ImmutableLocation<T> relative(NumberType type, T x, T y, T z){
-		return new ImmutableLocation<T>(world, (T) type.subtract(x, this.x), (T) type.subtract(y, this.y), (T) type.subtract(z, this.z));
+		return new ImmutableLocation<T>(world, NumberMath.subtract(x, this.x, type), NumberMath.subtract(y, this.y, type), NumberMath.subtract(z, this.z, type));
 	}
 
 	@Override
@@ -28,25 +31,5 @@ public class ImmutableLocation<N extends Number> {
 		return StringTemplate.format("$0,$1,$2,$3", world.getName(), x, y, z);
 	}
 
-	public static enum NumberType {
-
-		BYTE((n1, n2) -> n1.byteValue() - n2.byteValue()),
-		SHORT((n1, n2) -> n1.shortValue() - n2.shortValue()),
-		INT((n1, n2) -> n1.intValue() - n2.intValue()),
-		LONG((n1, n2) -> n1.longValue() - n2.longValue()),
-		FLOAT((n1, n2) -> n1.floatValue() - n2.floatValue()),
-		DOUBLE((n1, n2) -> n1.doubleValue() - n2.doubleValue());
-
-		private final BiFunction<Number, Number, Number> converter;
-
-		private NumberType(BiFunction<Number, Number, Number> converter){
-			this.converter = converter;
-		}
-
-		public Number subtract(Number n1, Number n2){
-			return converter.apply(n1, n2);
-		}
-
-	}
 
 }
