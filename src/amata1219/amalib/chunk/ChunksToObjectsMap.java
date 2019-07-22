@@ -11,18 +11,12 @@ import java.util.Map;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 
-import amata1219.amalib.location.ImmutableLocation;
-
 public class ChunksToObjectsMap<T> {
 
 	public final Map<Long, List<T>> chunksToObjectsMap = new HashMap<>();
 
 	public boolean containsChunkHash(Chunk chunk){
 		return containsChunkHash(calculate(chunk));
-	}
-
-	public boolean containsChunkHash(ImmutableLocation<?> location){
-		return containsChunkHash(calculate(location));
 	}
 
 	public boolean containsChunkHash(Location location){
@@ -41,10 +35,6 @@ public class ChunksToObjectsMap<T> {
 		return get(calculate(chunk));
 	}
 
-	public List<T> get(ImmutableLocation<?> location){
-		return get(calculate(location));
-	}
-
 	public List<T> get(Location location){
 		return get(calculate(location));
 	}
@@ -55,10 +45,6 @@ public class ChunksToObjectsMap<T> {
 
 	public List<T> get(long chunkHash){
 		return chunksToObjectsMap.getOrDefault(chunkHash, Collections.emptyList());
-	}
-
-	public List<T> getAll(ImmutableLocation<?> lesserBoundaryCorner, ImmutableLocation<?> greaterBoundaryCorner){
-		return getAll(calculateAll(lesserBoundaryCorner, greaterBoundaryCorner));
 	}
 
 	public List<T> getAll(Location lesserBoundaryCorner, Location greaterBoundaryCorner){
@@ -80,10 +66,6 @@ public class ChunksToObjectsMap<T> {
 		return put(calculate(chunk), value);
 	}
 
-	public T put(ImmutableLocation<?> location, T value){
-		return put(calculate(location), value);
-	}
-
 	public T put(Location location, T value){
 		return put(calculate(location), value);
 	}
@@ -99,10 +81,6 @@ public class ChunksToObjectsMap<T> {
 			chunksToObjectsMap.put(chunkHash, new ArrayList<>()).add(value);
 
 		return value;
-	}
-
-	public T putAll(ImmutableLocation<?> lesserBoundaryCorner, ImmutableLocation<?> greaterBoundaryCorner, T value){
-		return putAll(calculateAll(lesserBoundaryCorner, greaterBoundaryCorner), value);
 	}
 
 	public T putAll(Location lesserBoundaryCorner, Location greaterBoundaryCorner, T value){
@@ -121,10 +99,6 @@ public class ChunksToObjectsMap<T> {
 
 	public T remove(Chunk chunk, T value){
 		return remove(calculate(chunk), value);
-	}
-
-	public T remove(ImmutableLocation<?> location, T value){
-		return remove(calculate(location), value);
 	}
 
 	public T remove(Location location, T value){

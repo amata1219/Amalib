@@ -6,16 +6,10 @@ import java.util.List;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 
-import amata1219.amalib.location.ImmutableLocation;
-
 public class ChunkHashCalculator {
 
 	public static long calculate(Chunk chunk){
 		return calculate(chunk.getX(), chunk.getZ());
-	}
-
-	public static long calculate(ImmutableLocation<?> location){
-		return calculate(location.x.intValue(), location.z.intValue());
 	}
 
 	public static long calculate(Location location){
@@ -28,10 +22,6 @@ public class ChunkHashCalculator {
 
 	private static long calculateWithChunkLocation(int chunkX, int chunkZ){
 		return (chunkX << 32) ^ chunkZ;
-	}
-
-	public static List<Long> calculateAll(ImmutableLocation<?> lesserBoundaryCorner, ImmutableLocation<?> greaterBoundaryCorner){
-		return calculateAll(lesserBoundaryCorner.x.intValue(), lesserBoundaryCorner.z.intValue(), greaterBoundaryCorner.x.intValue(), greaterBoundaryCorner.z.intValue());
 	}
 
 	public static List<Long> calculateAll(Location lesserBoundaryCorner, Location greaterBoundaryCorner){

@@ -12,8 +12,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class Yaml extends YamlConfiguration {
 
-	protected final JavaPlugin plugin;
-	protected final File file;
+	public final JavaPlugin plugin;
+	public final File file;
+	public final String name;
 
 	public Yaml(JavaPlugin plugin, String fileName){
 		this(plugin, plugin.getDataFolder(), fileName);
@@ -26,8 +27,12 @@ public class Yaml extends YamlConfiguration {
 	public Yaml(JavaPlugin plugin, File file){
 		this.plugin = plugin;
 		this.file = file;
+
+		String fileName = file.getName();
+		name = fileName.substring(0, fileName.length() - 4);
+
 		if(!file.exists())
-			plugin.saveResource(file.getName(), false);
+			plugin.saveResource(fileName, false);
 	}
 
 	public void save(){

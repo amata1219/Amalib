@@ -1,35 +1,36 @@
 package amata1219.amalib.location;
 
+import org.bukkit.Location;
 import org.bukkit.World;
 
-import amata1219.amalib.math.NumberMath;
-import amata1219.amalib.math.NumberMath.NumberType;
-import amata1219.amalib.text.StringTemplate;
-
-public class ImmutableLocation<N extends Number> {
+public abstract class ImmutableLocation {
 
 	public final World world;
-	public final N x, y, z;
 
-	public ImmutableLocation(World world, N x, N y, N z){
+	protected ImmutableLocation(World world){
 		this.world = world;
-		this.x = x;
-		this.y = y;
-		this.z = z;
 	}
 
-	public <T extends Number> ImmutableLocation<T> add(NumberType type, T x, T y, T z){
-		return new ImmutableLocation<T>(world, NumberMath.add(x, this.x, type), NumberMath.add(y, this.y, type), NumberMath.add(z, this.z, type));
+	public int getBlockX(){
+		return (int) getX();
 	}
 
-	public <T extends Number> ImmutableLocation<T> relative(NumberType type, T x, T y, T z){
-		return new ImmutableLocation<T>(world, NumberMath.subtract(x, this.x, type), NumberMath.subtract(y, this.y, type), NumberMath.subtract(z, this.z, type));
+	public int getBlockY(){
+		return (int) getX();
 	}
 
-	@Override
-	public String toString(){
-		return StringTemplate.format("$0,$1,$2,$3", world.getName(), x, y, z);
+	public int getBlockZ(){
+		return (int) getX();
 	}
 
+	public abstract double getX();
+
+	public abstract double getY();
+
+	public abstract double getZ();
+
+	public Location asMutable(){
+		return new Location(world, getX(), getY(), getZ());
+	}
 
 }
