@@ -1,22 +1,31 @@
 package amata1219.amalib.space;
 
+import java.util.Arrays;
+
 import org.bukkit.Location;
 import org.bukkit.World;
 
 import amata1219.amalib.location.ImmutableBlockLocation;
 import amata1219.amalib.location.ImmutableLocation;
 
-public class Space {
+public class Region {
 
 	public final World world;
 	public final ImmutableBlockLocation lesserBoundaryCorner, greaterBoundaryCorner;
 
-	public Space(Location lesserBoundaryCorner, Location greaterBoundaryCorner){
+	public static Region fromString(World world, String text){
+		int[] coordinates = Arrays.stream(text.split(","))
+									.mapToInt(Integer::parseInt)
+									.toArray();
+		return new Region(world, coordinates[0], coordinates[1], coordinates[2], coordinates[3], coordinates[4], coordinates[5]);
+	}
+
+	public Region(Location lesserBoundaryCorner, Location greaterBoundaryCorner){
 		this(lesserBoundaryCorner.getWorld(), lesserBoundaryCorner.getBlockX(), lesserBoundaryCorner.getBlockY(), lesserBoundaryCorner.getBlockZ(),
 				greaterBoundaryCorner.getBlockX(), greaterBoundaryCorner.getBlockY(), greaterBoundaryCorner.getBlockZ());
 	}
 
-	public Space(World world, int lesserBoundaryCornerX, int lesserBoundaryCornerY, int lesserBoundaryCornerZ,
+	public Region(World world, int lesserBoundaryCornerX, int lesserBoundaryCornerY, int lesserBoundaryCornerZ,
 					int greaterBoundaryCornerX, int greaterBoundaryCornerY, int greaterBoundaryCornerZ){
 
 		this.world = world;
