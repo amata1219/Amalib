@@ -36,6 +36,10 @@ public class Icon {
 	public Set<ItemFlag> flags = new HashSet<>();
 	public Applier<ItemStack> raw;
 
+	public Icon(){
+
+	}
+
 	public static void registerGleamEnchant(){
 		Field acceptingNew = Reflection.getField(Enchantment.class, "acceptingNew");
 
@@ -59,12 +63,17 @@ public class Icon {
 
 	public ItemStack toItemStack(){
 		ItemStack item = basedItemStack != null ? basedItemStack.clone() : new ItemStack(material);
+		apply(item);
+		return item;
+	}
 
+	//受け取ったアイテムをアイコンの情報で上書きする
+	public void apply(ItemStack item){
 		item.setAmount(amount);
 
-		ItemMeta meta = item.getItemMeta();
+		if(item.hasItemMeta()){
+			ItemMeta meta = item.getItemMeta();
 
-		if(meta != null){
 			meta.setDisplayName(displayName);
 			meta.setLore(lore);
 
@@ -79,7 +88,29 @@ public class Icon {
 			item.setItemMeta(meta);
 		}
 
-		return raw != null ? raw.apply(item) : item;
+		if(raw != null)
+			raw.apply(item);
+	}
+
+	//アイコンの情報を受け取ったアイテムのそれで上書きする
+	public void overwrite(ItemStack item){
+		basedItemStack = item;
+
+		material = item.getType();
+		amount = item.getAmount();
+
+		if(item.hasItemMeta()){
+			ItemMeta meta = item.getItemMeta();
+
+			damage = meta instanceof Damageable ? ((Damageable) meta).getDamage() : 0;
+
+			displayName = meta.getDisplayName();
+			lore.addAll(meta.getLore());
+
+			enchantments.putAll(meta.getEnchants());
+
+			flags.addAll(meta.getItemFlags());
+		}
 	}
 
 	public void lore(String... texts){

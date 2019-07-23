@@ -5,9 +5,8 @@ import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 
-import amata1219.amalib.inventory.ui.Applier;
+import amata1219.amalib.inventory.ui.dsl.component.Icon;
 import amata1219.amalib.inventory.ui.dsl.component.InventoryLayout;
 
 public class UIClickEvent extends UIEvent {
@@ -17,27 +16,30 @@ public class UIClickEvent extends UIEvent {
 	public final InventoryType.SlotType slotType;
 	public final int slot;
 	public final int rawSlot;
-	public final ItemStack currentItemStack;
+	public final Icon currentIcon;
 	public final int hotbarKey;
-	public final ItemStack cursorItemStack;
+	public final Icon cursorIcon;
 	public final Inventory clickedInventory;
 
 	public UIClickEvent(InventoryLayout layout, InventoryClickEvent event) {
 		super(layout, event.getWhoClicked(), event);
+
 		click = event.getClick();
 		action = event.getAction();
+
 		slotType = event.getSlotType();
 		slot = event.getSlot();
 		rawSlot = event.getRawSlot();
-		currentItemStack = event.getCurrentItem();
-		hotbarKey = event.getHotbarButton();
-		cursorItemStack = event.getCursor();
-		clickedInventory = event.getClickedInventory();
-	}
 
-	public void applyToCurrentItem(Applier<ItemStack> itemApplier){
-		if(currentItemStack != null)
-			itemApplier.apply(currentItemStack);
+		currentIcon = new Icon();
+		currentIcon.overwrite(event.getCurrentItem());
+
+		hotbarKey = event.getHotbarButton();
+
+		cursorIcon = new Icon();
+		cursorIcon.overwrite(event.getCursor());
+
+		clickedInventory = event.getClickedInventory();
 	}
 
 	public boolean isOutOfInventoryClick(){
@@ -54,14 +56,6 @@ public class UIClickEvent extends UIEvent {
 
 	public boolean isShiftClick() {
 		return getBukkitClickEvent().isShiftClick();
-	}
-
-	public void setCursor(ItemStack item) {
-		view.setCursor(item);
-	}
-
-	public void setCurrentItem(ItemStack item) {
-		getBukkitClickEvent().setCurrentItem(item);
 	}
 
 	public InventoryClickEvent getBukkitClickEvent(){

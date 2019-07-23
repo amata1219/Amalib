@@ -14,6 +14,7 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.InventoryView;
 
 import amata1219.amalib.inventory.ui.dsl.InventoryUI;
+import amata1219.amalib.inventory.ui.dsl.component.Icon;
 import amata1219.amalib.inventory.ui.dsl.component.InventoryLayout;
 import amata1219.amalib.inventory.ui.dsl.component.Slot;
 import amata1219.amalib.inventory.ui.dsl.event.UIClickEvent;
@@ -40,6 +41,12 @@ public class UIListener implements Listener {
 
 		slot.fire(clickEvent);
 		layout.fire(clickEvent);
+
+		Icon currentIcon = clickEvent.currentIcon;
+		currentIcon.overwrite(currentIcon.basedItemStack);
+
+		Icon cursorIcon = clickEvent.cursorIcon;
+		cursorIcon.overwrite(cursorIcon.basedItemStack);
 	}
 
 	@EventHandler
