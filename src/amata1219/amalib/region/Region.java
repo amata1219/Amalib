@@ -1,4 +1,4 @@
-package amata1219.amalib.space;
+package amata1219.amalib.region;
 
 import java.util.Arrays;
 
@@ -17,6 +17,7 @@ public class Region {
 		int[] coordinates = Arrays.stream(text.split(","))
 									.mapToInt(Integer::parseInt)
 									.toArray();
+
 		return new Region(world, coordinates[0], coordinates[1], coordinates[2], coordinates[3], coordinates[4], coordinates[5]);
 	}
 
@@ -30,13 +31,13 @@ public class Region {
 
 		this.world = world;
 
-		lesserBoundaryCorner = ImmutableBlockLocation.at(world,
+		lesserBoundaryCorner = new ImmutableBlockLocation(world,
 				Math.min(lesserBoundaryCornerX, greaterBoundaryCornerX),
 				Math.min(lesserBoundaryCornerY, greaterBoundaryCornerY),
 				Math.min(lesserBoundaryCornerZ, greaterBoundaryCornerZ)
 		);
 
-		greaterBoundaryCorner = ImmutableBlockLocation.at(world,
+		greaterBoundaryCorner = new ImmutableBlockLocation(world,
 				Math.max(lesserBoundaryCornerX, greaterBoundaryCornerX),
 				Math.max(lesserBoundaryCornerY, greaterBoundaryCornerY),
 				Math.max(lesserBoundaryCornerZ, greaterBoundaryCornerZ)
