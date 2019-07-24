@@ -13,4 +13,21 @@ public enum InventoryLine {
 		return (ordinal() + 1) * 9;
 	}
 
+	public static InventoryLine necessaryInventoryLine(int size){
+		switch(size / 9){
+		case 0:
+			return InventoryLine.x1;
+		case 1:
+			return InventoryLine.x2;
+		case 2:
+			return InventoryLine.x3;
+		case 3:
+			return InventoryLine.x4;
+		case 4:
+			return InventoryLine.x5;
+		default:
+			return InventoryLine.x6;
+		}
+	}
+
 }
