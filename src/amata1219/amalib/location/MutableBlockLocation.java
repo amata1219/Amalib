@@ -2,11 +2,11 @@ package amata1219.amalib.location;
 
 import org.bukkit.World;
 
-public class ImmutableBlockLocation extends ImmutableLocation implements BlockLocation {
+public class MutableBlockLocation extends MutableLocation implements BlockLocation {
 
-	public final int x, y, z;
+	public int x, y, z;
 
-	public ImmutableBlockLocation(World world, int x, int y, int z) {
+	public MutableBlockLocation(World world, int x, int y, int z) {
 		super(world);
 		this.x = x;
 		this.y = y;
@@ -29,8 +29,8 @@ public class ImmutableBlockLocation extends ImmutableLocation implements BlockLo
 	}
 
 	@Override
-	public MutableBlockLocation asMutable() {
-		return new MutableBlockLocation(world, x, y, z);
+	public ImmutableBlockLocation asImmutable() {
+		return new ImmutableBlockLocation(world, x, y, z);
 	}
 
 }

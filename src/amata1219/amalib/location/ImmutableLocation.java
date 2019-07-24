@@ -1,9 +1,8 @@
 package amata1219.amalib.location;
 
-import org.bukkit.Location;
 import org.bukkit.World;
 
-public abstract class ImmutableLocation {
+public abstract class ImmutableLocation implements Location {
 
 	public final World world;
 
@@ -11,26 +10,11 @@ public abstract class ImmutableLocation {
 		this.world = world;
 	}
 
-	public int getBlockX(){
-		return (int) getX();
+	@Override
+	public World getWorld(){
+		return world;
 	}
 
-	public int getBlockY(){
-		return (int) getX();
-	}
-
-	public int getBlockZ(){
-		return (int) getX();
-	}
-
-	public abstract double getX();
-
-	public abstract double getY();
-
-	public abstract double getZ();
-
-	public Location asMutable(){
-		return new Location(world, getX(), getY(), getZ());
-	}
+	public abstract MutableLocation asMutable();
 
 }

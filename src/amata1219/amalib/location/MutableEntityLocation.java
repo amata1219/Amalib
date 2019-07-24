@@ -2,11 +2,11 @@ package amata1219.amalib.location;
 
 import org.bukkit.World;
 
-public class ImmutableEntityLocation extends ImmutableLocation implements EntityLocation {
+public class MutableEntityLocation extends MutableLocation implements EntityLocation {
 
-	public final double x, y, z;
+	public double x, y, z;
 
-	public ImmutableEntityLocation(World world, double x, double y, double z) {
+	public MutableEntityLocation(World world, double x, double y, double z) {
 		super(world);
 		this.x = x;
 		this.y = y;
@@ -29,8 +29,8 @@ public class ImmutableEntityLocation extends ImmutableLocation implements Entity
 	}
 
 	@Override
-	public MutableEntityLocation asMutable() {
-		return new MutableEntityLocation(world, x, y, z);
+	public ImmutableEntityLocation asImmutable() {
+		return new ImmutableEntityLocation(world, x, y, z);
 	}
 
 }
