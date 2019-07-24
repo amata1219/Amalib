@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Chunk;
-import org.bukkit.Location;
+
+import amata1219.amalib.location.Location;
 
 public class ChunksToObjectsMap<T> {
 
@@ -20,6 +21,10 @@ public class ChunksToObjectsMap<T> {
 	}
 
 	public boolean containsChunkHash(Location location){
+		return containsChunkHash(calculate(location));
+	}
+
+	public boolean containsChunkHash(org.bukkit.Location location){
 		return containsChunkHash(calculate(location));
 	}
 
@@ -39,6 +44,10 @@ public class ChunksToObjectsMap<T> {
 		return get(calculate(location));
 	}
 
+	public List<T> get(org.bukkit.Location location){
+		return get(calculate(location));
+	}
+
 	public List<T> get(int x, int z){
 		return get(calculate(x, z));
 	}
@@ -48,6 +57,10 @@ public class ChunksToObjectsMap<T> {
 	}
 
 	public List<T> getAll(Location lesserBoundaryCorner, Location greaterBoundaryCorner){
+		return getAll(calculateAll(lesserBoundaryCorner, greaterBoundaryCorner));
+	}
+
+	public List<T> getAll(org.bukkit.Location lesserBoundaryCorner, org.bukkit.Location greaterBoundaryCorner){
 		return getAll(calculateAll(lesserBoundaryCorner, greaterBoundaryCorner));
 	}
 
@@ -70,6 +83,10 @@ public class ChunksToObjectsMap<T> {
 		return put(calculate(location), value);
 	}
 
+	public T put(org.bukkit.Location location, T value){
+		return put(calculate(location), value);
+	}
+
 	public T put(int x, int z, T value){
 		return put(calculate(x, z), value);
 	}
@@ -84,6 +101,10 @@ public class ChunksToObjectsMap<T> {
 	}
 
 	public T putAll(Location lesserBoundaryCorner, Location greaterBoundaryCorner, T value){
+		return putAll(calculateAll(lesserBoundaryCorner, greaterBoundaryCorner), value);
+	}
+
+	public T putAll(org.bukkit.Location lesserBoundaryCorner, org.bukkit.Location greaterBoundaryCorner, T value){
 		return putAll(calculateAll(lesserBoundaryCorner, greaterBoundaryCorner), value);
 	}
 
@@ -102,6 +123,10 @@ public class ChunksToObjectsMap<T> {
 	}
 
 	public T remove(Location location, T value){
+		return remove(calculate(location), value);
+	}
+
+	public T remove(org.bukkit.Location location, T value){
 		return remove(calculate(location), value);
 	}
 

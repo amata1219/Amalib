@@ -1,6 +1,5 @@
 package amata1219.amalib.inventory.ui.listener;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -90,27 +89,7 @@ public class UIListener implements Listener {
 		}
 	}
 
-	public static void onDisable(){
-		for(Player player : Bukkit.getOnlinePlayers()){
-			InventoryView opened = player.getOpenInventory();
-			if(opened == null)
-				continue;
-
-			tryCloseInventoryUI(player, opened.getTopInventory());
-			tryCloseInventoryUI(player, opened.getBottomInventory());
-		}
-	}
-
-	private static void tryCloseInventoryUI(Player player, Inventory inventory){
-		if(inventory == null)
-			return;
-
-		InventoryLayout layout = getLayout(inventory.getHolder(), player);
-		if(layout != null)
-			player.closeInventory();
-	}
-
-	private static InventoryLayout getLayout(InventoryHolder holder, HumanEntity human){
+	public static InventoryLayout getLayout(InventoryHolder holder, HumanEntity human){
 		return holder instanceof InventoryUI && human instanceof Player ? ((InventoryUI) holder).layout().apply((Player) human) : null;
 	}
 }

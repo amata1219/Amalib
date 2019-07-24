@@ -2,21 +2,36 @@ package amata1219.amalib;
 
 import java.util.HashMap;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryView;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import amata1219.amalib.command.Arguments;
 import amata1219.amalib.command.Command;
 import amata1219.amalib.command.Sender;
+import amata1219.amalib.inventory.ui.dsl.component.InventoryLayout;
+import amata1219.amalib.inventory.ui.listener.UIListener;
 
 public class Plugin extends JavaPlugin {
 
 	private final HashMap<String, Command> commands = new HashMap<>();
 
 	@Override
+	public void onEnable(){
+		registerListeners(
+			new UIListener()
+		);
+	}
+
+	@Override
 	public void onDisable(){
+		closeAllInventoryUI();
+
 		HandlerList.unregisterAll((JavaPlugin) this);
 	}
 
@@ -42,6 +57,26 @@ public class Plugin extends JavaPlugin {
 	protected void registerListeners(Listener... listeners){
 		for(Listener listener : listeners)
 			getServer().getPluginManager().registerEvents(listener, this);
+	}
+
+	private void closeAllInventoryUI(){
+		for(Player player : Bukkit.getOnlinePlayers()){
+			InventoryView opened = player.getOpenInventory();
+			if(opened == null)
+				continue;
+
+			tryCloseInventoryUI(player, opened.getTopInventory());
+			tryCloseInventoryUI(player, opened.getBottomInventory());
+		}
+	}
+
+	private void tryCloseInventoryUI(Player player, Inventory inventory){
+		if(inventory == null)
+			return;
+
+		InventoryLayout layout = UIListener.getLayout(inventory.getHolder(), player);
+		if(layout != null)
+			player.closeInventory();
 	}
 
 }

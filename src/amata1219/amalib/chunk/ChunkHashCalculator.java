@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Chunk;
-import org.bukkit.Location;
+
+import amata1219.amalib.location.Location;
 
 public class ChunkHashCalculator {
 
@@ -13,6 +14,10 @@ public class ChunkHashCalculator {
 	}
 
 	public static long calculate(Location location){
+		return calculate(location.getBlockX(), location.getBlockZ());
+	}
+
+	public static long calculate(org.bukkit.Location location){
 		return calculate(location.getBlockX(), location.getBlockZ());
 	}
 
@@ -25,6 +30,10 @@ public class ChunkHashCalculator {
 	}
 
 	public static List<Long> calculateAll(Location lesserBoundaryCorner, Location greaterBoundaryCorner){
+		return calculateAll(lesserBoundaryCorner.getBlockX(), lesserBoundaryCorner.getBlockZ(), greaterBoundaryCorner.getBlockX(), greaterBoundaryCorner.getBlockZ());
+	}
+
+	public static List<Long> calculateAll(org.bukkit.Location lesserBoundaryCorner, org.bukkit.Location greaterBoundaryCorner){
 		return calculateAll(lesserBoundaryCorner.getBlockX(), lesserBoundaryCorner.getBlockZ(), greaterBoundaryCorner.getBlockX(), greaterBoundaryCorner.getBlockZ());
 	}
 
