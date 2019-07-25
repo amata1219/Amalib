@@ -8,9 +8,13 @@ import org.bukkit.command.ProxiedCommandSender;
 import org.bukkit.command.RemoteConsoleCommandSender;
 import org.bukkit.entity.Player;
 
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
+
 public class Sender {
 
 	public final CommandSender sender;
+	public boolean displayMessageToActionbar;
 
 	public Sender(CommandSender sender){
 		this.sender = sender;
@@ -57,15 +61,22 @@ public class Sender {
 	}
 
 	public void info(String message){
-		sender.sendMessage(ChatColor.AQUA + message);
+		message(ChatColor.AQUA + message);
 	}
 
 	public void warn(String message){
-		sender.sendMessage(ChatColor.RED + message);
+		message(ChatColor.RED + message);
 	}
 
 	public void tip(String message){
-		sender.sendMessage(ChatColor.GRAY + message);
+		message(ChatColor.GRAY + message);
+	}
+
+	public void message(String message){
+		if(displayMessageToActionbar)
+			asPlayerCommandSender().spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(message));
+		else
+			sender.sendMessage(message);
 	}
 
 	private enum SenderType {
