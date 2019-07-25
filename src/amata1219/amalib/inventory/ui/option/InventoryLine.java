@@ -14,7 +14,7 @@ public enum InventoryLine {
 	}
 
 	public static InventoryLine necessaryInventoryLine(int size){
-		switch(size / 9){
+		switch((size - 1) / 9){
 		case 0:
 			return InventoryLine.x1;
 		case 1:

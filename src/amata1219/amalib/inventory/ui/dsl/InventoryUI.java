@@ -37,4 +37,8 @@ public interface InventoryUI extends InventoryHolder {
 		return build(new InventoryOption(line, null), applier);
 	}
 
+	default Function<Player, InventoryLayout> build(int size, Applier<InventoryLayout> applier){
+		return build(InventoryLine.necessaryInventoryLine(size), applier);
+	}
+
 }
