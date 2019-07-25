@@ -20,20 +20,40 @@ public class Sender {
 		return SenderType.CONSOLE.isSender(this);
 	}
 
+	public ConsoleCommandSender asConsoleCommandSender(){
+		return (ConsoleCommandSender) sender;
+	}
+
 	public boolean isPlayerCommandSender(){
 		return SenderType.PLAYER.isSender(this);
+	}
+
+	public Player asPlayerCommandSender(){
+		return (Player) sender;
 	}
 
 	public boolean isBlockCommandSender(){
 		return SenderType.BLOCK.isSender(this);
 	}
 
+	public BlockCommandSender asBlockCommandSender(){
+		return (BlockCommandSender) sender;
+	}
+
 	public boolean isRemoteConsoleCommandSender(){
 		return SenderType.REMOTE_CONSOLE.isSender(this);
 	}
 
+	public RemoteConsoleCommandSender asRemoteConsoleCommandSender(){
+		return (RemoteConsoleCommandSender) sender;
+	}
+
 	public boolean isProxiedCommandSender(){
 		return SenderType.PROXIED.isSender(this);
+	}
+
+	public ProxiedCommandSender asProxiedCommandSender(){
+		return (ProxiedCommandSender) sender;
 	}
 
 	public void info(String message){
