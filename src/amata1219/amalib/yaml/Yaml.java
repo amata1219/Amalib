@@ -15,24 +15,26 @@ public class Yaml extends YamlConfiguration {
 	public final JavaPlugin plugin;
 	public final File file;
 	public final String name;
+	public final String resourceFileName;
 
 	public Yaml(JavaPlugin plugin, String fileName){
-		this(plugin, plugin.getDataFolder(), fileName);
-	}
-
-	public Yaml(JavaPlugin plugin, File folder, String fileName){
-		this(plugin, new File(folder, fileName + (fileName.endsWith(".yml") ? "" : ".yml")));
+		this(plugin, new File(plugin.getDataFolder(), fileName));
 	}
 
 	public Yaml(JavaPlugin plugin, File file){
+		this(plugin, file, file.getName());
+	}
+
+	public Yaml(JavaPlugin plugin, File file, String resourceFileName){
 		this.plugin = plugin;
 		this.file = file;
+		this.resourceFileName = resourceFileName;
 
 		String fileName = file.getName();
 		name = fileName.substring(0, fileName.length() - 4);
 
 		if(!file.exists())
-			plugin.saveResource(fileName, false);
+			plugin.saveResource(resourceFileName, false);
 	}
 
 	public void save(){
@@ -52,7 +54,7 @@ public class Yaml extends YamlConfiguration {
 			e.printStackTrace();
 		}
 
-		InputStream input = plugin.getResource(file.getName());
+		InputStream input = plugin.getResource(resourceFileName);
 		if(input != null)
 			setDefaults(YamlConfiguration.loadConfiguration(new InputStreamReader(input, StandardCharsets.UTF_8)));
 	}
