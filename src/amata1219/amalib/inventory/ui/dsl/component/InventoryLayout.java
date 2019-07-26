@@ -119,7 +119,7 @@ public class InventoryLayout {
 	public void fire(UIClickEvent event){
 		if(filterOnClick.test(event))
 			if(asynchronouslyRunActionOnClick)
-				Async.define(() -> actionOnClick.accept(event));
+				Async.define(() -> actionOnClick.accept(event)).execute();
 			else
 				actionOnClick.accept(event);
 	}
@@ -137,7 +137,7 @@ public class InventoryLayout {
 	public void fire(UIOpenEvent event){
 		if(filterOnOpen.test(event))
 			if(asynchronouslyRunActionOnOpen)
-				Async.define(() -> actionOnOpen.accept(event));
+				Async.define(() -> actionOnOpen.accept(event)).execute();
 			else
 				actionOnOpen.accept(event);
 	}
@@ -155,7 +155,7 @@ public class InventoryLayout {
 	public void fire(UICloseEvent event){
 		if(filterOnClose.test(event))
 			if(asynchronouslyRunActionOnClose)
-				Async.define(() -> actionOnClose.accept(event));
+				Async.define(() -> actionOnClose.accept(event)).execute();
 			else
 				actionOnClose.accept(event);
 	}

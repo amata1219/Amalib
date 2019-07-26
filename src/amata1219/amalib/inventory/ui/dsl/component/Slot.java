@@ -63,7 +63,7 @@ public class Slot {
 	public void fire(UIClickEvent event){
 		if(filterOnClick.test(event))
 			if(async)
-				Async.define(() -> actionOnClick.accept(event));
+				Async.define(() -> actionOnClick.accept(event)).execute();
 			else
 				actionOnClick.accept(event);
 	}
