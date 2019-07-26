@@ -7,7 +7,7 @@ import amata1219.amalib.Amalib;
 
 public interface Async extends Runnable {
 
-	public static Async write(Async async){
+	public static Async define(Async async){
 		return async;
 	}
 

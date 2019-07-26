@@ -2,6 +2,7 @@ package amata1219.amalib.inventory.ui.dsl.component;
 
 import java.util.HashMap;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 import java.util.stream.IntStream;
 
 import org.apache.commons.lang.Validate;
@@ -17,20 +18,50 @@ import amata1219.amalib.inventory.ui.dsl.event.UIClickEvent;
 import amata1219.amalib.inventory.ui.dsl.event.UICloseEvent;
 import amata1219.amalib.inventory.ui.dsl.event.UIOpenEvent;
 import amata1219.amalib.inventory.ui.option.InventoryOption;
+import amata1219.amalib.schedule.Async;
 
 public class InventoryLayout {
 
+	//インベントリを開いているプレイヤー
 	public final Player player;
+
 	public final InventoryUI ui;
 	public final InventoryOption option;
 
+	//インベントリのタイトル
 	public String title;
 
+	//各スロット
 	private final HashMap<Integer, Slot> slots = new HashMap<>();
+
+	//デフォルトのスロットに適用する処理
 	private Applier<Slot> defaultSlot = (slot) -> {};
 
+	//非同期でクリック処理を実行するかどうか
+	public boolean asynchronouslyRunActionOnClick;
+
+	//クリックイベントのフィルター
+	private Predicate<UIClickEvent> filterOnClick = (event) -> { return true; };
+
+	//クリック処理
 	private Consumer<UIClickEvent> actionOnClick = (event) -> {};
+
+	//非同期でオープン処理を実行するかどうか
+	public boolean asynchronouslyRunActionOnOpen;
+
+	//オープンイベントのフィルター
+	private Predicate<UIOpenEvent> filterOnOpen = (event) -> { return true; };
+
+	//オープン処理
 	private Consumer<UIOpenEvent> actionOnOpen = (event) -> {};
+
+	//非同期でクローズ処理を実行するかどうか
+	public boolean asynchronouslyRunActionOnClose;
+
+	//クローズイベントのフィルター
+	private Predicate<UICloseEvent> filterOnClose = (event) -> { return true; };
+
+	//クローズ処理
 	private Consumer<UICloseEvent> actionOnClose = (event) -> {};
 
 	public InventoryLayout(Player player, InventoryUI ui, InventoryOption option){
@@ -75,13 +106,27 @@ public class InventoryLayout {
 			slots.remove(slotIndex);
 	}
 
+	public void filterOnClick(Predicate<UIClickEvent> filter){
+		Validate.notNull(filter, "Filter can not be null");
+		filterOnClick = filter;
+	}
+
 	public void onClick(Consumer<UIClickEvent> action){
 		Validate.notNull(action, "Action can not be null");
 		actionOnClick = action;
 	}
 
 	public void fire(UIClickEvent event){
-		actionOnClick.accept(event);
+		if(filterOnClick.test(event))
+			if(asynchronouslyRunActionOnClick)
+				Async.define(() -> actionOnClick.accept(event));
+			else
+				actionOnClick.accept(event);
+	}
+
+	public void filterOnOpen(Predicate<UIOpenEvent> filter){
+		Validate.notNull(filter, "Filter can not be null");
+		filterOnOpen = filter;
 	}
 
 	public void onOpen(Consumer<UIOpenEvent> action){
@@ -90,7 +135,16 @@ public class InventoryLayout {
 	}
 
 	public void fire(UIOpenEvent event){
-		actionOnOpen.accept(event);
+		if(filterOnOpen.test(event))
+			if(asynchronouslyRunActionOnOpen)
+				Async.define(() -> actionOnOpen.accept(event));
+			else
+				actionOnOpen.accept(event);
+	}
+
+	public void filterOnClose(Predicate<UICloseEvent> filter){
+		Validate.notNull(filter, "Filter can not be null");
+		filterOnClose = filter;
 	}
 
 	public void onClose(Consumer<UICloseEvent> action){
@@ -99,7 +153,11 @@ public class InventoryLayout {
 	}
 
 	public void fire(UICloseEvent event){
-		actionOnClose.accept(event);
+		if(filterOnClose.test(event))
+			if(asynchronouslyRunActionOnClose)
+				Async.define(() -> actionOnClose.accept(event));
+			else
+				actionOnClose.accept(event);
 	}
 
 	private Inventory createInventory(InventoryHolder holder, InventoryOption option, String title){

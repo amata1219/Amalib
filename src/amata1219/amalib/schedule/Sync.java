@@ -7,8 +7,8 @@ import amata1219.amalib.Amalib;
 
 public interface Sync extends Runnable {
 
-	public static Async write(Async async){
-		return async;
+	public static Sync define(Sync sync){
+		return sync;
 	}
 
 	public default void execute(){

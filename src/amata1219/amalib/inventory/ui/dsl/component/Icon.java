@@ -24,16 +24,34 @@ import amata1219.amalib.reflection.Reflection;
 
 public class Icon {
 
+	//発行用のエンチャント
 	public static final GleamEnchantment GLEAM_ENCHANTMENT = new GleamEnchantment();
 
+	//基となるアイテム
 	public ItemStack basedItemStack;
+
+	//マテリアル
 	public Material material = Material.AIR;
+
+	//個数
 	public int amount = 1;
+
+	//耐久値
 	public int damage;
+
+	//表示名
 	public String displayName;
+
+	//説明文
 	public List<String> lore = new ArrayList<>();
+
+	//エンチャントのマップ
 	public Map<Enchantment, Integer> enchantments = new HashMap<>();
+
+	//アイテムフラグのリスト
 	public Set<ItemFlag> flags = new HashSet<>();
+
+	//ItemStack自体に適用する処理
 	public Applier<ItemStack> raw;
 
 	public Icon(){
