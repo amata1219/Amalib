@@ -1,10 +1,9 @@
 package amata1219.amalib.region;
 
-import org.bukkit.Location;
 import org.bukkit.World;
 
 import amata1219.amalib.location.ImmutableBlockLocation;
-import amata1219.amalib.location.ImmutableLocation;
+import amata1219.amalib.location.Location;
 import amata1219.amalib.text.StringSplit;
 
 public class Region {
@@ -18,6 +17,11 @@ public class Region {
 	}
 
 	public Region(Location lesserBoundaryCorner, Location greaterBoundaryCorner){
+		this(lesserBoundaryCorner.getWorld(), lesserBoundaryCorner.getBlockX(), lesserBoundaryCorner.getBlockY(), lesserBoundaryCorner.getBlockZ(),
+				greaterBoundaryCorner.getBlockX(), greaterBoundaryCorner.getBlockY(), greaterBoundaryCorner.getBlockZ());
+	}
+
+	public Region(org.bukkit.Location lesserBoundaryCorner, org.bukkit.Location greaterBoundaryCorner){
 		this(lesserBoundaryCorner.getWorld(), lesserBoundaryCorner.getBlockX(), lesserBoundaryCorner.getBlockY(), lesserBoundaryCorner.getBlockZ(),
 				greaterBoundaryCorner.getBlockX(), greaterBoundaryCorner.getBlockY(), greaterBoundaryCorner.getBlockZ());
 	}
@@ -40,11 +44,11 @@ public class Region {
 		);
 	}
 
-	public boolean isIn(ImmutableLocation location){
-		return isIn(location.world, location.getBlockX(), location.getBlockY(), location.getBlockZ());
+	public boolean isIn(Location location){
+		return isIn(location.getWorld(), location.getBlockX(), location.getBlockY(), location.getBlockZ());
 	}
 
-	public boolean isIn(Location location){
+	public boolean isIn(org.bukkit.Location location){
 		return isIn(location.getWorld(), location.getBlockX(), location.getBlockY(), location.getBlockZ());
 	}
 
