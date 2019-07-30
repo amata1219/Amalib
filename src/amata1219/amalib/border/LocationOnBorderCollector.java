@@ -9,7 +9,7 @@ import amata1219.amalib.location.ImmutableEntityLocation;
 import amata1219.amalib.location.ImmutableLocation;
 import amata1219.amalib.region.Region;
 
-public class BorderLineLocationsCollector {
+public class LocationOnBorderCollector {
 
 	public static List<ImmutableEntityLocation> collect(Region region, int howManyPointsInBlock){
 		if(howManyPointsInBlock <= 0)
