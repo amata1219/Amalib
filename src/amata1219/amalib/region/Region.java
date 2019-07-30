@@ -59,6 +59,13 @@ public class Region {
 				&& world.equals(world);
 	}
 
+	public boolean isIn(World world, double x, double y, double z){
+		return lesserBoundaryCorner.x <= x && x <= greaterBoundaryCorner.x
+				&& lesserBoundaryCorner.y <= y && y <= greaterBoundaryCorner.y
+				&& lesserBoundaryCorner.z <= z && z <= greaterBoundaryCorner.z
+				&& world.equals(world);
+	}
+
 	public int getLength(){
 		return greaterBoundaryCorner.x - lesserBoundaryCorner.x;
 	}

@@ -30,4 +30,8 @@ public interface Location {
 		return new org.bukkit.Location(getWorld(), getEntityX(), getEntityY(), getEntityZ());
 	}
 
+	default boolean equals(Location location){
+		return location.getEntityX() == getEntityX() && location.getEntityY() == getEntityY() && location.getEntityZ() == getEntityZ() && location.getWorld().equals(getWorld());
+	}
+
 }
