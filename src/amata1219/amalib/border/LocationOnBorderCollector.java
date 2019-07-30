@@ -11,6 +11,21 @@ import amata1219.amalib.region.Region;
 
 public class LocationOnBorderCollector {
 
+	public static void main(String[] $){
+		//デバッグに当たりEntity/BlockLocation#equalsのworld比較をコメントアウトしている
+		//Region#isIn(doubles)も同様
+
+		Region region = Region.fromString(null, "0,0,0,7,0,2");
+		List<ImmutableEntityLocation> locations = collect(region, 4);
+		System.out.println("LesserBoundaryCorner > " + region.lesserBoundaryCorner.asBukkitLocation().toString());
+		System.out.println("GreaterBoundaryCorner > " + region.greaterBoundaryCorner.asBukkitLocation().toString());
+		System.out.println("Interval > " + String.format("%.2f", 1D / 4));
+		System.out.println("Size > " + locations.size());
+		for(ImmutableEntityLocation location : locations){
+			System.out.println("X > " + String.format("%.2f", location.getEntityX()) + " Z > " + String.format("%.2f", location.getEntityZ()));
+		}
+	}
+
 	public static List<ImmutableEntityLocation> collect(Region region, int howManyPointsInBlock){
 		if(howManyPointsInBlock <= 0)
 			throw new IllegalArgumentException("Points in block must be one or more");
@@ -34,25 +49,20 @@ public class LocationOnBorderCollector {
 		Direction direction = Direction.DOWN;
 
 		//一つ前の座標
-		ImmutableEntityLocation lastLocation = null;
+		ImmutableEntityLocation lastLocation = startLocation;
+
+		//間隔を計算する
+		double interval = 1D / howManyPointsInBlock;
 
 		//始点に戻るまで処理を繰り返す
 		label: while(locations.size() <= 1 || !(lastLocation = locations.get(locations.size() - 1)).equals(startLocation)){
 			int x = lastLocation.getBlockX();
 			int z = lastLocation.getBlockZ();
 
-			ImmutableEntityLocation basedLocation;
-
 			double nextX = x + direction.xComponent;
 			double nextZ = z + direction.zComponent;
 
-			//次の座標が領域内である時
-			if(region.isIn(world, nextX, y, nextZ)){
-				//基となる座標を作成する
-				basedLocation = new ImmutableEntityLocation(world, nextX, y, nextZ);
-
-			//領域外である時
-			}else{
+			if(!region.isIn(world, nextX, y, nextZ)){
 				//反時計回りに向きを変える
 				switch(direction){
 				case DOWN:
@@ -70,31 +80,20 @@ public class LocationOnBorderCollector {
 				default:
 					break label;
 				}
-
-				//新しい向きの座標に更新する
-				nextX = x + direction.xComponent;
-				nextZ = z + direction.zComponent;
-
-				//基となる座標を作成する
-				basedLocation = new ImmutableEntityLocation(world, nextX, y, nextZ);
 			}
-
-			locations.add(basedLocation);
-
-			//間隔を計算する
-			double interval = 1D / howManyPointsInBlock;
 
 			//現在座標のブロック内で間隔倍毎に座標を作成し追加する
-			for(int count = 1; count < divisor; count++){
+			for(int count = 1; count <= howManyPointsInBlock; count++){
 				double width = interval * count;
-				locations.add(new ImmutableEntityLocation(world, nextX + direction.xComponent * width, y, nextZ + direction.zComponent * width));
+				locations.add(new ImmutableEntityLocation(world, x + direction.xComponent * width, y, z + direction.zComponent * width));
 			}
+
 		}
 
 		return locations;
 	}
 
-	public static enum Direction {
+	private static enum Direction {
 
 		UP(0, 1),
 		RIGHT(1, 0),

@@ -14,4 +14,9 @@ public interface EntityLocation extends Location {
 		return (int) getEntityZ();
 	}
 
+	default boolean equals(EntityLocation location){
+		return location.getEntityX() == getEntityX() && location.getEntityY() == getEntityY() && location.getEntityZ() == getEntityZ() && location.getWorld().equals(getWorld());
+	}
+
+
 }
