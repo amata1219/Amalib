@@ -22,9 +22,6 @@ public class Slot {
 	//非同期で処理を実行するかどうか
 	public boolean async;
 
-	//クリックイベントのフィルター(trueであれば通過出来る)
-	private Predicate<UIClickEvent> filterOnClick = (event) -> { return true; };
-
 	//クリック処理
 	private Consumer<UIClickEvent> actionOnClick = (event) -> {};
 
@@ -52,7 +49,6 @@ public class Slot {
 
 	public void filterOnClick(Predicate<UIClickEvent> filter){
 		Validate.notNull(filter, "Filter can not be null");
-		filterOnClick = filter;
 	}
 
 	public void onClick(Consumer<UIClickEvent> action){
@@ -61,11 +57,10 @@ public class Slot {
 	}
 
 	public void fire(UIClickEvent event){
-		if(filterOnClick.test(event))
-			if(async)
-				Async.define(() -> actionOnClick.accept(event)).execute();
-			else
-				actionOnClick.accept(event);
+		if(async)
+			Async.define(() -> actionOnClick.accept(event)).execute();
+		else
+			actionOnClick.accept(event);
 	}
 
 }

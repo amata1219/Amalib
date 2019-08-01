@@ -132,7 +132,7 @@ public class Icon {
 	}
 
 	public void lore(String... texts){
-		lore.addAll(Arrays.asList(texts));
+		lore = Arrays.asList(texts);
 	}
 
 	public void gleam(){
