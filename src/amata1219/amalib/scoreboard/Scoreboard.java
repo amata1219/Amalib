@@ -6,21 +6,20 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Scoreboard;
 
-public class Statesboard {
+public class Scoreboard {
 
 	//このスコアボードが表示されているプレイヤー
 	public final Player player;
 
 	//新しいスコアボードを作成する
-	public final Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
+	public final org.bukkit.scoreboard.Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
 	public final Objective objective;
 
 	//スコアテキストの複製配列
 	private String[] texts = new String[15];
 
-	public Statesboard(Player player, String displayName){
+	public Scoreboard(Player player, String displayName, String... defaultTexts){
 		this.player = player;
 
 		//タイトルはランダムに生成したUUIDの前方16文字を用いる
@@ -28,6 +27,13 @@ public class Statesboard {
 
 		//表示位置をサイドバーに設定する
 		objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+
+		if(defaultTexts.length > 14)
+			throw new IllegalArgumentException("Default texts length be 15 or less");
+
+		//配列の値を前から順にボードの上から下にセットしていく
+		for(int i = 0; i < defaultTexts.length; i++)
+			set(14 - i, defaultTexts[i]);
 	}
 
 	//スコアボードが表示されているかどうか
@@ -52,15 +58,6 @@ public class Statesboard {
 
 		//スコアを書き換える
 		set(score, text);
-	}
-
-	protected void initialize(String... texts){
-		if(texts.length > 14)
-			throw new IllegalArgumentException("Texts length be 15 or less");
-
-		//配列の値を前から順にボードの上から下にセットしていく
-		for(int i = 0; i < texts.length; i++)
-			set(14 - i, texts[i]);
 	}
 
 	private void set(int score, String text){
