@@ -1,7 +1,6 @@
 package amata1219.amalib.inventory.ui.dsl.component;
 
 import java.util.function.Consumer;
-import java.util.function.Predicate;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
@@ -45,10 +44,6 @@ public class Slot {
 
 	public void icon(Applier<Icon> iconApplier){
 		this.iconApplier = iconApplier;
-	}
-
-	public void filterOnClick(Predicate<UIClickEvent> filter){
-		Validate.notNull(filter, "Filter can not be null");
 	}
 
 	public void onClick(Consumer<UIClickEvent> action){

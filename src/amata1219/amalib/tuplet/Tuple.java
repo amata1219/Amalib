@@ -1,4 +1,4 @@
-package amata1219.amalib.tuple;
+package amata1219.amalib.tuplet;
 
 import amata1219.amalib.text.StringTemplate;
 

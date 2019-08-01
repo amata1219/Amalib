@@ -2,7 +2,6 @@ package amata1219.amalib.inventory.ui.dsl.component;
 
 import java.util.HashMap;
 import java.util.function.Consumer;
-import java.util.function.Predicate;
 import java.util.stream.IntStream;
 
 import org.apache.commons.lang.Validate;
@@ -97,10 +96,6 @@ public class InventoryLayout {
 			slots.remove(slotIndex);
 	}
 
-	public void filterOnClick(Predicate<UIClickEvent> filter){
-		Validate.notNull(filter, "Filter can not be null");
-	}
-
 	public void onClick(Consumer<UIClickEvent> action){
 		Validate.notNull(action, "Action can not be null");
 		actionOnClick = action;
@@ -113,10 +108,6 @@ public class InventoryLayout {
 			actionOnClick.accept(event);
 	}
 
-	public void filterOnOpen(Predicate<UIOpenEvent> filter){
-		Validate.notNull(filter, "Filter can not be null");
-	}
-
 	public void onOpen(Consumer<UIOpenEvent> action){
 		Validate.notNull(action, "Action can not be null");
 		actionOnOpen = action;
@@ -127,10 +118,6 @@ public class InventoryLayout {
 			Async.define(() -> actionOnOpen.accept(event)).execute();
 		else
 			actionOnOpen.accept(event);
-	}
-
-	public void filterOnClose(Predicate<UICloseEvent> filter){
-		Validate.notNull(filter, "Filter can not be null");
 	}
 
 	public void onClose(Consumer<UICloseEvent> action){
