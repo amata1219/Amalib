@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class StringJoin {
+public class TextJoin {
 
 	public static <T> String join(T[] objects){
 		return join(objects, "");

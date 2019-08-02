@@ -1,6 +1,6 @@
 package amata1219.amalib.tuplet;
 
-import amata1219.amalib.text.StringTemplate;
+import amata1219.amalib.text.TextTemplate;
 
 public class Tuple<F, S> {
 
@@ -14,7 +14,7 @@ public class Tuple<F, S> {
 
 	@Override
 	public String toString(){
-		return StringTemplate.format("Tuple(first = $0, second = $1)", first, second);
+		return TextTemplate.format("Tuple(first = $0, second = $1)", first, second);
 	}
 
 }
