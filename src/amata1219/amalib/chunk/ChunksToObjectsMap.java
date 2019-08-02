@@ -135,7 +135,31 @@ public class ChunksToObjectsMap<V> {
 	}
 
 	public V remove(long chunkHash, V value){
-		get(chunkHash).remove(value);
+		List<V> list = get(chunkHash);
+
+		list.remove(value);
+
+		if(list.isEmpty())
+			chunksToObjectsMap.remove(chunkHash);
+
+		return value;
+	}
+
+	public V removeAll(Location lesserBoundaryCorner, Location greaterBoundaryCorner, V value){
+		return removeAll(calculateAll(lesserBoundaryCorner, greaterBoundaryCorner), value);
+	}
+
+	public V removeAll(org.bukkit.Location lesserBoundaryCorner, org.bukkit.Location greaterBoundaryCorner, V value){
+		return removeAll(calculateAll(lesserBoundaryCorner, greaterBoundaryCorner), value);
+	}
+
+	public V removeAll(int lesserBoundaryX, int lesserBoundaryZ, int greaterBoundaryX, int greaterBoundaryZ, V value){
+		return removeAll(calculateAll(lesserBoundaryX, lesserBoundaryZ, greaterBoundaryX, greaterBoundaryZ), value);
+	}
+
+	public V removeAll(List<Long> chunkHashes, V value){
+		for(long chunkHash : chunkHashes)
+			remove(chunkHash, value);
 		return value;
 	}
 

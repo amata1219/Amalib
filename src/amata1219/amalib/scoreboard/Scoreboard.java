@@ -37,7 +37,7 @@ public class Scoreboard {
 
 		//配列の値を前から順にボードの上から下にセットしていく
 		for(int i = 0; i < defaultTexts.length; i++)
-			setText(14 - i, defaultTexts[i]);
+			setScore(14 - i, defaultTexts[i]);
 	}
 
 	//スコアボードが表示されているかどうか
@@ -52,7 +52,7 @@ public class Scoreboard {
 	}
 
 	//指定されたスコアのテキストを書き換える
-	public void updateText(int score, String text){
+	public void updateScore(int score, String text){
 		//スコアが範囲外であればエラーを投げる
 		if(score < 0 || 14 < score)
 			throw new IllegalArgumentException("Score must be in the range 0 to 15");
@@ -61,10 +61,10 @@ public class Scoreboard {
 		board.resetScores(texts[score]);
 
 		//スコアを書き換える
-		setText(score, text);
+		setScore(score, text);
 	}
 
-	public void setText(int score, String text){
+	public void setScore(int score, String text){
 		//複製配列にテキストをセットする
 		texts[score] = text;
 
