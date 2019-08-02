@@ -33,7 +33,7 @@ public class SkullMaker {
 	public static ItemStack fromBase64(String base64){
 		int hash = base64.hashCode();
 		UUID uuid = new UUID(hash, hash);
-		return Bukkit.getUnsafe().modifyItemStack(BASE_SKULL.clone(), TextTemplate.format("{SkullOwner:{Id:\"$0\",Properties:{textures:[{Value:\"$1\"}]}}}", uuid, base64));
+		return Bukkit.getUnsafe().modifyItemStack(BASE_SKULL.clone(), TextTemplate.apply("{SkullOwner:{Id:\"$0\",Properties:{textures:[{Value:\"$1\"}]}}}", uuid, base64));
 	}
 
 }

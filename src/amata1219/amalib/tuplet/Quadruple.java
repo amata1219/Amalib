@@ -1,6 +1,6 @@
 package amata1219.amalib.tuplet;
 
-import amata1219.amalib.text.TextTemplate;
+import amata1219.amalib.string.StringTemplate;
 
 public class Quadruple<F, S, T, FO> {
 
@@ -18,7 +18,7 @@ public class Quadruple<F, S, T, FO> {
 
 	@Override
 	public String toString(){
-		return TextTemplate.format("Tuple(first = $0, second = $1, third = $2, fourth = $3)", first, second, third, fourth);
+		return StringTemplate.apply("Tuple(first = $0, second = $1, third = $2, fourth = $3)", first, second, third, fourth);
 	}
 
 }

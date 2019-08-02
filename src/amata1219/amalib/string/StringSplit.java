@@ -1,8 +1,8 @@
-package amata1219.amalib.text;
+package amata1219.amalib.string;
 
 import java.util.Arrays;
 
-public class TextSplit {
+public class StringSplit {
 
 	public static int[] splitToIntArguments(String text){
 		return Arrays.stream(text.split(","))

@@ -23,7 +23,7 @@ public class SampleUI implements InventoryUI {
 
 			l.put((s) -> {
 				s.icon(Material.NETHER_STAR, (i) -> {
-					i.displayName = TextTemplate.format("Your Level: $0", l.player.getLevel());
+					i.displayName = TextTemplate.apply("Your Level: $0", l.player.getLevel());
 
 					if(i.isGleaming())
 						i.tarnish();
