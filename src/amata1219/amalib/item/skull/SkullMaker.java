@@ -8,7 +8,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
-import amata1219.amalib.text.TextTemplate;
+import amata1219.amalib.string.StringTemplate;
 
 public class SkullMaker {
 
@@ -33,7 +33,7 @@ public class SkullMaker {
 	public static ItemStack fromBase64(String base64){
 		int hash = base64.hashCode();
 		UUID uuid = new UUID(hash, hash);
-		return Bukkit.getUnsafe().modifyItemStack(BASE_SKULL.clone(), TextTemplate.apply("{SkullOwner:{Id:\"$0\",Properties:{textures:[{Value:\"$1\"}]}}}", uuid, base64));
+		return Bukkit.getUnsafe().modifyItemStack(BASE_SKULL.clone(), StringTemplate.apply("{SkullOwner:{Id:\"$0\",Properties:{textures:[{Value:\"$1\"}]}}}", uuid, base64));
 	}
 
 }

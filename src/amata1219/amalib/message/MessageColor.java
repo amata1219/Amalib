@@ -1,14 +1,14 @@
-package amata1219.amalib.text;
+package amata1219.amalib.message;
 
-public class TextColor {
+public class MessageColor {
 
 	private static final String COLORS = "0123456789AaBbCcDdEeFfKkLlMmNnOoRr";
 
-	public static Text color(String text){
+	public static Message color(String text){
 		return color('&', text);
 	}
 
-	public static Text color(char alternateColorCode, String text) {
+	public static Message color(char alternateColorCode, String text) {
 		//文字列を1文字ずつに分解する
 		char[] characters = text.toCharArray();
 
@@ -36,7 +36,7 @@ public class TextColor {
 				i++;
 			}
 		}
-		return Text.wrap(new String(characters));
+		return Message.wrap(new String(characters));
 	}
 
 }

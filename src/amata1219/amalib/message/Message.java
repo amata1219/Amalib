@@ -1,4 +1,4 @@
-package amata1219.amalib.text;
+package amata1219.amalib.message;
 
 import java.util.Collection;
 
@@ -9,15 +9,15 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 
-public class Text {
+public class Message {
 
 	public final String text;
 
-	public static Text wrap(String text){
-		return new Text(text);
+	public static Message wrap(String text){
+		return new Message(text);
 	}
 
-	public Text(String text){
+	public Message(String text){
 		this.text = text;
 	}
 

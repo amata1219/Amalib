@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 
+import amata1219.amalib.event.PlayerJumpEvent;
 import amata1219.amalib.inventory.ui.dsl.component.InventoryLayout;
 import amata1219.amalib.inventory.ui.listener.UIListener;
 
@@ -21,7 +22,8 @@ public class Amalib extends Plugin {
 		);
 
 		registerListeners(
-			new UIListener()
+			UIListener.listener,
+			PlayerJumpEvent.listener
 		);
 	}
 

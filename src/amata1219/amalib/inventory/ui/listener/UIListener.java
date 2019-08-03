@@ -22,6 +22,12 @@ import amata1219.amalib.inventory.ui.dsl.event.UIOpenEvent;
 
 public class UIListener implements Listener {
 
+	public static final UIListener listener = new UIListener();
+
+	private UIListener(){
+
+	}
+
 	@EventHandler
 	public void onClick(InventoryClickEvent event){
 		Inventory displayed = event.getInventory();

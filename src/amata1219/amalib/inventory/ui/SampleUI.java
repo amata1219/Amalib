@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 import amata1219.amalib.inventory.ui.dsl.InventoryUI;
 import amata1219.amalib.inventory.ui.dsl.component.InventoryLayout;
 import amata1219.amalib.inventory.ui.option.InventoryLine;
-import amata1219.amalib.text.TextTemplate;
+import amata1219.amalib.string.StringTemplate;
 
 public class SampleUI implements InventoryUI {
 
@@ -23,7 +23,7 @@ public class SampleUI implements InventoryUI {
 
 			l.put((s) -> {
 				s.icon(Material.NETHER_STAR, (i) -> {
-					i.displayName = TextTemplate.apply("Your Level: $0", l.player.getLevel());
+					i.displayName = StringTemplate.apply("Your Level: $0", l.player.getLevel());
 
 					if(i.isGleaming())
 						i.tarnish();

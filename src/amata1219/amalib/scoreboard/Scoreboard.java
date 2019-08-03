@@ -51,11 +51,15 @@ public class Scoreboard {
 			player.setScoreboard(display ? board : Bukkit.getScoreboardManager().getNewScoreboard());
 	}
 
+	public boolean hasScore(int score){
+		validateScore(score);
+		return texts[score] != null;
+	}
+
 	//指定されたスコアのテキストを書き換える
 	public void updateScore(int score, String text){
 		//スコアが範囲外であればエラーを投げる
-		if(score < 0 || 14 < score)
-			throw new IllegalArgumentException("Score must be in the range 0 to 15");
+		validateScore(score);
 
 		//指定されたスコアを削除する
 		board.resetScores(texts[score]);
@@ -70,6 +74,11 @@ public class Scoreboard {
 
 		//スコアをセットする
 		objective.getScore(text).setScore(score);
+	}
+
+	private void validateScore(int score){
+		if(score < 0 || 14 < score)
+			throw new IllegalArgumentException("Score must be in the range 0 to 15");
 	}
 
 }
