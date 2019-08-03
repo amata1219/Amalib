@@ -14,6 +14,10 @@ public interface BlockLocation extends Location {
 		return (double) getBlockZ();
 	}
 
+	BlockLocation add(int x, int y, int z);
+
+	BlockLocation relative(BlockLocation another);
+
 	default boolean equals(Location location){
 		return location.getBlockX() == getBlockX() && location.getBlockY() == getBlockY() && location.getBlockZ() == getBlockZ() && location.getWorld().equals(getWorld());
 	}

@@ -2,6 +2,7 @@ package amata1219.amalib.message;
 
 import java.util.Collection;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import net.md_5.bungee.api.ChatMessageType;
@@ -25,8 +26,12 @@ public class Message {
 		player.sendMessage(text);
 	}
 
-	public void display(Collection<Player> players){
+	public void display(Collection<? extends Player> players){
 		for(Player player : players) display(player);
+	}
+
+	public void broadcast(){
+		display(Bukkit.getOnlinePlayers());
 	}
 
 	public void displayOnActionBar(Player player){

@@ -29,6 +29,16 @@ public class MutableBlockLocation extends MutableLocation implements BlockLocati
 	}
 
 	@Override
+	public BlockLocation add(int x, int y, int z){
+		return new MutableBlockLocation(world, this.x + x, this.y + y, this.z + z);
+	}
+
+	@Override
+	public BlockLocation relative(BlockLocation another) {
+		return new MutableBlockLocation(world, another.getBlockX() - x, another.getBlockY() - y, another.getBlockZ() - z);
+	}
+
+	@Override
 	public ImmutableBlockLocation asImmutable() {
 		return new ImmutableBlockLocation(world, x, y, z);
 	}
