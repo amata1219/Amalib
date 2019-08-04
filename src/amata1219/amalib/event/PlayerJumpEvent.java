@@ -17,7 +17,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class PlayerJumpEvent extends PlayerEvent {
 
-	public static final PlayerJumpEventListener listener = new PlayerJumpEventListener();
+	public static final DetectPlayerJumpListener listener = new DetectPlayerJumpListener();
 	private static final HandlerList handlers = new HandlerList();
 
 	public PlayerJumpEvent(Player player){
@@ -33,11 +33,11 @@ public class PlayerJumpEvent extends PlayerEvent {
 		return handlers;
 	}
 
-	private static class PlayerJumpEventListener implements Listener {
+	private static class DetectPlayerJumpListener implements Listener {
 
 		private HashMap<UUID, Integer> jumps = new HashMap<>();
 
-		private PlayerJumpEventListener(){
+		private DetectPlayerJumpListener(){
 
 		}
 

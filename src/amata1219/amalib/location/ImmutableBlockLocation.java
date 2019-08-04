@@ -1,16 +1,26 @@
 package amata1219.amalib.location;
 
+import org.bukkit.Bukkit;
 import org.bukkit.World;
 
 public class ImmutableBlockLocation extends ImmutableLocation implements BlockLocation {
 
+	public static ImmutableBlockLocation deserialize(String text){
+		String[] data = text.split(",");
+		return new ImmutableBlockLocation(Bukkit.getWorld(data[0]), Integer.parseInt(data[1]),Integer.parseInt(data[2]), Integer.parseInt(data[3]), Float.parseFloat(data[4]), Float.parseFloat(data[5]));
+	}
+
 	public final int x, y, z;
 
-	public ImmutableBlockLocation(World world, int x, int y, int z) {
-		super(world);
+	public ImmutableBlockLocation(World world, int x, int y, int z, float yaw, float pitch) {
+		super(world, yaw, pitch);
 		this.x = x;
 		this.y = y;
 		this.z = z;
+	}
+
+	public ImmutableBlockLocation(World world, int x, int y, int z) {
+		this(world, x, y, z, 0, 0);
 	}
 
 	@Override
@@ -29,18 +39,23 @@ public class ImmutableBlockLocation extends ImmutableLocation implements BlockLo
 	}
 
 	@Override
-	public BlockLocation add(int x, int y, int z){
-		return new ImmutableBlockLocation(world, this.x + x, this.y + y, this.z + z);
+	public ImmutableBlockLocation add(int x, int y, int z) {
+		return new ImmutableBlockLocation(world, this.x + x, this.y + y, this.z + z, yaw, pitch);
 	}
 
 	@Override
-	public BlockLocation relative(BlockLocation another) {
-		return new ImmutableBlockLocation(world, another.getBlockX() - x, another.getBlockY() - y, another.getBlockZ() - z);
+	public ImmutableBlockLocation relative(int x, int y, int z) {
+		return new ImmutableBlockLocation(world, x - this.x, y - this.y, z - this.z, yaw, pitch);
+	}
+
+	@Override
+	public ImmutableEntityLocation asEntityLocation() {
+		return new ImmutableEntityLocation(world, getEntityX(), getEntityY(), getEntityZ(), yaw, pitch);
 	}
 
 	@Override
 	public MutableBlockLocation asMutable() {
-		return new MutableBlockLocation(world, x, y, z);
+		return new MutableBlockLocation(world, x, y, z, yaw, pitch);
 	}
 
 }

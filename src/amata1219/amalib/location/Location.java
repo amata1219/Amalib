@@ -16,6 +16,10 @@ public interface Location {
 		return x == getBlockX() && y == getBlockY() && z == getBlockZ();
 	}
 
+	Location add(int x, int y, int z);
+
+	Location relative(int x, int y, int z);
+
 	double getEntityX();
 
 	double getEntityY();
@@ -25,6 +29,18 @@ public interface Location {
 	default boolean isLocatedAt(double x, double y, double z){
 		return x == getEntityX() && y == getEntityY() && z == getEntityZ();
 	}
+
+	Location add(double x, double y, double z);
+
+	Location relative(double x, double y, double z);
+
+	float getYaw();
+
+	float getPitch();
+
+	boolean equal(Location location);
+
+	String serialize();
 
 	default org.bukkit.Location asBukkitLocation(){
 		return new org.bukkit.Location(getWorld(), getEntityX(), getEntityY(), getEntityZ());
