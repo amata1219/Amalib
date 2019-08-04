@@ -38,7 +38,7 @@ public interface Location {
 
 	float getPitch();
 
-	boolean equal(Location location);
+	boolean isSame(Location location);
 
 	String serialize();
 

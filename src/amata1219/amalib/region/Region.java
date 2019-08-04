@@ -4,16 +4,16 @@ import org.bukkit.World;
 
 import amata1219.amalib.location.ImmutableBlockLocation;
 import amata1219.amalib.location.Location;
-import amata1219.amalib.string.StringSplit;
+import amata1219.amalib.string.StringTemplate;
 
 public class Region {
 
 	public final World world;
 	public final ImmutableBlockLocation lesserBoundaryCorner, greaterBoundaryCorner;
 
-	public static Region fromString(World world, String text){
-		int[] coordinates = StringSplit.splitToIntArguments(text);
-		return new Region(world, coordinates[0], coordinates[1], coordinates[2], coordinates[3], coordinates[4], coordinates[5]);
+	public static Region deserialize(World world, String text){
+		String[] data = text.split(",");
+		return new Region(world, Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[2]), Integer.parseInt(data[3]), Integer.parseInt(data[4]), Integer.parseInt(data[5]));
 	}
 
 	public Region(Location lesserBoundaryCorner, Location greaterBoundaryCorner){
@@ -84,6 +84,12 @@ public class Region {
 
 	public int getVolume(){
 		return getArea() * getHeight();
+	}
+
+	public String serialize(){
+		return StringTemplate.apply("$0,$1,$2,$3,$4,$5,$6", world.getName(),
+				lesserBoundaryCorner.x, lesserBoundaryCorner.y, lesserBoundaryCorner.z,
+				greaterBoundaryCorner.x, greaterBoundaryCorner.y, greaterBoundaryCorner.z);
 	}
 
 }

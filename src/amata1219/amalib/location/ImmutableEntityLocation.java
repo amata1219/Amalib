@@ -23,6 +23,10 @@ public class ImmutableEntityLocation extends ImmutableLocation implements Entity
 		this(world, x, y, z, 0, 0);
 	}
 
+	public ImmutableEntityLocation(org.bukkit.Location location){
+		this(location.getWorld(), location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
+	}
+
 	@Override
 	public double getEntityX() {
 		return x;

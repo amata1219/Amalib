@@ -23,6 +23,11 @@ public class ImmutableBlockLocation extends ImmutableLocation implements BlockLo
 		this(world, x, y, z, 0, 0);
 	}
 
+	public ImmutableBlockLocation(org.bukkit.Location location){
+		this(location.getWorld(), location.getBlockX(), location.getBlockY(), location.getBlockZ(), location.getYaw(), location.getPitch());
+	}
+
+
 	@Override
 	public int getBlockX() {
 		return x;

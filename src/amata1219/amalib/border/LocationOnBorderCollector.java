@@ -15,7 +15,7 @@ public class LocationOnBorderCollector {
 		//デバッグに当たりEntity/BlockLocation#equalsのworld比較をコメントアウトしている
 		//Region#isIn(doubles)も同様
 
-		Region region = Region.fromString(null, "0,0,0,7,0,2");
+		Region region = Region.deserialize(null, "0,0,0,7,0,2");
 		List<ImmutableEntityLocation> locations = collect(region, 4);
 		System.out.println("LesserBoundaryCorner > " + region.lesserBoundaryCorner.asBukkitLocation().toString());
 		System.out.println("GreaterBoundaryCorner > " + region.greaterBoundaryCorner.asBukkitLocation().toString());

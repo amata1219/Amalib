@@ -46,7 +46,7 @@ public interface BlockLocation extends Location {
 	EntityLocation asEntityLocation();
 
 	@Override
-	default boolean equal(Location location){
+	default boolean isSame(Location location){
 		return location.getBlockX() == getBlockX() && location.getBlockY() == getBlockY()
 				&& location.getBlockZ() == getBlockZ() && location.getWorld().equals(getWorld())
 				&& location.getYaw() == getYaw() && location.getPitch() == getPitch();
