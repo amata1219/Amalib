@@ -22,7 +22,7 @@ public interface InventoryUI extends InventoryHolder {
 
 	@Override
 	default Inventory getInventory(){
-		throw new UnsupportedOperationException("Use InventoryUI#layout().buildInventory() instead.");
+		throw new UnsupportedOperationException("Use InventoryUI#openInvnetory(Player) instead.");
 	}
 
 	default Function<Player, InventoryLayout> build(InventoryOption option, Applier<InventoryLayout> applier){
