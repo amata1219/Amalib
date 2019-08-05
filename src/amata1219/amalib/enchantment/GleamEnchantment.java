@@ -13,6 +13,14 @@ public class GleamEnchantment extends Enchantment {
 		item.addEnchantment(GLEAM_ENCHANTMENT, 1);
 	}
 
+	public static boolean isGleaming(ItemStack item){
+		return item.containsEnchantment(GLEAM_ENCHANTMENT);
+	}
+
+	public static void tarnish(ItemStack item){
+		item.removeEnchantment(GLEAM_ENCHANTMENT);
+	}
+
 	private GleamEnchantment() {
 		super(NamespacedKey.minecraft("gleam"));
 	}
