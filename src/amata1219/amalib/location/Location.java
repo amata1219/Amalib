@@ -34,6 +34,8 @@ public interface Location {
 
 	Location relative(double x, double y, double z);
 
+	Location middle();
+
 	float getYaw();
 
 	float getPitch();

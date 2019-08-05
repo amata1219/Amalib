@@ -65,8 +65,7 @@ public class Icon {
 		final boolean accept = Reflection.getFieldValue(acceptingNew, null);
 
 		//エンチャント登録が許可された状態にする
-		if(!accept)
-			Reflection.setFieldValue(acceptingNew, null, true);
+		Reflection.setFieldValue(acceptingNew, null, true);
 
 		try{
 			Enchantment.registerEnchantment(GLEAM_ENCHANTMENT);
@@ -74,8 +73,7 @@ public class Icon {
 			//既に登録されていれば問題無いので無視する
 		}finally{
 			//元の状態に戻す
-			if(!accept)
-				Reflection.setFieldValue(acceptingNew, null, false);
+			Reflection.setFieldValue(acceptingNew, null, accept);
 		}
 	}
 
@@ -155,7 +153,7 @@ public class Icon {
 
 		@Override
 		public boolean canEnchantItem(ItemStack arg0) {
-			return false;
+			return true;
 		}
 
 		@Override

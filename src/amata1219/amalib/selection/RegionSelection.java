@@ -5,6 +5,7 @@ import org.bukkit.World;
 import amata1219.amalib.location.ImmutableBlockLocation;
 import amata1219.amalib.location.Location;
 import amata1219.amalib.location.MutableBlockLocation;
+import amata1219.amalib.region.Region;
 import amata1219.amalib.string.StringTemplate;
 
 public class RegionSelection {
@@ -66,6 +67,10 @@ public class RegionSelection {
 			Math.max(boundaryCorner1.y, boundaryCorner2.y),
 			Math.max(boundaryCorner1.z, boundaryCorner2.z)
 		);
+	}
+
+	public Region makeRegion(){
+		return new Region(getLesserBoundaryCorner(), getGreaterBoundaryCorner());
 	}
 
 	@Override
