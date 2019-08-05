@@ -23,4 +23,8 @@ public interface Sync extends Runnable {
 		return Bukkit.getScheduler().runTaskTimer(Amalib.getPlugin(), this, period, delay);
 	}
 
+	public default BukkitTask executeTimer(long interval){
+		return executeTimer(interval, interval);
+	}
+
 }

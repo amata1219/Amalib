@@ -23,4 +23,8 @@ public interface Async extends Runnable {
 		return Bukkit.getScheduler().runTaskTimerAsynchronously(Amalib.getPlugin(), this, period, delay);
 	}
 
+	public default BukkitTask executeTimer(long interval){
+		return executeTimer(interval, interval);
+	}
+
 }
