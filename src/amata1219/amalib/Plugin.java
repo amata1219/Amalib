@@ -1,8 +1,10 @@
 package amata1219.amalib;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 
 import org.bukkit.command.CommandSender;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -10,6 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import amata1219.amalib.command.Arguments;
 import amata1219.amalib.command.Command;
 import amata1219.amalib.command.Sender;
+import amata1219.amalib.reflection.Reflection;
 
 public class Plugin extends JavaPlugin {
 
@@ -42,6 +45,26 @@ public class Plugin extends JavaPlugin {
 	protected void registerListeners(Listener... listeners){
 		for(Listener listener : listeners)
 			getServer().getPluginManager().registerEvents(listener, this);
+	}
+
+	protected void registerEnchantments(Enchantment... enchantments){
+		Field acceptingNew = Reflection.getField(Enchantment.class, "acceptingNew");
+
+		//状態を保存する
+		final boolean accept = Reflection.getFieldValue(acceptingNew, null);
+
+		//エンチャント登録が許可された状態にする
+		Reflection.setFieldValue(acceptingNew, null, true);
+
+		try{
+			//エンチャントを登録する
+			for(Enchantment enchantment : enchantments) Enchantment.registerEnchantment(enchantment);
+		}catch(Exception e){
+			//既に登録されていれば問題無いので無視する
+		}finally{
+			//元の状態に戻す
+			Reflection.setFieldValue(acceptingNew, null, accept);
+		}
 	}
 
 }
