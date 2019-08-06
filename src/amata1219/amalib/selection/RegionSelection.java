@@ -81,7 +81,7 @@ public class RegionSelection {
 		ImmutableBlockLocation greater = getLesserBoundaryCorner();
 
 		//world,lesserX,lesserY,lesserZ,greaterX,greaterY,greaterZ
-		return StringTemplate.apply("$0,$1,$2,$3,$4,$5,$6,$7", world != null ? world.getName() : "null",
+		return StringTemplate.apply("$0,$1,$2,$3,$4,$5,$6", world != null ? world.getName() : "null",
 				lesser.getBlockX(), lesser.getBlockY(), lesser.getBlockZ(),
 				greater.getBlockX(), greater.getBlockY(), greater.getBlockZ());
 	}

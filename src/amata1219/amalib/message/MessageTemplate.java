@@ -13,7 +13,7 @@ public class MessageTemplate {
 	}
 
 	public static Message applyWithColor(String text, Object... objects){
-		return Message.wrap(StringTemplate.applyWithColor(text, objects));
+		return Message.wrap(StringTemplate.capply(text, objects));
 	}
 
 }

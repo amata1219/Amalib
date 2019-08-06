@@ -13,7 +13,7 @@ public class StringTemplate {
 		return text;
 	}
 
-	public static String applyWithColor(String text, Object... objects){
+	public static String capply(String text, Object... objects){
 		return apply(StringColor.color('&', text), objects);
 	}
 

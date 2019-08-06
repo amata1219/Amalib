@@ -3,6 +3,7 @@ package amata1219.amalib.string;
 public class StringColor {
 
 	private static final String COLORS = "0123456789AaBbCcDdEeFfKkLlMmNnOoRr";
+	private static final String NULL = String.valueOf(Character.MIN_VALUE);
 
 	public static String color(String text){
 		return color('&', text);
@@ -36,7 +37,7 @@ public class StringColor {
 				i++;
 			}
 		}
-		return new String(characters);
+		return new String(characters).replace(NULL, "");
 	}
 
 }
