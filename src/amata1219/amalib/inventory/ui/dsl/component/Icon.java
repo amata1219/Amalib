@@ -87,29 +87,6 @@ public class Icon {
 			raw.apply(item);
 	}
 
-	//アイコンの情報を受け取ったアイテムのそれで上書きする
-	public void overwrite(ItemStack item){
-		basedItemStack = item;
-
-		material = item.getType();
-		amount = item.getAmount();
-
-		if(item.hasItemMeta()){
-			ItemMeta meta = item.getItemMeta();
-
-			damage = meta instanceof Damageable ? ((Damageable) meta).getDamage() : 0;
-
-			displayName = meta.getDisplayName();
-
-			if(meta.hasLore())
-				lore.addAll(meta.getLore());
-
-			enchantments.putAll(meta.getEnchants());
-
-			flags.addAll(meta.getItemFlags());
-		}
-	}
-
 	public void lore(String... texts){
 		lore = Arrays.asList(texts);
 	}
