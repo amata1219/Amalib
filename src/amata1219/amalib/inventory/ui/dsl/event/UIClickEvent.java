@@ -5,6 +5,7 @@ import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import amata1219.amalib.inventory.ui.dsl.component.Icon;
 import amata1219.amalib.inventory.ui.dsl.component.InventoryLayout;
@@ -31,13 +32,13 @@ public class UIClickEvent extends UIEvent {
 		slot = event.getSlot();
 		rawSlot = event.getRawSlot();
 
-		currentIcon = new Icon();
-		currentIcon.overwrite(event.getCurrentItem());
+		ItemStack currentItem = event.getCurrentItem();
+		currentIcon = currentItem != null ? new Icon(currentItem) : null;
 
 		hotbarKey = event.getHotbarButton();
 
-		cursorIcon = new Icon();
-		cursorIcon.overwrite(event.getCursor());
+		ItemStack cursorItem = event.getCursor();
+		cursorIcon = cursorItem != null ? new Icon(cursorItem) : null;
 
 		clickedInventory = event.getClickedInventory();
 	}

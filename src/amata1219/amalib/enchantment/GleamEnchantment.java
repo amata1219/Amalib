@@ -10,15 +10,15 @@ public class GleamEnchantment extends Enchantment {
 	public static final GleamEnchantment GLEAM_ENCHANTMENT = new GleamEnchantment();
 
 	public static void gleam(ItemStack item){
-		item.addEnchantment(GLEAM_ENCHANTMENT, 1);
-	}
-
-	public static boolean isGleaming(ItemStack item){
-		return item.containsEnchantment(GLEAM_ENCHANTMENT);
+		item.addEnchantment(GLEAM_ENCHANTMENT, 0);
 	}
 
 	public static void tarnish(ItemStack item){
 		item.removeEnchantment(GLEAM_ENCHANTMENT);
+	}
+
+	public static boolean isGleaming(ItemStack item){
+		return item.containsEnchantment(GLEAM_ENCHANTMENT);
 	}
 
 	private GleamEnchantment() {
@@ -42,7 +42,7 @@ public class GleamEnchantment extends Enchantment {
 
 	@Override
 	public int getMaxLevel() {
-		return 1;
+		return 0;
 	}
 
 	@Override
@@ -52,7 +52,7 @@ public class GleamEnchantment extends Enchantment {
 
 	@Override
 	public int getStartLevel() {
-		return 1;
+		return 0;
 	}
 
 	@Override
@@ -64,5 +64,6 @@ public class GleamEnchantment extends Enchantment {
 	public boolean isTreasure() {
 		return false;
 	}
+
 
 }

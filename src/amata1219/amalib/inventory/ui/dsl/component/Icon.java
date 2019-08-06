@@ -52,6 +52,10 @@ public class Icon {
 
 	}
 
+	public Icon(ItemStack basedItemStack){
+		this.basedItemStack = basedItemStack;
+	}
+
 	public ItemStack toItemStack(){
 		ItemStack item = basedItemStack != null ? basedItemStack.clone() : new ItemStack(material);
 		apply(item);
@@ -62,9 +66,9 @@ public class Icon {
 	public void apply(ItemStack item){
 		item.setAmount(amount);
 
-		if(item.hasItemMeta()){
-			ItemMeta meta = item.getItemMeta();
+		ItemMeta meta = item.getItemMeta();
 
+		if(meta != null){
 			meta.setDisplayName(displayName);
 			meta.setLore(lore);
 
@@ -96,7 +100,9 @@ public class Icon {
 			damage = meta instanceof Damageable ? ((Damageable) meta).getDamage() : 0;
 
 			displayName = meta.getDisplayName();
-			lore.addAll(meta.getLore());
+
+			if(meta.hasLore())
+				lore.addAll(meta.getLore());
 
 			enchantments.putAll(meta.getEnchants());
 
@@ -109,15 +115,15 @@ public class Icon {
 	}
 
 	public void gleam(){
-		enchantments.put(GleamEnchantment.GLEAM_ENCHANTMENT, 1);
-	}
-
-	public boolean isGleaming(){
-		return enchantments.containsKey(GleamEnchantment.GLEAM_ENCHANTMENT);
+		enchantments.put(GleamEnchantment.GLEAM_ENCHANTMENT, 0);
 	}
 
 	public void tarnish(){
 		enchantments.remove(GleamEnchantment.GLEAM_ENCHANTMENT);
+	}
+
+	public boolean isGleaming(){
+		return enchantments.containsKey(GleamEnchantment.GLEAM_ENCHANTMENT);
 	}
 
 }

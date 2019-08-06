@@ -1,14 +1,19 @@
 package amata1219.amalib.yaml;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.logging.Level;
 
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import amata1219.amalib.string.StringTemplate;
 
 public class Yaml extends YamlConfiguration {
 
@@ -28,13 +33,14 @@ public class Yaml extends YamlConfiguration {
 	public Yaml(JavaPlugin plugin, File file, String resourceFileName){
 		this.plugin = plugin;
 		this.file = file;
-		this.resourceFileName = resourceFileName;
+		this.resourceFileName = resourceFileName.replace('\\', '/');
 
 		String fileName = file.getName();
 		name = fileName.substring(0, fileName.length() - 4);
 
-		if(!file.exists())
-			plugin.saveResource(resourceFileName, false);
+		saveResource(resourceFileName);
+
+		reload();
 	}
 
 	public void save(){
@@ -62,6 +68,33 @@ public class Yaml extends YamlConfiguration {
 	public void update(){
 		save();
 		reload();
+	}
+
+	private void saveResource(String resourceFileName){
+		if(file.exists()) return;
+
+		InputStream in = plugin.getResource(resourceFileName);
+		if(in == null)
+			throw new IllegalArgumentException(StringTemplate.apply("The embedded resource '$0' cannot be found in $1", resourceFileName, file));
+
+		String path = file.getPath();
+		int lastIndex = path.lastIndexOf(47);
+		File outDir = new File(file.getParent(), path.substring(0, (lastIndex >= 0) ? lastIndex : 0));
+
+		if (outDir.exists()) outDir.mkdirs();
+
+		OutputStream output = null;
+
+		try{
+			output = new FileOutputStream(file);
+			byte[] buf = new byte[1024];
+			int length = 0;
+			while ((length = in.read(buf)) > 0) output.write(buf, 0, length);
+			output.close();
+			in.close();
+		}catch(IOException ex){
+			plugin.getLogger().log(Level.SEVERE, StringTemplate.apply("Cound not save $0 to $1", file.getName(), file), ex);
+		}
 	}
 
 }
