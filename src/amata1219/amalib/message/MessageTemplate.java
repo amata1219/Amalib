@@ -12,7 +12,7 @@ public class MessageTemplate {
 		return Message.wrap(StringTemplate.apply(text, alternateCode, objects));
 	}
 
-	public static Message applyWithColor(String text, Object... objects){
+	public static Message capply(String text, Object... objects){
 		return Message.wrap(StringTemplate.capply(text, objects));
 	}
 
