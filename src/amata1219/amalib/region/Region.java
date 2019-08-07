@@ -100,8 +100,16 @@ public class Region {
 		return new Region(lesserBoundaryCorner.add(x, y, z), greaterBoundaryCorner.add(x, y, z));
 	}
 
+	public Region add(Location location){
+		return add(location.getBlockX(), location.getBlockY(), location.getBlockZ());
+	}
+
 	public Region relative(int x, int y, int z){
 		return new Region(lesserBoundaryCorner.relative(x, y, z), greaterBoundaryCorner.relative(x, y, z));
+	}
+
+	public Region relative(Location location){
+		return relative(location.getBlockX(), location.getBlockY(), location.getBlockZ());
 	}
 
 	public String serialize(){

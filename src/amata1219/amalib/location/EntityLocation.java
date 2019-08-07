@@ -24,7 +24,7 @@ public interface EntityLocation extends Location {
 	@Override
 	EntityLocation add(double x, double y, double z);
 
-	default EntityLocation add(EntityLocation location){
+	default EntityLocation add(Location location){
 		return add(location.getEntityX(), location.getEntityY(), location.getEntityZ());
 	}
 
@@ -36,7 +36,7 @@ public interface EntityLocation extends Location {
 	@Override
 	EntityLocation relative(double x, double y, double z);
 
-	default EntityLocation relative(EntityLocation location){
+	default EntityLocation relative(Location location){
 		return relative(location.getEntityX(), location.getEntityY(), location.getEntityZ());
 	}
 

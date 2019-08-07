@@ -1,4 +1,4 @@
-package amata1219.amalib.collection.lockable;
+package amata1219.amalib.collection;
 
 import java.util.UUID;
 
