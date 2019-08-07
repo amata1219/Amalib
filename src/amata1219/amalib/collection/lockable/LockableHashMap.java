@@ -1,4 +1,4 @@
-package amata1219.amalib.collection;
+package amata1219.amalib.collection.lockable;
 
 import java.util.HashMap;
 import java.util.Map;

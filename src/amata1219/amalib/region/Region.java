@@ -1,19 +1,29 @@
 package amata1219.amalib.region;
 
+import org.bukkit.Bukkit;
 import org.bukkit.World;
 
 import amata1219.amalib.location.ImmutableBlockLocation;
 import amata1219.amalib.location.Location;
 import amata1219.amalib.string.StringTemplate;
+import amata1219.amalib.tuplet.Tuple;
 
 public class Region {
 
 	public final World world;
 	public final ImmutableBlockLocation lesserBoundaryCorner, greaterBoundaryCorner;
 
-	public static Region deserialize(World world, String text){
+	public static Region deserialize(String text){
+		Tuple<ImmutableBlockLocation, ImmutableBlockLocation> corners = deserializeToCorners(text);
+		return new Region(corners.first, corners.second);
+	}
+
+	public static Tuple<ImmutableBlockLocation, ImmutableBlockLocation> deserializeToCorners(String text){
 		String[] data = text.split(",");
-		return new Region(world, Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[2]), Integer.parseInt(data[3]), Integer.parseInt(data[4]), Integer.parseInt(data[5]));
+		World world = Bukkit.getWorld(data[0]);
+		ImmutableBlockLocation lesserBoundaryCorner = new ImmutableBlockLocation(world, Integer.parseInt(data[1]), Integer.parseInt(data[2]), Integer.parseInt(data[3]));
+		ImmutableBlockLocation greaterBoundaryCorner = new ImmutableBlockLocation(world, Integer.parseInt(data[4]), Integer.parseInt(data[5]), Integer.parseInt(data[6]));
+		return new Tuple<>(lesserBoundaryCorner, greaterBoundaryCorner);
 	}
 
 	public Region(Location lesserBoundaryCorner, Location greaterBoundaryCorner){
@@ -84,6 +94,14 @@ public class Region {
 
 	public int getVolume(){
 		return getArea() * getHeight();
+	}
+
+	public Region add(int x, int y, int z){
+		return new Region(lesserBoundaryCorner.add(x, y, z), greaterBoundaryCorner.add(x, y, z));
+	}
+
+	public Region relative(int x, int y, int z){
+		return new Region(lesserBoundaryCorner.relative(x, y, z), greaterBoundaryCorner.relative(x, y, z));
 	}
 
 	public String serialize(){

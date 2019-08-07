@@ -11,21 +11,6 @@ import amata1219.amalib.region.Region;
 
 public class LocationOnBorderCollector {
 
-	public static void main(String[] $){
-		//デバッグに当たりEntity/BlockLocation#equalsのworld比較をコメントアウトしている
-		//Region#isIn(doubles)も同様
-
-		Region region = Region.deserialize(null, "0,0,0,7,0,2");
-		List<ImmutableEntityLocation> locations = collect(region, 4);
-		System.out.println("LesserBoundaryCorner > " + region.lesserBoundaryCorner.asBukkitLocation().toString());
-		System.out.println("GreaterBoundaryCorner > " + region.greaterBoundaryCorner.asBukkitLocation().toString());
-		System.out.println("Interval > " + String.format("%.2f", 1D / 4));
-		System.out.println("Size > " + locations.size());
-		for(ImmutableEntityLocation location : locations){
-			System.out.println("X > " + String.format("%.2f", location.getEntityX()) + " Z > " + String.format("%.2f", location.getEntityZ()));
-		}
-	}
-
 	public static List<ImmutableEntityLocation> collect(Region region, int howManyPointsInBlock){
 		if(howManyPointsInBlock <= 0)
 			throw new IllegalArgumentException("Points in block must be one or more");
