@@ -127,8 +127,7 @@ public class Arguments {
 			String[] args = arguments.args;
 			int index = arguments.index;
 			try{
-				System.out.println("Check: " + (args.length - 1 > index ? args[index + 1] : ""));
-				checker.accept(args.length > index + 1 ? args[index + 1] : "");
+				checker.accept(args.length > index ? args[index] : "");
 			}catch(Exception e){
 				return false;
 			}
