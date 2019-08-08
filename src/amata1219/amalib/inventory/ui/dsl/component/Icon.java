@@ -21,31 +21,14 @@ import amata1219.amalib.inventory.ui.Applier;
 
 public class Icon {
 
-	//基となるアイテム
 	public ItemStack basedItemStack;
-
-	//マテリアル
 	public Material material = Material.AIR;
-
-	//個数
 	public int amount = 1;
-
-	//耐久値
 	public int damage;
-
-	//表示名
 	public String displayName;
-
-	//説明文
 	public List<String> lore = new ArrayList<>();
-
-	//エンチャントのマップ
 	public Map<Enchantment, Integer> enchantments = new HashMap<>();
-
-	//アイテムフラグのリスト
 	public Set<ItemFlag> flags = new HashSet<>();
-
-	//ItemStack自体に適用する処理
 	public Applier<ItemStack> raw;
 
 	public Icon(){
@@ -54,10 +37,28 @@ public class Icon {
 
 	public Icon(ItemStack basedItemStack){
 		this.basedItemStack = basedItemStack;
+
+		material = basedItemStack.getType();
+		amount = basedItemStack.getAmount();
+
+		ItemMeta meta = basedItemStack.getItemMeta();
+
+		if(meta != null){
+			damage = meta instanceof Damageable ? ((Damageable) meta).getDamage() : 0;
+
+			displayName = meta.getDisplayName();
+			lore = meta.getLore();
+
+			enchantments = meta.getEnchants();
+
+			flags = meta.getItemFlags();
+
+			basedItemStack.setItemMeta(meta);
+		}
 	}
 
 	public ItemStack toItemStack(){
-		ItemStack item = basedItemStack != null ? basedItemStack.clone() : new ItemStack(material);
+		ItemStack item = basedItemStack != null ? basedItemStack : new ItemStack(material);
 		apply(item);
 		return item;
 	}
@@ -69,16 +70,14 @@ public class Icon {
 		ItemMeta meta = item.getItemMeta();
 
 		if(meta != null){
+			if(meta instanceof Damageable) ((Damageable) meta).setDamage(damage);
+
 			meta.setDisplayName(displayName);
 			meta.setLore(lore);
 
-			for(Entry<Enchantment, Integer> entry : enchantments.entrySet())
-				meta.addEnchant(entry.getKey(), entry.getValue(), true);
+			for(Entry<Enchantment, Integer> entry : enchantments.entrySet()) meta.addEnchant(entry.getKey(), entry.getValue(), true);
 
 			meta.addItemFlags(flags.toArray(new ItemFlag[flags.size()]));
-
-			if(meta instanceof Damageable)
-				((Damageable) meta).setDamage(damage);
 
 			item.setItemMeta(meta);
 		}
