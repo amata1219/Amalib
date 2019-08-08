@@ -47,11 +47,11 @@ public class Icon {
 			damage = meta instanceof Damageable ? ((Damageable) meta).getDamage() : 0;
 
 			displayName = meta.getDisplayName();
-			lore = meta.getLore();
+			if(meta.hasLore()) lore.addAll(meta.getLore());
 
-			enchantments = meta.getEnchants();
+			enchantments.putAll(meta.getEnchants());
 
-			flags = meta.getItemFlags();
+			flags.addAll(meta.getItemFlags());
 
 			basedItemStack.setItemMeta(meta);
 		}
@@ -75,6 +75,7 @@ public class Icon {
 			meta.setDisplayName(displayName);
 			meta.setLore(lore);
 
+			meta.getEnchants().keySet().forEach(meta::removeEnchant);
 			for(Entry<Enchantment, Integer> entry : enchantments.entrySet()) meta.addEnchant(entry.getKey(), entry.getValue(), true);
 
 			meta.addItemFlags(flags.toArray(new ItemFlag[flags.size()]));

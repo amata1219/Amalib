@@ -48,10 +48,10 @@ public class UIListener implements Listener {
 		layout.fire(clickEvent);
 
 		Icon currentIcon = clickEvent.currentIcon;
-		if(currentIcon != null) currentIcon.apply(currentIcon.basedItemStack);
+		if(currentIcon != null) currentIcon.apply(event.getCurrentItem());
 
 		Icon cursorIcon = clickEvent.cursorIcon;
-		if(cursorIcon != null) cursorIcon.apply(cursorIcon.basedItemStack);
+		if(cursorIcon != null) cursorIcon.apply(event.getCursor());
 	}
 
 	@EventHandler
