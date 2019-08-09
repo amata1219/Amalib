@@ -9,11 +9,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.HandlerList;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+
+import amata1219.amalib.listener.PlayerJoinListener;
+import amata1219.amalib.listener.PlayerQuitListener;
 
 public class PlayerJumpEvent extends PlayerEvent {
 
@@ -33,7 +35,7 @@ public class PlayerJumpEvent extends PlayerEvent {
 		return handlers;
 	}
 
-	private static class PlayerJumpListener implements Listener {
+	private static class PlayerJumpListener implements PlayerJoinListener, PlayerQuitListener {
 
 		private HashMap<UUID, Integer> jumps = new HashMap<>();
 
@@ -42,13 +44,13 @@ public class PlayerJumpEvent extends PlayerEvent {
 		}
 
 		@EventHandler(priority = EventPriority.MONITOR)
-		public void onPlayerJoin(PlayerJoinEvent event) {
+		public void onJoin(PlayerJoinEvent event) {
 			Player player = event.getPlayer();
 			jumps.put(player.getUniqueId(), getJumps(player));
 		}
 
 		@EventHandler(priority = EventPriority.MONITOR)
-		public void onPlayerQuit(PlayerQuitEvent event) {
+		public void onQuit(PlayerQuitEvent event) {
 			jumps.remove(event.getPlayer().getUniqueId());
 		}
 

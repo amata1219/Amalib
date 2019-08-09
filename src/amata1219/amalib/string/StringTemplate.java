@@ -14,7 +14,7 @@ public class StringTemplate {
 	}
 
 	public static String capply(String text, Object... objects){
-		return apply(StringColor.color('&', text), objects);
+		return StringColor.color(apply(text, objects));
 	}
 
 }

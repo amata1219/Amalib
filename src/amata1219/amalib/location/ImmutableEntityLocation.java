@@ -54,7 +54,7 @@ public class ImmutableEntityLocation extends ImmutableLocation implements Entity
 
 	@Override
 	public ImmutableEntityLocation middle(){
-		return new ImmutableEntityLocation(world, getBlockX() + 0.5, getBlockY(), getBlockZ() + 0.5);
+		return new ImmutableEntityLocation(world, getBlockX() + (getBlockX() >= 0 ? 0.5 : -0.5), getBlockY(), getBlockZ() + (getBlockZ() >= 0 ? 0.5 : -0.5), yaw, pitch);
 	}
 
 	@Override

@@ -55,7 +55,7 @@ public class ImmutableBlockLocation extends ImmutableLocation implements BlockLo
 
 	@Override
 	public ImmutableEntityLocation middle(){
-		return new ImmutableEntityLocation(world, x + 0.5, y, z + 0.5, yaw, pitch);
+		return new ImmutableEntityLocation(world, x + (x >= 0 ? 0.5 : -0.5), y, z + (z >= 0 ? 0.5 : -0.5), yaw, pitch);
 	}
 
 	@Override

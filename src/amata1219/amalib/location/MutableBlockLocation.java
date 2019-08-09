@@ -50,7 +50,7 @@ public class MutableBlockLocation extends MutableLocation implements BlockLocati
 
 	@Override
 	public MutableEntityLocation middle(){
-		return new MutableEntityLocation(world, x + 0.5, y, z + 0.5, yaw, pitch);
+		return new MutableEntityLocation(world, x + (x >= 0 ? 0.5 : -0.5), y, z + (x >= 0 ? 0.5 : -0.5), yaw, pitch);
 	}
 
 	@Override

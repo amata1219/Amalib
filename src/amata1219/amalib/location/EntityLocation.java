@@ -51,7 +51,7 @@ public interface EntityLocation extends Location {
 
 	@Override
 	default String serialize(){
-		return StringTemplate.apply("$0,$1,$2,$3,$4,$5", getWorld(), getEntityX(), getEntityY(), getEntityZ(), getYaw(), getPitch());
+		return StringTemplate.apply("$0,$1,$2,$3,$4,$5", getWorld().getName(), getEntityX(), getEntityY(), getEntityZ(), getYaw(), getPitch());
 	}
 
 }
