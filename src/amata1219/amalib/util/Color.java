@@ -1,4 +1,4 @@
-package amata1219.amalib.color;
+package amata1219.amalib.util;
 
 import java.util.Random;
 

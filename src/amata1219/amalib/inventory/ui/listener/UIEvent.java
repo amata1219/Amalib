@@ -1,4 +1,4 @@
-package amata1219.amalib.inventory.ui.dsl.event;
+package amata1219.amalib.inventory.ui.listener;
 
 import java.util.List;
 import java.util.stream.Collectors;

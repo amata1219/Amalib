@@ -1,4 +1,4 @@
-package amata1219.amalib.inventory.ui.dsl.event;
+package amata1219.amalib.inventory.ui.listener;
 
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryAction;
@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import amata1219.amalib.inventory.ui.dsl.component.Icon;
 import amata1219.amalib.inventory.ui.dsl.component.InventoryLayout;
 
-public class UIClickEvent extends UIEvent {
+public class ClickEvent extends UIEvent {
 
 	public final ClickType click;
 	public final InventoryAction action;
@@ -22,7 +22,7 @@ public class UIClickEvent extends UIEvent {
 	public final Icon cursorIcon;
 	public final Inventory clickedInventory;
 
-	public UIClickEvent(InventoryLayout layout, InventoryClickEvent event) {
+	public ClickEvent(InventoryLayout layout, InventoryClickEvent event) {
 		super(layout, event.getWhoClicked(), event);
 
 		click = event.getClick();

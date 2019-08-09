@@ -13,9 +13,9 @@ import org.bukkit.inventory.InventoryHolder;
 
 import amata1219.amalib.inventory.ui.Applier;
 import amata1219.amalib.inventory.ui.dsl.InventoryUI;
-import amata1219.amalib.inventory.ui.dsl.event.UIClickEvent;
-import amata1219.amalib.inventory.ui.dsl.event.UICloseEvent;
-import amata1219.amalib.inventory.ui.dsl.event.UIOpenEvent;
+import amata1219.amalib.inventory.ui.listener.ClickEvent;
+import amata1219.amalib.inventory.ui.listener.CloseEvent;
+import amata1219.amalib.inventory.ui.listener.OpenEvent;
 import amata1219.amalib.inventory.ui.option.InventoryOption;
 import amata1219.amalib.schedule.Async;
 
@@ -40,19 +40,19 @@ public class InventoryLayout {
 	public boolean asynchronouslyRunActionOnClick;
 
 	//クリック処理
-	private Consumer<UIClickEvent> actionOnClick = (event) -> {};
+	private Consumer<ClickEvent> actionOnClick = (event) -> {};
 
 	//非同期でオープン処理を実行するかどうか
 	public boolean asynchronouslyRunActionOnOpen;
 
 	//オープン処理
-	private Consumer<UIOpenEvent> actionOnOpen = (event) -> {};
+	private Consumer<OpenEvent> actionOnOpen = (event) -> {};
 
 	//非同期でクローズ処理を実行するかどうか
 	public boolean asynchronouslyRunActionOnClose;
 
 	//クローズ処理
-	private Consumer<UICloseEvent> actionOnClose = (event) -> {};
+	private Consumer<CloseEvent> actionOnClose = (event) -> {};
 
 	public InventoryLayout(Player player, InventoryUI ui, InventoryOption option){
 		this.player = player;
@@ -96,36 +96,36 @@ public class InventoryLayout {
 			slots.remove(slotIndex);
 	}
 
-	public void onClick(Consumer<UIClickEvent> action){
+	public void onClick(Consumer<ClickEvent> action){
 		Validate.notNull(action, "Action can not be null");
 		actionOnClick = action;
 	}
 
-	public void fire(UIClickEvent event){
+	public void fire(ClickEvent event){
 		if(asynchronouslyRunActionOnClick)
 			Async.define(() -> actionOnClick.accept(event)).execute();
 		else
 			actionOnClick.accept(event);
 	}
 
-	public void onOpen(Consumer<UIOpenEvent> action){
+	public void onOpen(Consumer<OpenEvent> action){
 		Validate.notNull(action, "Action can not be null");
 		actionOnOpen = action;
 	}
 
-	public void fire(UIOpenEvent event){
+	public void fire(OpenEvent event){
 		if(asynchronouslyRunActionOnOpen)
 			Async.define(() -> actionOnOpen.accept(event)).execute();
 		else
 			actionOnOpen.accept(event);
 	}
 
-	public void onClose(Consumer<UICloseEvent> action){
+	public void onClose(Consumer<CloseEvent> action){
 		Validate.notNull(action, "Action can not be null");
 		actionOnClose = action;
 	}
 
-	public void fire(UICloseEvent event){
+	public void fire(CloseEvent event){
 		if(asynchronouslyRunActionOnClose)
 			Async.define(() -> actionOnClose.accept(event)).execute();
 		else

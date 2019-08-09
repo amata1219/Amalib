@@ -1,5 +1,8 @@
 package amata1219.amalib.packet.logger;
 
+import java.util.Map;
+import java.util.Map.Entry;
+
 import org.bukkit.entity.Player;
 
 import amata1219.amalib.packet.PacketHandler;
@@ -9,12 +12,14 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.ChannelPromise;
-import net.minecraft.server.v1_13_R2.IChatBaseComponent;
-import net.minecraft.server.v1_13_R2.IScoreboardCriteria.EnumScoreboardHealthDisplay;
-import net.minecraft.server.v1_13_R2.PacketPlayOutScoreboardDisplayObjective;
-import net.minecraft.server.v1_13_R2.PacketPlayOutScoreboardObjective;
-import net.minecraft.server.v1_13_R2.PacketPlayOutScoreboardScore;
-import net.minecraft.server.v1_13_R2.ScoreboardServer.Action;
+import net.minecraft.server.v1_13_R2.Advancement;
+import net.minecraft.server.v1_13_R2.Advancement.SerializedAdvancement;
+import net.minecraft.server.v1_13_R2.AdvancementDisplay;
+import net.minecraft.server.v1_13_R2.AdvancementRequirements;
+import net.minecraft.server.v1_13_R2.AdvancementRewards;
+import net.minecraft.server.v1_13_R2.Criterion;
+import net.minecraft.server.v1_13_R2.MinecraftKey;
+import net.minecraft.server.v1_13_R2.PacketPlayOutAdvancements;
 
 public class PacketLogger extends PacketHandler {
 
@@ -46,7 +51,7 @@ public class PacketLogger extends PacketHandler {
 	@Override
 	public void write(ChannelHandlerContext context, Object message, ChannelPromise promise) throws Exception {
 		String name = message.getClass().getSimpleName();
-		if(name.equals("PacketPlayOutScoreboardDisplayObjective")){
+		/*if(name.equals("PacketPlayOutScoreboardDisplayObjective")){
 			PacketPlayOutScoreboardDisplayObjective packet = (PacketPlayOutScoreboardDisplayObjective) message;
 			int a = Reflection.getFieldValue(Reflection.getField(packet.getClass(), "a"), packet);
 			String b = Reflection.getFieldValue(Reflection.getField(packet.getClass(), "b"), packet);
@@ -75,8 +80,8 @@ public class PacketLogger extends PacketHandler {
 			log("String b: " + b);
 			log("int c: " + c);
 			log("Action d: " + d.toString());
-		}
-		/*if(name.equals("PacketPlayOutAdvancements")){
+		}*/
+		if(name.equals("PacketPlayOutAdvancements")){
 			System.out.println("write @ " + name);
 			PacketPlayOutAdvancements packet = (PacketPlayOutAdvancements) message;
 			Map<MinecraftKey, SerializedAdvancement> b = Reflection.getFieldValue(Reflection.getField(PacketPlayOutAdvancements.class, "b"), packet);
@@ -84,19 +89,36 @@ public class PacketLogger extends PacketHandler {
 				MinecraftKey key = entry.getKey();
 				System.out.println(key.toString());
 				SerializedAdvancement ad = entry.getValue();
-				/*
-				 * private MinecraftKey a;
+				 /*private MinecraftKey a;
 		private Advancement b;
 		private AdvancementDisplay c;
 		private AdvancementRewards d;
 		private Map<String, Criterion> e;
 		private String[][] f;
-		private AdvancementRequirements g;/
+		private AdvancementRequirements g;*/
 
 				Class<SerializedAdvancement> cl = SerializedAdvancement.class;
 				MinecraftKey akey = Reflection.getFieldValue(Reflection.getField(cl, "a"), ad);
 				Advancement bb = Reflection.getFieldValue(Reflection.getField(cl, "b"), ad);
+
+
+
+
 				AdvancementDisplay c = Reflection.getFieldValue(Reflection.getField(cl, "c"), ad);
+
+				/*
+				 * ichatbasecomponent a = icon
+				 * ichatbasecomponent b = title
+				 * itemstack c = description:empty
+				 * minecraftkey d = background:task
+				 *advancementframetype e = frame:task
+				 *bool f = show_toast:true
+				 *bool g = announce_to_chat:false
+				 *bool h = hidden:false
+				 *
+				 * new AD(icon, title, description:empty, background:bedrock, frame:task, show_toast:true, announce_to_chat:false, hidden:false)
+*/
+
 				AdvancementRewards d = Reflection.getFieldValue(Reflection.getField(cl, "d"), ad);
 				Map<String, Criterion> e = Reflection.getFieldValue(Reflection.getField(cl, "e"), ad);
 				String[][] f = Reflection.getFieldValue(Reflection.getField(cl, "f"), ad);
@@ -105,12 +127,25 @@ public class PacketLogger extends PacketHandler {
 				System.out.println("Advancement: " + (bb != null ? bb.toString() : "null"));
 				System.out.println("AdvancementDisplay: " + (c != null ? c.toString() : "null"));
 				System.out.println("AdvancementRewards: " + (d != null ? d.toString() : "null"));
-				System.out.println("Map<String, Criterion>t: " + (e != null ? e.toString() : "null"));
-				System.out.println("String[][]: " + (f != null ? f.toString() : "null"));
+				//System.out.println("Map<String, Criterion>t: " + (e != null ? e.toString() : "null"));
+				if(e != null){
+					e.entrySet().forEach(eeee -> log(eeee.getKey().toString() + " : " + eeee.getValue().toString()));
+				}
+				//System.out.println("String[][]: " + (f != null ? f.toString() : "null"));
+				if(f != null){
+					for(int index = 0; index < f.length; index++){
+						String[] aaa = f[index];
+						if(aaa != null){
+							for(int inde = 0; inde < aaa.length; inde++)
+								log(index + " : " + inde + " : " + aaa[inde]);
+						}
+					}
+				}
+
 				System.out.println("AdvancementRequirements: " + (g != null ? g.toString() : "null"));
 				System.out.println("------------------------------------");
 			}
-		}*/
+		}
 		super.write(context, message, promise);
 	}
 
@@ -120,7 +155,7 @@ public class PacketLogger extends PacketHandler {
 		super.channelRead(context, message);
 	}
 
-	private void log(String s){
+	public void log(String s){
 		System.out.println(s);
 	}
 

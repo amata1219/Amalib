@@ -7,7 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import amata1219.amalib.inventory.ui.Applier;
-import amata1219.amalib.inventory.ui.dsl.event.UIClickEvent;
+import amata1219.amalib.inventory.ui.listener.ClickEvent;
 import amata1219.amalib.schedule.Async;
 
 public class Slot {
@@ -22,7 +22,7 @@ public class Slot {
 	public boolean async;
 
 	//クリック処理
-	private Consumer<UIClickEvent> actionOnClick = (event) -> {};
+	private Consumer<ClickEvent> actionOnClick = (event) -> {};
 
 	public Icon buildIcon(){
 		return iconApplier.apply(new Icon());
@@ -46,12 +46,12 @@ public class Slot {
 		this.iconApplier = iconApplier;
 	}
 
-	public void onClick(Consumer<UIClickEvent> action){
+	public void onClick(Consumer<ClickEvent> action){
 		Validate.notNull(action, "Action can not be null");
 		actionOnClick = action;
 	}
 
-	public void fire(UIClickEvent event){
+	public void fire(ClickEvent event){
 		if(async)
 			Async.define(() -> actionOnClick.accept(event)).execute();
 		else

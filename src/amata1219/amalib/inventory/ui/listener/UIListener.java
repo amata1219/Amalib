@@ -16,9 +16,6 @@ import amata1219.amalib.inventory.ui.dsl.InventoryUI;
 import amata1219.amalib.inventory.ui.dsl.component.Icon;
 import amata1219.amalib.inventory.ui.dsl.component.InventoryLayout;
 import amata1219.amalib.inventory.ui.dsl.component.Slot;
-import amata1219.amalib.inventory.ui.dsl.event.UIClickEvent;
-import amata1219.amalib.inventory.ui.dsl.event.UICloseEvent;
-import amata1219.amalib.inventory.ui.dsl.event.UIOpenEvent;
 
 public class UIListener implements Listener {
 
@@ -38,7 +35,7 @@ public class UIListener implements Listener {
 		if(layout == null)
 			return;
 
-		UIClickEvent clickEvent = new UIClickEvent(layout, event);
+		ClickEvent clickEvent = new ClickEvent(layout, event);
 
 		Slot slot = layout.getSlotAt(event.getSlot());
 
@@ -59,7 +56,7 @@ public class UIListener implements Listener {
 		InventoryLayout layout = getLayout(event.getInventory().getHolder(), event.getPlayer());
 
 		if(layout != null)
-			layout.fire(new UIOpenEvent(layout, event));
+			layout.fire(new OpenEvent(layout, event));
 	}
 
 	@EventHandler
@@ -67,7 +64,7 @@ public class UIListener implements Listener {
 		InventoryLayout layout = getLayout(event.getInventory().getHolder(), event.getPlayer());
 
 		if(layout != null)
-			layout.fire(new UICloseEvent(layout, event));
+			layout.fire(new CloseEvent(layout, event));
 	}
 
 	@EventHandler
