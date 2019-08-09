@@ -45,7 +45,7 @@ public interface Location {
 	String serialize();
 
 	default org.bukkit.Location asBukkitLocation(){
-		return new org.bukkit.Location(getWorld(), getEntityX(), getEntityY(), getEntityZ());
+		return new org.bukkit.Location(getWorld(), getEntityX(), getEntityY(), getEntityZ(), getYaw(), getPitch());
 	}
 
 }

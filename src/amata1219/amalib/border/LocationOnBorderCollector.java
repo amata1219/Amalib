@@ -1,12 +1,13 @@
 package amata1219.amalib.border;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.World;
 
+import amata1219.amalib.location.ImmutableBlockLocation;
 import amata1219.amalib.location.ImmutableEntityLocation;
-import amata1219.amalib.location.ImmutableLocation;
 import amata1219.amalib.region.Region;
 
 public class LocationOnBorderCollector {
@@ -15,18 +16,23 @@ public class LocationOnBorderCollector {
 		if(howManyPointsInBlock <= 0)
 			throw new IllegalArgumentException("Points in block must be one or more");
 
+		ImmutableBlockLocation lesserBoundaryCorner = region.lesserBoundaryCorner;
+		ImmutableBlockLocation greaterBoundaryCorner = region.greaterBoundaryCorner;
+
+		if(lesserBoundaryCorner.isSame(greaterBoundaryCorner)) return Arrays.asList(lesserBoundaryCorner.asEntityLocation());
+
 		int divisor = howManyPointsInBlock - 1;
 
-		//予想されるサイズを予め指定しておく
-		List<ImmutableEntityLocation> locations = new ArrayList<>((region.getWidth() * divisor + region.getLength() * divisor) * 2);
+		int max = (region.getWidth() * divisor + region.getLength() * divisor) * 2 + 100;
 
-		ImmutableLocation lesserBoundaryCorner = region.lesserBoundaryCorner;
+		//予想されるサイズを予め指定しておく
+		List<ImmutableEntityLocation> locations = new ArrayList<>(max);
 
 		World world = lesserBoundaryCorner.world;
 		double y = lesserBoundaryCorner.getEntityY();
 
 		//左上の境界角を始点とする
-		ImmutableEntityLocation startLocation = new ImmutableEntityLocation(world, lesserBoundaryCorner.getEntityX(), y, region.greaterBoundaryCorner.getEntityZ());
+		ImmutableEntityLocation startLocation = new ImmutableEntityLocation(world, lesserBoundaryCorner.getEntityX(), y, greaterBoundaryCorner.getEntityZ());
 
 		locations.add(startLocation);
 
@@ -71,10 +77,14 @@ public class LocationOnBorderCollector {
 			for(int count = 1; count <= howManyPointsInBlock; count++){
 				double width = interval * count;
 				locations.add(new ImmutableEntityLocation(world, x + direction.xComponent * width, y, z + direction.zComponent * width));
+
+				//念の為の上限値
+				if(max-- < 0) break label;
 			}
 
 		}
 
+		System.out.println(max);
 		return locations;
 	}
 
