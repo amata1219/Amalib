@@ -6,14 +6,14 @@ import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import amata1219.amalib.inventory.ui.Applier;
+import amata1219.amalib.inventory.ui.Apply;
 import amata1219.amalib.inventory.ui.listener.ClickEvent;
 import amata1219.amalib.schedule.Async;
 
 public class Slot {
 
 	//アイコンに適用する処理
-	private Applier<Icon> iconApplier = (icon) -> {};
+	private Apply<Icon> iconApplier = (icon) -> {};
 
 	//編集可能なスロットかどうか
 	public boolean editable;
@@ -28,21 +28,21 @@ public class Slot {
 		return iconApplier.apply(new Icon());
 	}
 
-	public void icon(ItemStack basedItemStack, Applier<Icon> iconApplier){
+	public void icon(ItemStack basedItemStack, Apply<Icon> iconApplier){
 		this.iconApplier = (icon) -> {
 			icon.basedItemStack = basedItemStack;
 			iconApplier.apply(icon);
 		};
 	}
 
-	public void icon(Material material, Applier<Icon> iconApplier){
+	public void icon(Material material, Apply<Icon> iconApplier){
 		this.iconApplier = (icon) -> {
 			icon.material = material;
 			iconApplier.apply(icon);
 		};
 	}
 
-	public void icon(Applier<Icon> iconApplier){
+	public void icon(Apply<Icon> iconApplier){
 		this.iconApplier = iconApplier;
 	}
 

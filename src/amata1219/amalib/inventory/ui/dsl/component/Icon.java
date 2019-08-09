@@ -17,7 +17,7 @@ import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import amata1219.amalib.enchantment.GleamEnchantment;
-import amata1219.amalib.inventory.ui.Applier;
+import amata1219.amalib.inventory.ui.Apply;
 
 public class Icon {
 
@@ -29,7 +29,7 @@ public class Icon {
 	public List<String> lore = new ArrayList<>();
 	public Map<Enchantment, Integer> enchantments = new HashMap<>();
 	public Set<ItemFlag> flags = new HashSet<>();
-	public Applier<ItemStack> raw;
+	public Apply<ItemStack> raw;
 
 	public Icon(){
 

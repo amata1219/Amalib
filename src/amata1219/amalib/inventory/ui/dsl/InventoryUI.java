@@ -7,10 +7,10 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 
-import amata1219.amalib.inventory.ui.Applier;
+import amata1219.amalib.inventory.ui.Apply;
+import amata1219.amalib.inventory.ui.InventoryLine;
+import amata1219.amalib.inventory.ui.InventoryOption;
 import amata1219.amalib.inventory.ui.dsl.component.InventoryLayout;
-import amata1219.amalib.inventory.ui.option.InventoryLine;
-import amata1219.amalib.inventory.ui.option.InventoryOption;
 
 public interface InventoryUI extends InventoryHolder {
 
@@ -25,19 +25,19 @@ public interface InventoryUI extends InventoryHolder {
 		throw new UnsupportedOperationException("Use InventoryUI#openInvnetory(Player) instead.");
 	}
 
-	default Function<Player, InventoryLayout> build(InventoryOption option, Applier<InventoryLayout> applier){
+	default Function<Player, InventoryLayout> build(InventoryOption option, Apply<InventoryLayout> applier){
 		return LayoutBuilder.build(this, option, applier);
 	}
 
-	default Function<Player, InventoryLayout> build(InventoryType type, Applier<InventoryLayout> applier){
+	default Function<Player, InventoryLayout> build(InventoryType type, Apply<InventoryLayout> applier){
 		return build(new InventoryOption(null, type), applier);
 	}
 
-	default Function<Player, InventoryLayout> build(InventoryLine line, Applier<InventoryLayout> applier){
+	default Function<Player, InventoryLayout> build(InventoryLine line, Apply<InventoryLayout> applier){
 		return build(new InventoryOption(line, null), applier);
 	}
 
-	default Function<Player, InventoryLayout> build(int size, Applier<InventoryLayout> applier){
+	default Function<Player, InventoryLayout> build(int size, Apply<InventoryLayout> applier){
 		return build(InventoryLine.necessaryInventoryLine(size), applier);
 	}
 

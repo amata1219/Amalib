@@ -1,4 +1,4 @@
-package amata1219.amalib.message;
+package amata1219.amalib.string.message;
 
 import java.util.Collection;
 

@@ -11,12 +11,12 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 
-import amata1219.amalib.inventory.ui.Applier;
+import amata1219.amalib.inventory.ui.Apply;
+import amata1219.amalib.inventory.ui.InventoryOption;
 import amata1219.amalib.inventory.ui.dsl.InventoryUI;
 import amata1219.amalib.inventory.ui.listener.ClickEvent;
 import amata1219.amalib.inventory.ui.listener.CloseEvent;
 import amata1219.amalib.inventory.ui.listener.OpenEvent;
-import amata1219.amalib.inventory.ui.option.InventoryOption;
 import amata1219.amalib.schedule.Async;
 
 public class InventoryLayout {
@@ -34,7 +34,7 @@ public class InventoryLayout {
 	private final HashMap<Integer, Slot> slots = new HashMap<>();
 
 	//デフォルトのスロットに適用する処理
-	private Applier<Slot> defaultSlot = (slot) -> {};
+	private Apply<Slot> defaultSlot = (slot) -> {};
 
 	//非同期でクリック処理を実行するかどうか
 	public boolean asynchronouslyRunActionOnClick;
@@ -73,16 +73,16 @@ public class InventoryLayout {
 		return slots.containsKey(slotIndex) ? slots.get(slotIndex) : defaultSlot.apply(new Slot());
 	}
 
-	public void defaultSlot(Applier<Slot> slotApplier){
+	public void defaultSlot(Apply<Slot> slotApplier){
 		Validate.notNull(slotApplier, "Slot applier can not be null");
 		defaultSlot = slotApplier;
 	}
 
-	public void put(Applier<Slot> slotApplier, IntStream range){
+	public void put(Apply<Slot> slotApplier, IntStream range){
 		put(slotApplier, range.toArray());
 	}
 
-	public void put(Applier<Slot> slotApplier, int... slotIndexes){
+	public void put(Apply<Slot> slotApplier, int... slotIndexes){
 		for(int slotIndex : slotIndexes)
 			slots.put(slotIndex, slotApplier.apply(new Slot()));
 	}

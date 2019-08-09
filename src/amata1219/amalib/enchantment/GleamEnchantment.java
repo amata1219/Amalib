@@ -18,7 +18,8 @@ public class GleamEnchantment extends Enchantment {
 	}
 
 	public static boolean isGleaming(ItemStack item){
-		return item.containsEnchantment(GLEAM_ENCHANTMENT);
+		return item.getItemMeta().hasEnchant(GLEAM_ENCHANTMENT);
+		//return item.containsEnchantment(GLEAM_ENCHANTMENT);
 	}
 
 	private GleamEnchantment() {

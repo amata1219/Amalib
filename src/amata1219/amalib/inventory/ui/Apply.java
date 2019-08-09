@@ -1,6 +1,6 @@
 package amata1219.amalib.inventory.ui;
 
-public interface Applier<T> {
+public interface Apply<T> {
 
 	default T apply(T value){
 		define(value);

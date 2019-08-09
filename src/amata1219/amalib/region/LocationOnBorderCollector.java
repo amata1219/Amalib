@@ -1,4 +1,4 @@
-package amata1219.amalib.border;
+package amata1219.amalib.region;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,7 +8,6 @@ import org.bukkit.World;
 
 import amata1219.amalib.location.ImmutableBlockLocation;
 import amata1219.amalib.location.ImmutableEntityLocation;
-import amata1219.amalib.region.Region;
 
 public class LocationOnBorderCollector {
 
