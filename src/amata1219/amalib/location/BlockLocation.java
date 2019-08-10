@@ -54,7 +54,7 @@ public interface BlockLocation extends Location {
 
 	@Override
 	default String serialize(){
-		return StringTemplate.apply("$0,$1,$2,$3,$4,$5", getWorld(), getBlockX(), getBlockY(), getBlockZ(), getYaw(), getPitch());
+		return StringTemplate.apply("$0,$1,$2,$3,$4,$5", getWorld().getName(), getBlockX(), getBlockY(), getBlockZ(), getYaw(), getPitch());
 	}
 
 }
