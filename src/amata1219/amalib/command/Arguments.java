@@ -109,25 +109,25 @@ public class Arguments {
 			if(argument.length() != 1)
 				throw new IllegalArgumentException("Argument length must be 1");
 		}),
-		BOOLEAN((argument) -> Boolean.valueOf(argument)),
-		INT((argument) -> Integer.valueOf(argument)),
-		LONG((argument) -> Long.valueOf(argument)),
-		BYTE((argument) -> Byte.valueOf(argument)),
-		SHORT((argument) -> Short.valueOf(argument)),
-		FLOAT((argument) -> Float.valueOf(argument)),
-		DOUBLE((argument) -> Double.valueOf(argument));
+		BOOLEAN((argument) -> Boolean.parseBoolean(argument)),
+		INT((argument) -> Integer.parseInt(argument)),
+		LONG((argument) -> Long.parseLong(argument)),
+		BYTE((argument) -> Byte.parseByte(argument)),
+		SHORT((argument) -> Short.parseShort(argument)),
+		FLOAT((argument) -> Float.parseFloat(argument)),
+		DOUBLE((argument) -> Double.parseDouble(argument));
 
-		private final Consumer<String> checker;
+		private final Consumer<String> validator;
 
-		private ArgumentType(Consumer<String> checker){
-			this.checker = checker;
+		private ArgumentType(Consumer<String> validator){
+			this.validator = validator;
 		}
 
 		public boolean isType(Arguments arguments){
 			String[] args = arguments.args;
 			int index = arguments.index;
 			try{
-				checker.accept(args.length > index ? args[index] : "");
+				validator.accept(args.length > index ? args[index] : "");
 			}catch(Exception e){
 				return false;
 			}
