@@ -98,6 +98,10 @@ public class Region {
 		return add(location.getBlockX(), location.getBlockY(), location.getBlockZ());
 	}
 
+	public Region extend(int x, int y, int z){
+		return new Region(lesserBoundaryCorner.add(Math.min(x, 0), Math.min(y, 0), Math.min(z, 0)), greaterBoundaryCorner.add(Math.max(x, 0), Math.max(y, 0), Math.max(z, 0)));
+	}
+
 	public Region relative(int x, int y, int z){
 		return new Region(lesserBoundaryCorner.relative(x, y, z), greaterBoundaryCorner.relative(x, y, z));
 	}

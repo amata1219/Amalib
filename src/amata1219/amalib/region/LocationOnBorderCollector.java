@@ -8,6 +8,7 @@ import org.bukkit.World;
 
 import amata1219.amalib.location.ImmutableBlockLocation;
 import amata1219.amalib.location.ImmutableEntityLocation;
+import amata1219.amalib.location.Location;
 
 public class LocationOnBorderCollector {
 
@@ -15,8 +16,9 @@ public class LocationOnBorderCollector {
 		if(howManyPointsInBlock <= 0)
 			throw new IllegalArgumentException("Points in block must be one or more");
 
+		region = region.extend(1, 0, 1);
 		ImmutableBlockLocation lesserBoundaryCorner = region.lesserBoundaryCorner;
-		ImmutableBlockLocation greaterBoundaryCorner = region.greaterBoundaryCorner;
+		Location greaterBoundaryCorner = region.greaterBoundaryCorner;
 
 		if(lesserBoundaryCorner.isSame(greaterBoundaryCorner)) return Arrays.asList(lesserBoundaryCorner.asEntityLocation());
 
@@ -65,8 +67,6 @@ public class LocationOnBorderCollector {
 					direction = Direction.LEFT;
 					break;
 				case LEFT:
-					direction = Direction.DOWN;
-					break;
 				default:
 					break label;
 				}
