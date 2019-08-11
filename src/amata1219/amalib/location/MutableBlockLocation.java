@@ -39,18 +39,13 @@ public class MutableBlockLocation extends MutableLocation implements BlockLocati
 	}
 
 	@Override
-	public MutableBlockLocation add(int x, int y, int z) {
-		return new MutableBlockLocation(world, this.x + x, this.y + y, this.z + z, yaw, pitch);
+	public MutableEntityLocation add(double x, double y, double z) {
+		return new MutableEntityLocation(world, this.x + x, this.y + y, this.z + z, yaw, pitch);
 	}
 
 	@Override
-	public MutableBlockLocation relative(int x, int y, int z) {
-		return new MutableBlockLocation(world, x - this.x, y - this.y, z - this.z, yaw, pitch);
-	}
-
-	@Override
-	public MutableEntityLocation middle(){
-		return new MutableEntityLocation(world, x + (x >= 0 ? 0.5 : -0.5), y, z + (x >= 0 ? 0.5 : -0.5), yaw, pitch);
+	public MutableEntityLocation relative(double x, double y, double z) {
+		return new MutableEntityLocation(world, x - this.x, y - this.y, z - this.z, yaw, pitch);
 	}
 
 	@Override

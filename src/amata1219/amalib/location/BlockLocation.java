@@ -20,27 +20,27 @@ public interface BlockLocation extends Location {
 	}
 
 	@Override
-	BlockLocation add(int x, int y, int z);
-
-	@Override
-	default BlockLocation add(double x, double y, double z) {
-		return add((int) x, (int) y, (int) z);
-	}
-
-	default BlockLocation add(BlockLocation location){
-		return add(location.getBlockX(), location.getBlockY(), location.getBlockZ());
+	default EntityLocation add(int x, int y, int z) {
+		return add((double) x, (double) y, (double) z);
 	}
 
 	@Override
-	BlockLocation relative(int x, int y, int z);
+	EntityLocation add(double x, double y, double z);
 
-	@Override
-	default BlockLocation relative(double x, double y, double z) {
-		return relative((int) x, (int) y, (int) z);
+	default EntityLocation add(Location location){
+		return add(location.getEntityX(), location.getEntityY(), location.getEntityZ());
 	}
 
-	default BlockLocation relative(BlockLocation location){
-		return relative(location.getBlockX(), location.getBlockY(), location.getBlockZ());
+	@Override
+	default EntityLocation relative(int x, int y, int z) {
+		return relative((double) x, (double) y, (double) z);
+	}
+
+	@Override
+	EntityLocation relative(double x, double y, double z);
+
+	default EntityLocation relative(Location location){
+		return relative(location.getEntityX(), location.getEntityY(), location.getEntityZ());
 	}
 
 	EntityLocation asEntityLocation();

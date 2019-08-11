@@ -6,7 +6,6 @@ import org.bukkit.World;
 import amata1219.amalib.location.ImmutableBlockLocation;
 import amata1219.amalib.location.Location;
 import amata1219.amalib.string.StringTemplate;
-import amata1219.amalib.tuplet.Tuple;
 
 public class Region {
 
@@ -14,16 +13,11 @@ public class Region {
 	public final ImmutableBlockLocation lesserBoundaryCorner, greaterBoundaryCorner;
 
 	public static Region deserialize(String text){
-		Tuple<ImmutableBlockLocation, ImmutableBlockLocation> corners = deserializeToCorners(text);
-		return new Region(corners.first, corners.second);
-	}
-
-	public static Tuple<ImmutableBlockLocation, ImmutableBlockLocation> deserializeToCorners(String text){
 		String[] data = text.split(",");
 		World world = Bukkit.getWorld(data[0]);
 		ImmutableBlockLocation lesserBoundaryCorner = new ImmutableBlockLocation(world, Integer.parseInt(data[1]), Integer.parseInt(data[2]), Integer.parseInt(data[3]));
 		ImmutableBlockLocation greaterBoundaryCorner = new ImmutableBlockLocation(world, Integer.parseInt(data[4]), Integer.parseInt(data[5]), Integer.parseInt(data[6]));
-		return new Tuple<>(lesserBoundaryCorner, greaterBoundaryCorner);
+		return new Region(lesserBoundaryCorner, greaterBoundaryCorner);
 	}
 
 	public Region(Location lesserBoundaryCorner, Location greaterBoundaryCorner){

@@ -2,6 +2,8 @@ package amata1219.amalib.location;
 
 import org.bukkit.World;
 
+import amata1219.amalib.region.Region;
+
 public interface Location {
 
 	World getWorld();
@@ -34,7 +36,23 @@ public interface Location {
 
 	Location relative(double x, double y, double z);
 
-	Location middle();
+	default Region add(Region region){
+		Location lesserBoundaryCorner = region.lesserBoundaryCorner;
+		Location greaterBoundaryCorner = region.greaterBoundaryCorner;
+		return new Region(getWorld(), lesserBoundaryCorner.getBlockX() + getBlockX(), lesserBoundaryCorner.getBlockY() + getBlockY(), lesserBoundaryCorner.getBlockZ() + getBlockZ(),
+				greaterBoundaryCorner.getBlockX() + getBlockX(), greaterBoundaryCorner.getBlockY() + getBlockY(), greaterBoundaryCorner.getBlockZ() + getBlockZ());
+	}
+
+	default Region relative(Region region){
+		Location lesserBoundaryCorner = region.lesserBoundaryCorner;
+		Location greaterBoundaryCorner = region.greaterBoundaryCorner;
+		return new Region(getWorld(), lesserBoundaryCorner.getBlockX() - getBlockX(), lesserBoundaryCorner.getBlockY() - getBlockY(), lesserBoundaryCorner.getBlockZ() - getBlockZ(),
+				greaterBoundaryCorner.getBlockX() - getBlockX(), greaterBoundaryCorner.getBlockY() - getBlockY(), greaterBoundaryCorner.getBlockZ() - getBlockZ());
+	}
+
+	default Location middle(){
+		return add(getBlockX() >= 0 ? 0.5 : -0.5, 0, getBlockZ() >= 0 ? 0.5 : -0.5);
+	}
 
 	float getYaw();
 

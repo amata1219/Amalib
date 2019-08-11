@@ -44,18 +44,13 @@ public class ImmutableBlockLocation extends ImmutableLocation implements BlockLo
 	}
 
 	@Override
-	public ImmutableBlockLocation add(int x, int y, int z) {
-		return new ImmutableBlockLocation(world, this.x + x, this.y + y, this.z + z, yaw, pitch);
+	public ImmutableEntityLocation add(double x, double y, double z) {
+		return new ImmutableEntityLocation(world, this.x + x, this.y + y, this.z + z, yaw, pitch);
 	}
 
 	@Override
-	public ImmutableBlockLocation relative(int x, int y, int z) {
-		return new ImmutableBlockLocation(world, x - this.x, y - this.y, z - this.z, yaw, pitch);
-	}
-
-	@Override
-	public ImmutableEntityLocation middle(){
-		return new ImmutableEntityLocation(world, x + (x >= 0 ? 0.5 : -0.5), y, z + (z >= 0 ? 0.5 : -0.5), yaw, pitch);
+	public ImmutableEntityLocation relative(double x, double y, double z) {
+		return new ImmutableEntityLocation(world, x - this.x, y - this.y, z - this.z, yaw, pitch);
 	}
 
 	@Override

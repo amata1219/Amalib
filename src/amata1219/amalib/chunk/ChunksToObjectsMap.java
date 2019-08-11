@@ -3,6 +3,7 @@ package amata1219.amalib.chunk;
 import static amata1219.amalib.chunk.ChunkHashCalculator.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -92,10 +93,8 @@ public class ChunksToObjectsMap<V> {
 	}
 
 	public V put(long chunkHash, V value){
-		if(containsChunkHash(chunkHash))
-			get(chunkHash).add(value);
-		else
-			chunksToObjectsMap.put(chunkHash, new ArrayList<>()).add(value);
+		if(containsChunkHash(chunkHash)) get(chunkHash).add(value);
+		else chunksToObjectsMap.put(chunkHash, Arrays.asList(value));
 
 		return value;
 	}
