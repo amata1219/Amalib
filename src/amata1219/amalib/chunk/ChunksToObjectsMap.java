@@ -96,8 +96,7 @@ public class ChunksToObjectsMap<V> {
 	}
 
 	public V putAll(List<Long> chunkHashes, V value){
-		for(long chunkHash : chunkHashes)
-			put(chunkHash, value);
+		for(long chunkHash : chunkHashes) put(chunkHash, value);
 		return value;
 	}
 

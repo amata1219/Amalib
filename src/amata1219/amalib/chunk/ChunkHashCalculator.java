@@ -25,10 +25,6 @@ public class ChunkHashCalculator {
 		return ((x >> 4) << 32) ^ (z >> 4);
 	}
 
-	private static long calculateWithChunkLocation(long chunkX, long chunkZ){
-		return (chunkX << 32) ^ chunkZ;
-	}
-
 	public static List<Long> calculateAll(Location lesserBoundaryCorner, Location greaterBoundaryCorner){
 		return calculateAll(lesserBoundaryCorner.getBlockX(), lesserBoundaryCorner.getBlockZ(), greaterBoundaryCorner.getBlockX(), greaterBoundaryCorner.getBlockZ());
 	}
@@ -40,17 +36,16 @@ public class ChunkHashCalculator {
 	public static List<Long> calculateAll(long lesserBoundaryX, long lesserBoundaryZ, long greaterBoundaryX, long greaterBoundaryZ){
 		long chunkX = lesserBoundaryX >> 4;
 		long limitX = greaterBoundaryX >> 4;
-
 		long chunkZ = lesserBoundaryZ >> 4;
 		long limitZ = greaterBoundaryZ >> 4;
 
-		long initialCapacity = (limitX - chunkX) * (limitZ - chunkZ);
+		long initialCapacity = Math.min((limitX - chunkX), 1) * Math.min((limitZ - chunkZ), 1);
 
 		List<Long> list = new ArrayList<>((int) initialCapacity);
 
-		for(; chunkX <= limitX; chunkX++)
-			for(; chunkZ <= limitZ; chunkZ++)
-				list.add(calculateWithChunkLocation(chunkX, chunkZ));
+		for(long x = chunkX; x <= limitX; x++)
+			for(long z = chunkZ; z <= limitZ; z++)
+				list.add((x << 32) ^ z);
 
 		return list;
 	}
