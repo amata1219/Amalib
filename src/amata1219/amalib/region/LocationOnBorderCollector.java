@@ -20,11 +20,13 @@ public class LocationOnBorderCollector {
 		ImmutableBlockLocation lesserBoundaryCorner = region.lesserBoundaryCorner;
 		Location greaterBoundaryCorner = region.greaterBoundaryCorner;
 
-		if(lesserBoundaryCorner.isSame(greaterBoundaryCorner)) return Arrays.asList(lesserBoundaryCorner.asEntityLocation());
+		if(lesserBoundaryCorner.isSame(greaterBoundaryCorner)) return new ArrayList<>(Arrays.asList(lesserBoundaryCorner.asEntityLocation()));
 
 		int divisor = howManyPointsInBlock - 1;
 
 		int max = (region.getWidth() * divisor + region.getLength() * divisor) * 2 + 100;
+
+		if(max <= 0) return new ArrayList<>(Arrays.asList(lesserBoundaryCorner.asEntityLocation()));
 
 		//予想されるサイズを予め指定しておく
 		List<ImmutableEntityLocation> locations = new ArrayList<>(max);
@@ -83,7 +85,6 @@ public class LocationOnBorderCollector {
 
 		}
 
-		System.out.println(max);
 		return locations;
 	}
 

@@ -94,7 +94,7 @@ public class ChunksToObjectsMap<V> {
 
 	public V put(long chunkHash, V value){
 		if(containsChunkHash(chunkHash)) get(chunkHash).add(value);
-		else chunksToObjectsMap.put(chunkHash, Arrays.asList(value));
+		else chunksToObjectsMap.put(chunkHash, new ArrayList<>(Arrays.asList(value)));
 
 		return value;
 	}
@@ -136,7 +136,7 @@ public class ChunksToObjectsMap<V> {
 	public V remove(long chunkHash, V value){
 		List<V> list = get(chunkHash);
 
-		list.remove(value);
+		list.remove(value);//ArrayList
 
 		if(list.isEmpty())
 			chunksToObjectsMap.remove(chunkHash);
