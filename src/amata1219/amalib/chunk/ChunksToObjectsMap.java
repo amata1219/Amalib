@@ -76,23 +76,7 @@ public class ChunksToObjectsMap<V> {
 		return list;
 	}
 
-	public V put(Chunk chunk, V value){
-		return put(calculate(chunk), value);
-	}
-
-	public V put(Location location, V value){
-		return put(calculate(location), value);
-	}
-
-	public V put(org.bukkit.Location location, V value){
-		return put(calculate(location), value);
-	}
-
-	public V put(int x, int z, V value){
-		return put(calculate(x, z), value);
-	}
-
-	public V put(long chunkHash, V value){
+	private V put(long chunkHash, V value){
 		if(containsChunkHash(chunkHash)) get(chunkHash).add(value);
 		else chunksToObjectsMap.put(chunkHash, new ArrayList<>(Arrays.asList(value)));
 
@@ -117,29 +101,12 @@ public class ChunksToObjectsMap<V> {
 		return value;
 	}
 
-	public V remove(Chunk chunk, V value){
-		return remove(calculate(chunk), value);
-	}
-
-	public V remove(Location location, V value){
-		return remove(calculate(location), value);
-	}
-
-	public V remove(org.bukkit.Location location, V value){
-		return remove(calculate(location), value);
-	}
-
-	public V remove(int x, int z, V value){
-		return remove(calculate(x, z), value);
-	}
-
-	public V remove(long chunkHash, V value){
+	private V remove(long chunkHash, V value){
 		List<V> list = get(chunkHash);
 
-		list.remove(value);//ArrayList
+		list.remove(value);
 
-		if(list.isEmpty())
-			chunksToObjectsMap.remove(chunkHash);
+		if(list.isEmpty()) chunksToObjectsMap.remove(chunkHash);
 
 		return value;
 	}
@@ -157,8 +124,7 @@ public class ChunksToObjectsMap<V> {
 	}
 
 	public V removeAll(List<Long> chunkHashes, V value){
-		for(long chunkHash : chunkHashes)
-			remove(chunkHash, value);
+		for(long chunkHash : chunkHashes) remove(chunkHash, value);
 		return value;
 	}
 

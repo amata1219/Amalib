@@ -21,11 +21,11 @@ public class ChunkHashCalculator {
 		return calculate(location.getBlockX(), location.getBlockZ());
 	}
 
-	public static long calculate(int x, int z){
-		return (x << 28) ^ (z >> 4);
+	public static long calculate(long x, long z){
+		return ((x >> 4) << 32) ^ (z >> 4);
 	}
 
-	private static long calculateWithChunkLocation(int chunkX, int chunkZ){
+	private static long calculateWithChunkLocation(long chunkX, long chunkZ){
 		return (chunkX << 32) ^ chunkZ;
 	}
 
@@ -37,14 +37,16 @@ public class ChunkHashCalculator {
 		return calculateAll(lesserBoundaryCorner.getBlockX(), lesserBoundaryCorner.getBlockZ(), greaterBoundaryCorner.getBlockX(), greaterBoundaryCorner.getBlockZ());
 	}
 
-	public static List<Long> calculateAll(int lesserBoundaryX, int lesserBoundaryZ, int greaterBoundaryX, int greaterBoundaryZ){
-		int chunkX = lesserBoundaryX >> 4;
-		int limitX = greaterBoundaryX >> 4;
+	public static List<Long> calculateAll(long lesserBoundaryX, long lesserBoundaryZ, long greaterBoundaryX, long greaterBoundaryZ){
+		long chunkX = lesserBoundaryX >> 4;
+		long limitX = greaterBoundaryX >> 4;
 
-		int chunkZ = lesserBoundaryZ >> 4;
-		int limitZ = greaterBoundaryZ >> 4;
+		long chunkZ = lesserBoundaryZ >> 4;
+		long limitZ = greaterBoundaryZ >> 4;
 
-		List<Long> list = new ArrayList<>((limitX - chunkX) * (limitZ - chunkZ));
+		long initialCapacity = (limitX - chunkX) * (limitZ - chunkZ);
+
+		List<Long> list = new ArrayList<>((int) initialCapacity);
 
 		for(; chunkX <= limitX; chunkX++)
 			for(; chunkZ <= limitZ; chunkZ++)
