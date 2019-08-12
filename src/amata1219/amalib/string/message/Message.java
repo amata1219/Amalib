@@ -44,15 +44,15 @@ public class Message {
 		for(Player player : players) player.spigot().sendMessage(ChatMessageType.ACTION_BAR, component);
 	}
 
-	public void sendAsClickable(Player player, ClickAction clickAction, String value){
+	public void sendAsClickable(Player player, ClickAction clickAction, String clickText){
 		TextComponent component = new TextComponent(text);
-		component.setClickEvent(new ClickEvent(clickAction.action, value));
+		component.setClickEvent(new ClickEvent(clickAction.action, clickText));
 		sendComponent(player, component);
 	}
 
-	public void sendAsClickable(Collection<Player> players, ClickAction clickAction, String value){
+	public void sendAsClickable(Collection<Player> players, ClickAction clickAction, String clickText){
 		TextComponent component = new TextComponent(text);
-		component.setClickEvent(new ClickEvent(clickAction.action, value));
+		component.setClickEvent(new ClickEvent(clickAction.action, clickText));
 		sendComponentToAll(players, component);
 	}
 
@@ -68,16 +68,16 @@ public class Message {
 		sendComponentToAll(players, component);
 	}
 
-	public void displayAsClickableAndHoverable(Player player, ClickAction clickAction, String value, HoverAction hoverAction, String... hoverTexts){
+	public void displayAsClickableAndHoverable(Player player, ClickAction clickAction, String clickText, HoverAction hoverAction, String... hoverTexts){
 		TextComponent component = new TextComponent(text);
-		component.setClickEvent(new ClickEvent(clickAction.action, value));
+		component.setClickEvent(new ClickEvent(clickAction.action, clickText));
 		component.setHoverEvent(new HoverEvent(hoverAction.action, toHoverComponents(hoverTexts)));
 		sendComponent(player, component);
 	}
 
-	public void displayAsClickableAndHoverable(Collection<Player> players, ClickAction clickAction, String value, HoverAction hoverAction, String... hoverTexts){
+	public void displayAsClickableAndHoverable(Collection<Player> players, ClickAction clickAction, String clickText, HoverAction hoverAction, String... hoverTexts){
 		TextComponent component = new TextComponent(text);
-		component.setClickEvent(new ClickEvent(clickAction.action, value));
+		component.setClickEvent(new ClickEvent(clickAction.action, clickText));
 		component.setHoverEvent(new HoverEvent(hoverAction.action, toHoverComponents(hoverTexts)));
 		sendComponentToAll(players, component);
 	}
