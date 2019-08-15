@@ -3,7 +3,7 @@ package amata1219.amalib.selection;
 import org.bukkit.World;
 
 import amata1219.amalib.location.ImmutableBlockLocation;
-import amata1219.amalib.location.Location;
+import amata1219.amalib.location.OldLocation;
 import amata1219.amalib.location.MutableBlockLocation;
 import amata1219.amalib.region.Region;
 import amata1219.amalib.string.StringTemplate;
@@ -17,7 +17,7 @@ public class RegionSelection {
 		boundaryCorner1.world = boundaryCorner2.world = world;
 	}
 
-	public void setBoundaryCorner1(Location location){
+	public void setBoundaryCorner1(OldLocation location){
 		setBoundaryCorner1(location.getWorld(), location.getBlockX(), location.getBlockY(), location.getBlockZ());
 	}
 
@@ -32,7 +32,7 @@ public class RegionSelection {
 		boundaryCorner1.z = z;
 	}
 
-	public void setBoundaryCorner2(Location location){
+	public void setBoundaryCorner2(OldLocation location){
 		setBoundaryCorner2(location.getWorld(), location.getBlockX(), location.getBlockY(), location.getBlockZ());
 	}
 

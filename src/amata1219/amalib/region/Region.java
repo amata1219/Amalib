@@ -4,7 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 
 import amata1219.amalib.location.ImmutableBlockLocation;
-import amata1219.amalib.location.Location;
+import amata1219.amalib.location.OldLocation;
 import amata1219.amalib.string.StringTemplate;
 
 public class Region {
@@ -20,7 +20,7 @@ public class Region {
 		return new Region(lesserBoundaryCorner, greaterBoundaryCorner);
 	}
 
-	public Region(Location lesserBoundaryCorner, Location greaterBoundaryCorner){
+	public Region(OldLocation lesserBoundaryCorner, OldLocation greaterBoundaryCorner){
 		this(lesserBoundaryCorner.getWorld(), lesserBoundaryCorner.getBlockX(), lesserBoundaryCorner.getBlockY(), lesserBoundaryCorner.getBlockZ(),
 				greaterBoundaryCorner.getBlockX(), greaterBoundaryCorner.getBlockY(), greaterBoundaryCorner.getBlockZ());
 	}
@@ -48,7 +48,7 @@ public class Region {
 		);
 	}
 
-	public boolean isIn(Location location){
+	public boolean isIn(OldLocation location){
 		return isIn(location.getWorld(), location.getBlockX(), location.getBlockY(), location.getBlockZ());
 	}
 
@@ -94,7 +94,7 @@ public class Region {
 		return new Region(lesserBoundaryCorner.add(x, y, z), greaterBoundaryCorner.add(x, y, z));
 	}
 
-	public Region add(Location location){
+	public Region add(OldLocation location){
 		return add(location.getBlockX(), location.getBlockY(), location.getBlockZ());
 	}
 
@@ -106,7 +106,7 @@ public class Region {
 		return new Region(lesserBoundaryCorner.relative(x, y, z), greaterBoundaryCorner.relative(x, y, z));
 	}
 
-	public Region relative(Location location){
+	public Region relative(OldLocation location){
 		return relative(location.getBlockX(), location.getBlockY(), location.getBlockZ());
 	}
 

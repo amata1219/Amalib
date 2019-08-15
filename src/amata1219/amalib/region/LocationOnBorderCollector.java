@@ -8,7 +8,7 @@ import org.bukkit.World;
 
 import amata1219.amalib.location.ImmutableBlockLocation;
 import amata1219.amalib.location.ImmutableEntityLocation;
-import amata1219.amalib.location.Location;
+import amata1219.amalib.location.OldLocation;
 
 public class LocationOnBorderCollector {
 
@@ -18,7 +18,7 @@ public class LocationOnBorderCollector {
 
 		region = region.extend(1, 0, 1);
 		ImmutableBlockLocation lesserBoundaryCorner = region.lesserBoundaryCorner;
-		Location greaterBoundaryCorner = region.greaterBoundaryCorner;
+		OldLocation greaterBoundaryCorner = region.greaterBoundaryCorner;
 
 		if(lesserBoundaryCorner.isSame(greaterBoundaryCorner)) return new ArrayList<>(Arrays.asList(lesserBoundaryCorner.asEntityLocation()));
 
