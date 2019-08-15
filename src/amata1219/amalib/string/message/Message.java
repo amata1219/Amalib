@@ -6,6 +6,7 @@ import java.util.function.BiConsumer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import amata1219.amalib.string.StringLocalize;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -95,7 +96,7 @@ public class Message {
 	}
 
 	private String getCorrespondText(Player player, String text){
-		return localize ? text.split(" | ", 2)[player.getLocale().equals("ja_jp") ? 0 : 1] : text;
+		return localize ? StringLocalize.localize(text, player) : text;
 	}
 
 	public static enum HoverAction {
