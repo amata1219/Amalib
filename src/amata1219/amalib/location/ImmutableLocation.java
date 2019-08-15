@@ -27,6 +27,10 @@ public class ImmutableLocation implements Location {
 		this(world, x, y, z, 0f, 0f);
 	}
 
+	public ImmutableLocation(org.bukkit.Location location){
+		this(location.getWorld(), location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
+	}
+
 	@Override
 	public World getWorld() {
 		return world;
@@ -58,12 +62,14 @@ public class ImmutableLocation implements Location {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public ImmutableLocation add(double x, double y, double z, float yaw, float pitch) {
 		return new ImmutableLocation(world, x + this.x, y + this.y, z + this.z, yaw + this.yaw, pitch + this.pitch);
 	}
 
 	@Override
-	public Location relative(double x, double y, double z, float yaw, float pitch) {
+	@SuppressWarnings("unchecked")
+	public ImmutableLocation relative(double x, double y, double z, float yaw, float pitch) {
 		return new ImmutableLocation(world, x - this.x, y - this.y, z - this.z, yaw - this.yaw, pitch - this.pitch);
 	}
 

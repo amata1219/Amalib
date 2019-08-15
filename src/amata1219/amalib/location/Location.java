@@ -43,45 +43,45 @@ public interface Location {
 		return x == getX() && y == getY() && z == getZ();
 	}
 
-	default Location add(int x, int y, int z){
+	default <T extends Location> T add(int x, int y, int z){
 		return add(x, y, z, 0f, 0f);
 	}
 
-	default Location add(int x, int y, int z, float yaw, float pitch){
+	default <T extends Location> T add(int x, int y, int z, float yaw, float pitch){
 		return add((double) x, (double) y, (double) z, yaw, pitch);
 	}
 
-	default Location add(Location location){
+	default <T extends Location> T add(Location location){
 		return add(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
 	}
 
-	Location add(double x, double y, double z, float yaw, float pitch);
+	<T extends Location> T add(double x, double y, double z, float yaw, float pitch);
 
-	default Location sub(int x, int y, int z){
+	default <T extends Location> T sub(int x, int y, int z){
 		return add(x, y, z, 0f, 0f);
 	}
 
-	default Location sub(int x, int y, int z, float yaw, float pitch){
+	default <T extends Location> T sub(int x, int y, int z, float yaw, float pitch){
 		return add((double) x, (double) y, (double) z, yaw, pitch);
 	}
 
-	default Location sub(Location location){
+	default <T extends Location> T sub(Location location){
 		return add(-location.getX(), -location.getY(), -location.getZ(), -location.getYaw(), -location.getPitch());
 	}
 
-	default Location relative(int x, int y, int z){
+	default <T extends Location> T relative(int x, int y, int z){
 		return relative(x, y, z, 0f, 0f);
 	}
 
-	default Location relative(int x, int y, int z, float yaw, float pitch){
+	default <T extends Location> T relative(int x, int y, int z, float yaw, float pitch){
 		return relative((double) x, (double) y, (double) z, yaw, pitch);
 	}
 
-	default Location relative(Location location){
+	default <T extends Location> T relative(Location location){
 		return relative(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
 	}
 
-	Location relative(double x, double y, double z, float yaw, float pitch);
+	<T extends Location> T relative(double x, double y, double z, float yaw, float pitch);
 
 	default org.bukkit.Location asBukkit(){
 		return new org.bukkit.Location(getWorld(), getX(), getY(), getZ(), getYaw(), getPitch());

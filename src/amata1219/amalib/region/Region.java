@@ -25,11 +25,6 @@ public class Region {
 				greaterBoundaryCorner.getIntX(), greaterBoundaryCorner.getIntY(), greaterBoundaryCorner.getIntZ());
 	}
 
-	public Region(org.bukkit.Location lesserBoundaryCorner, org.bukkit.Location greaterBoundaryCorner){
-		this(lesserBoundaryCorner.getWorld(), lesserBoundaryCorner.getBlockX(), lesserBoundaryCorner.getBlockY(), lesserBoundaryCorner.getBlockZ(),
-				greaterBoundaryCorner.getBlockX(), greaterBoundaryCorner.getBlockY(), greaterBoundaryCorner.getBlockZ());
-	}
-
 	public Region(World world, int lesserBoundaryCornerX, int lesserBoundaryCornerY, int lesserBoundaryCornerZ,
 					int greaterBoundaryCornerX, int greaterBoundaryCornerY, int greaterBoundaryCornerZ){
 
