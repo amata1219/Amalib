@@ -1,5 +1,6 @@
 package amata1219.amalib.location;
 
+import org.bukkit.Chunk;
 import org.bukkit.World;
 
 import amata1219.amalib.string.StringTemplate;
@@ -7,6 +8,10 @@ import amata1219.amalib.string.StringTemplate;
 public interface Location {
 
 	World getWorld();
+
+	default Chunk getChunk(){
+		return getWorld().getChunkAt(getIntX(), getIntZ());
+	}
 
 	double getX();
 
@@ -46,7 +51,23 @@ public interface Location {
 		return add((double) x, (double) y, (double) z, yaw, pitch);
 	}
 
+	default Location add(Location location){
+		return add(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
+	}
+
 	Location add(double x, double y, double z, float yaw, float pitch);
+
+	default Location sub(int x, int y, int z){
+		return add(x, y, z, 0f, 0f);
+	}
+
+	default Location sub(int x, int y, int z, float yaw, float pitch){
+		return add((double) x, (double) y, (double) z, yaw, pitch);
+	}
+
+	default Location sub(Location location){
+		return add(-location.getX(), -location.getY(), -location.getZ(), -location.getYaw(), -location.getPitch());
+	}
 
 	default Location relative(int x, int y, int z){
 		return relative(x, y, z, 0f, 0f);
@@ -54,6 +75,10 @@ public interface Location {
 
 	default Location relative(int x, int y, int z, float yaw, float pitch){
 		return relative((double) x, (double) y, (double) z, yaw, pitch);
+	}
+
+	default Location relative(Location location){
+		return relative(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
 	}
 
 	Location relative(double x, double y, double z, float yaw, float pitch);

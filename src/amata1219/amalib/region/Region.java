@@ -90,6 +90,10 @@ public class Region {
 		return getArea() * getHeight();
 	}
 
+	public Region extend(int x, int y, int z){
+		return new Region(lesserBoundaryCorner.add(Math.min(x, 0), Math.min(y, 0), Math.min(z, 0)), greaterBoundaryCorner.add(Math.max(x, 0), Math.max(y, 0), Math.max(z, 0)));
+	}
+
 	public Region add(int x, int y, int z){
 		return new Region(lesserBoundaryCorner.add(x, y, z), greaterBoundaryCorner.add(x, y, z));
 	}
@@ -98,8 +102,12 @@ public class Region {
 		return add(location.getIntX(), location.getIntY(), location.getIntZ());
 	}
 
-	public Region extend(int x, int y, int z){
-		return new Region(lesserBoundaryCorner.add(Math.min(x, 0), Math.min(y, 0), Math.min(z, 0)), greaterBoundaryCorner.add(Math.max(x, 0), Math.max(y, 0), Math.max(z, 0)));
+	public Region sub(int x, int y, int z){
+		return new Region(lesserBoundaryCorner.add(x, y, z), greaterBoundaryCorner.add(x, y, z));
+	}
+
+	public Region sub(Location location){
+		return add(-location.getIntX(), -location.getIntY(), -location.getIntZ());
 	}
 
 	public Region relative(int x, int y, int z){
