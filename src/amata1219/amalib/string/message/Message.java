@@ -96,7 +96,7 @@ public class Message {
 	}
 
 	private String getCorrespondText(Player player, String text){
-		return localize ? StringLocalize.localize(text, player) : text;
+		return localize ? StringLocalize.apply(text, player) : text;
 	}
 
 	public static enum HoverAction {
