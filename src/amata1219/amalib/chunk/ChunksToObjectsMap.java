@@ -11,7 +11,7 @@ import java.util.Map;
 
 import org.bukkit.Chunk;
 
-import amata1219.amalib.location.OldLocation;
+import amata1219.amalib.location.Location;
 
 public class ChunksToObjectsMap<V> {
 
@@ -21,7 +21,7 @@ public class ChunksToObjectsMap<V> {
 		return containsChunkHash(calculate(chunk));
 	}
 
-	public boolean containsChunkHash(OldLocation location){
+	public boolean containsChunkHash(Location location){
 		return containsChunkHash(calculate(location));
 	}
 
@@ -41,7 +41,7 @@ public class ChunksToObjectsMap<V> {
 		return get(calculate(chunk));
 	}
 
-	public List<V> get(OldLocation location){
+	public List<V> get(Location location){
 		return get(calculate(location));
 	}
 
@@ -57,7 +57,7 @@ public class ChunksToObjectsMap<V> {
 		return chunksToObjectsMap.getOrDefault(chunkHash, Collections.emptyList());
 	}
 
-	public List<V> getAll(OldLocation lesserBoundaryCorner, OldLocation greaterBoundaryCorner){
+	public List<V> getAll(Location lesserBoundaryCorner, Location greaterBoundaryCorner){
 		return getAll(calculateAll(lesserBoundaryCorner, greaterBoundaryCorner));
 	}
 
@@ -83,7 +83,7 @@ public class ChunksToObjectsMap<V> {
 		return value;
 	}
 
-	public V putAll(OldLocation lesserBoundaryCorner, OldLocation greaterBoundaryCorner, V value){
+	public V putAll(Location lesserBoundaryCorner, Location greaterBoundaryCorner, V value){
 		return putAll(calculateAll(lesserBoundaryCorner, greaterBoundaryCorner), value);
 	}
 
@@ -110,7 +110,7 @@ public class ChunksToObjectsMap<V> {
 		return value;
 	}
 
-	public V removeAll(OldLocation lesserBoundaryCorner, OldLocation greaterBoundaryCorner, V value){
+	public V removeAll(Location lesserBoundaryCorner, Location greaterBoundaryCorner, V value){
 		return removeAll(calculateAll(lesserBoundaryCorner, greaterBoundaryCorner), value);
 	}
 

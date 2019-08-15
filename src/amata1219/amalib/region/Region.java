@@ -3,26 +3,26 @@ package amata1219.amalib.region;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
-import amata1219.amalib.location.ImmutableBlockLocation;
-import amata1219.amalib.location.OldLocation;
+import amata1219.amalib.location.ImmutableLocation;
+import amata1219.amalib.location.Location;
 import amata1219.amalib.string.StringTemplate;
 
 public class Region {
 
 	public final World world;
-	public final ImmutableBlockLocation lesserBoundaryCorner, greaterBoundaryCorner;
+	public final ImmutableLocation lesserBoundaryCorner, greaterBoundaryCorner;
 
-	public static Region deserialize(String text){
-		String[] data = text.split(",");
-		World world = Bukkit.getWorld(data[0]);
-		ImmutableBlockLocation lesserBoundaryCorner = new ImmutableBlockLocation(world, Integer.parseInt(data[1]), Integer.parseInt(data[2]), Integer.parseInt(data[3]));
-		ImmutableBlockLocation greaterBoundaryCorner = new ImmutableBlockLocation(world, Integer.parseInt(data[4]), Integer.parseInt(data[5]), Integer.parseInt(data[6]));
+	public static Region deserialize(String data){
+		String[] coordinates = data.split(",");
+		World world = Bukkit.getWorld(coordinates[0]);
+		ImmutableLocation lesserBoundaryCorner = new ImmutableLocation(world, Integer.parseInt(coordinates[1]), Integer.parseInt(coordinates[2]), Integer.parseInt(coordinates[3]));
+		ImmutableLocation greaterBoundaryCorner = new ImmutableLocation(world, Integer.parseInt(coordinates[4]), Integer.parseInt(coordinates[5]), Integer.parseInt(coordinates[6]));
 		return new Region(lesserBoundaryCorner, greaterBoundaryCorner);
 	}
 
-	public Region(OldLocation lesserBoundaryCorner, OldLocation greaterBoundaryCorner){
-		this(lesserBoundaryCorner.getWorld(), lesserBoundaryCorner.getBlockX(), lesserBoundaryCorner.getBlockY(), lesserBoundaryCorner.getBlockZ(),
-				greaterBoundaryCorner.getBlockX(), greaterBoundaryCorner.getBlockY(), greaterBoundaryCorner.getBlockZ());
+	public Region(Location lesserBoundaryCorner, Location greaterBoundaryCorner){
+		this(lesserBoundaryCorner.getWorld(), lesserBoundaryCorner.getIntX(), lesserBoundaryCorner.getIntY(), lesserBoundaryCorner.getIntZ(),
+				greaterBoundaryCorner.getIntX(), greaterBoundaryCorner.getIntY(), greaterBoundaryCorner.getIntZ());
 	}
 
 	public Region(org.bukkit.Location lesserBoundaryCorner, org.bukkit.Location greaterBoundaryCorner){
@@ -35,21 +35,21 @@ public class Region {
 
 		this.world = world;
 
-		lesserBoundaryCorner = new ImmutableBlockLocation(world,
+		lesserBoundaryCorner = new ImmutableLocation(world,
 				Math.min(lesserBoundaryCornerX, greaterBoundaryCornerX),
 				Math.min(lesserBoundaryCornerY, greaterBoundaryCornerY),
 				Math.min(lesserBoundaryCornerZ, greaterBoundaryCornerZ)
 		);
 
-		greaterBoundaryCorner = new ImmutableBlockLocation(world,
+		greaterBoundaryCorner = new ImmutableLocation(world,
 				Math.max(lesserBoundaryCornerX, greaterBoundaryCornerX),
 				Math.max(lesserBoundaryCornerY, greaterBoundaryCornerY),
 				Math.max(lesserBoundaryCornerZ, greaterBoundaryCornerZ)
 		);
 	}
 
-	public boolean isIn(OldLocation location){
-		return isIn(location.getWorld(), location.getBlockX(), location.getBlockY(), location.getBlockZ());
+	public boolean isIn(Location location){
+		return isIn(location.getWorld(), location.getIntX(), location.getIntY(), location.getIntZ());
 	}
 
 	public boolean isIn(org.bukkit.Location location){
@@ -71,15 +71,15 @@ public class Region {
 	}
 
 	public int getLength(){
-		return greaterBoundaryCorner.x - lesserBoundaryCorner.x;
+		return greaterBoundaryCorner.getIntX() - lesserBoundaryCorner.getIntX();
 	}
 
 	public int getHeight(){
-		return greaterBoundaryCorner.y - lesserBoundaryCorner.y;
+		return greaterBoundaryCorner.getIntY() - lesserBoundaryCorner.getIntY();
 	}
 
 	public int getWidth(){
-		return greaterBoundaryCorner.z - lesserBoundaryCorner.z;
+		return greaterBoundaryCorner.getIntZ() - lesserBoundaryCorner.getIntZ();
 	}
 
 	public int getArea(){
@@ -94,8 +94,8 @@ public class Region {
 		return new Region(lesserBoundaryCorner.add(x, y, z), greaterBoundaryCorner.add(x, y, z));
 	}
 
-	public Region add(OldLocation location){
-		return add(location.getBlockX(), location.getBlockY(), location.getBlockZ());
+	public Region add(Location location){
+		return add(location.getIntX(), location.getIntY(), location.getIntZ());
 	}
 
 	public Region extend(int x, int y, int z){
@@ -106,14 +106,12 @@ public class Region {
 		return new Region(lesserBoundaryCorner.relative(x, y, z), greaterBoundaryCorner.relative(x, y, z));
 	}
 
-	public Region relative(OldLocation location){
-		return relative(location.getBlockX(), location.getBlockY(), location.getBlockZ());
+	public Region relative(Location location){
+		return relative(location.getIntX(), location.getIntY(), location.getIntZ());
 	}
 
 	public String serialize(){
-		return StringTemplate.apply("$0,$1,$2,$3,$4,$5,$6", world.getName(),
-				lesserBoundaryCorner.x, lesserBoundaryCorner.y, lesserBoundaryCorner.z,
-				greaterBoundaryCorner.x, greaterBoundaryCorner.y, greaterBoundaryCorner.z);
+		return StringTemplate.apply("$0,$1,$2,$3,$4,$5,$6", world.getName(), lesserBoundaryCorner.x, lesserBoundaryCorner.y, lesserBoundaryCorner.z, greaterBoundaryCorner.x, greaterBoundaryCorner.y, greaterBoundaryCorner.z);
 	}
 
 }

@@ -1,41 +1,36 @@
 package amata1219.amalib.region;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.World;
 
-import amata1219.amalib.location.ImmutableBlockLocation;
-import amata1219.amalib.location.ImmutableEntityLocation;
-import amata1219.amalib.location.OldLocation;
+import amata1219.amalib.location.ImmutableLocation;
+import amata1219.amalib.location.Location;
 
 public class LocationOnBorderCollector {
 
-	public static List<ImmutableEntityLocation> collect(Region region, int howManyPointsInBlock){
+	public static List<ImmutableLocation> collect(Region region, int howManyPointsInBlock){
 		if(howManyPointsInBlock <= 0)
 			throw new IllegalArgumentException("Points in block must be one or more");
 
 		region = region.extend(1, 0, 1);
-		ImmutableBlockLocation lesserBoundaryCorner = region.lesserBoundaryCorner;
-		OldLocation greaterBoundaryCorner = region.greaterBoundaryCorner;
 
-		if(lesserBoundaryCorner.isSame(greaterBoundaryCorner)) return new ArrayList<>(Arrays.asList(lesserBoundaryCorner.asEntityLocation()));
+		ImmutableLocation lesserBoundaryCorner = region.lesserBoundaryCorner;
+		ImmutableLocation greaterBoundaryCorner = region.greaterBoundaryCorner;
 
 		int divisor = howManyPointsInBlock - 1;
 
-		int max = (region.getWidth() * divisor + region.getLength() * divisor) * 2 + 100;
-
-		if(max <= 0) return new ArrayList<>(Arrays.asList(lesserBoundaryCorner.asEntityLocation()));
+		int max = (region.getWidth() * divisor + region.getLength() * divisor) * 2;
 
 		//予想されるサイズを予め指定しておく
-		List<ImmutableEntityLocation> locations = new ArrayList<>(max);
+		List<ImmutableLocation> locations = new ArrayList<>(max);
 
 		World world = lesserBoundaryCorner.world;
-		double y = lesserBoundaryCorner.getEntityY();
+		double y = lesserBoundaryCorner.y;
 
 		//左上の境界角を始点とする
-		ImmutableEntityLocation startLocation = new ImmutableEntityLocation(world, lesserBoundaryCorner.getEntityX(), y, greaterBoundaryCorner.getEntityZ());
+		ImmutableLocation startLocation = new ImmutableLocation(world, lesserBoundaryCorner.x, y, greaterBoundaryCorner.y);
 
 		locations.add(startLocation);
 
@@ -43,15 +38,15 @@ public class LocationOnBorderCollector {
 		Direction direction = Direction.DOWN;
 
 		//一つ前の座標
-		ImmutableEntityLocation lastLocation = startLocation;
+		Location lastLocation = startLocation;
 
 		//間隔を計算する
 		double interval = 1D / howManyPointsInBlock;
 
 		//始点に戻るまで処理を繰り返す
 		label: while(locations.size() <= 1 || !(lastLocation = locations.get(locations.size() - 1)).equals(startLocation)){
-			int x = lastLocation.getBlockX();
-			int z = lastLocation.getBlockZ();
+			int x = lastLocation.getIntX();
+			int z = lastLocation.getIntZ();
 
 			double nextX = x + direction.xComponent;
 			double nextZ = z + direction.zComponent;
@@ -68,7 +63,6 @@ public class LocationOnBorderCollector {
 				case UP:
 					direction = Direction.LEFT;
 					break;
-				case LEFT:
 				default:
 					break label;
 				}
@@ -77,10 +71,7 @@ public class LocationOnBorderCollector {
 			//現在座標のブロック内で間隔倍毎に座標を作成し追加する
 			for(int count = 1; count <= howManyPointsInBlock; count++){
 				double width = interval * count;
-				locations.add(new ImmutableEntityLocation(world, x + direction.xComponent * width, y, z + direction.zComponent * width));
-
-				//念の為の上限値
-				if(max-- < 0) break label;
+				locations.add(new ImmutableLocation(world, x + direction.xComponent * width, y, z + direction.zComponent * width));
 			}
 
 		}

@@ -2,23 +2,23 @@ package amata1219.amalib.selection;
 
 import org.bukkit.World;
 
-import amata1219.amalib.location.ImmutableBlockLocation;
-import amata1219.amalib.location.OldLocation;
-import amata1219.amalib.location.MutableBlockLocation;
+import amata1219.amalib.location.ImmutableLocation;
+import amata1219.amalib.location.Location;
+import amata1219.amalib.location.MutableLocation;
 import amata1219.amalib.region.Region;
 import amata1219.amalib.string.StringTemplate;
 
 public class RegionSelection {
 
-	public final MutableBlockLocation boundaryCorner1 = new MutableBlockLocation(null, 0, 0, 0);
-	public final MutableBlockLocation boundaryCorner2 = new MutableBlockLocation(null, 0, 0, 0);
+	public final MutableLocation boundaryCorner1 = new MutableLocation(null, 0, 0, 0);
+	public final MutableLocation boundaryCorner2 = new MutableLocation(null, 0, 0, 0);
 
 	public void setWorld(World world){
 		boundaryCorner1.world = boundaryCorner2.world = world;
 	}
 
-	public void setBoundaryCorner1(OldLocation location){
-		setBoundaryCorner1(location.getWorld(), location.getBlockX(), location.getBlockY(), location.getBlockZ());
+	public void setBoundaryCorner1(Location location){
+		setBoundaryCorner1(location.getWorld(), location.getIntX(), location.getIntY(), location.getIntZ());
 	}
 
 	public void setBoundaryCorner1(org.bukkit.Location location){
@@ -32,8 +32,8 @@ public class RegionSelection {
 		boundaryCorner1.z = z;
 	}
 
-	public void setBoundaryCorner2(OldLocation location){
-		setBoundaryCorner2(location.getWorld(), location.getBlockX(), location.getBlockY(), location.getBlockZ());
+	public void setBoundaryCorner2(Location location){
+		setBoundaryCorner2(location.getWorld(), location.getIntX(), location.getIntY(), location.getIntZ());
 	}
 
 	public void setBoundaryCorner2(org.bukkit.Location location){
@@ -51,8 +51,8 @@ public class RegionSelection {
 		return boundaryCorner1.world;
 	}
 
-	public ImmutableBlockLocation getLesserBoundaryCorner(){
-		return new ImmutableBlockLocation(
+	public ImmutableLocation getLesserBoundaryCorner(){
+		return new ImmutableLocation(
 			boundaryCorner1.world,
 			Math.min(boundaryCorner1.x, boundaryCorner2.x),
 			Math.min(boundaryCorner1.y, boundaryCorner2.y),
@@ -60,8 +60,8 @@ public class RegionSelection {
 		);
 	}
 
-	public ImmutableBlockLocation getGreaterBoundaryCorner(){
-		return new ImmutableBlockLocation(
+	public ImmutableLocation getGreaterBoundaryCorner(){
+		return new ImmutableLocation(
 			boundaryCorner1.world,
 			Math.max(boundaryCorner1.x, boundaryCorner2.x),
 			Math.max(boundaryCorner1.y, boundaryCorner2.y),
@@ -77,13 +77,12 @@ public class RegionSelection {
 	public String toString(){
 		World world = getWorld();
 
-		ImmutableBlockLocation lesser = getLesserBoundaryCorner();
-		ImmutableBlockLocation greater = getGreaterBoundaryCorner();
+		ImmutableLocation lesserBoundaryCorner = getLesserBoundaryCorner();
+		ImmutableLocation greaterBoundaryCorner = getGreaterBoundaryCorner();
 
-		//world,lesserX,lesserY,lesserZ,greaterX,greaterY,greaterZ
 		return StringTemplate.apply("$0,$1,$2,$3,$4,$5,$6", world != null ? world.getName() : "null",
-				lesser.getBlockX(), lesser.getBlockY(), lesser.getBlockZ(),
-				greater.getBlockX(), greater.getBlockY(), greater.getBlockZ());
+				lesserBoundaryCorner.getIntX(), lesserBoundaryCorner.getIntY(), lesserBoundaryCorner.getIntZ(),
+				greaterBoundaryCorner.getIntX(), greaterBoundaryCorner.getIntY(), greaterBoundaryCorner.getIntZ());
 	}
 
 }
