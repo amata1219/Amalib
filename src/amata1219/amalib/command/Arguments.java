@@ -11,6 +11,10 @@ public class Arguments {
 		this.args = args;
 	}
 
+	public int getLength(){
+		return args.length;
+	}
+
 	public int getIndex(){
 		return index;
 	}
@@ -20,7 +24,7 @@ public class Arguments {
 		return args.length > previousIndex ? args[previousIndex] : "";
 	}
 
-	public String getInRange(int start, int end){
+	public String getRange(int start, int end){
 		if(start > end)
 			throw new IllegalArgumentException("Start must be lesser end");
 
