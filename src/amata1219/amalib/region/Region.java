@@ -15,8 +15,8 @@ public class Region {
 	public static Region deserialize(String data){
 		String[] coordinates = data.split(",");
 		World world = Bukkit.getWorld(coordinates[0]);
-		ImmutableLocation lesserBoundaryCorner = new ImmutableLocation(world, Integer.parseInt(coordinates[1]), Integer.parseInt(coordinates[2]), Integer.parseInt(coordinates[3]));
-		ImmutableLocation greaterBoundaryCorner = new ImmutableLocation(world, Integer.parseInt(coordinates[4]), Integer.parseInt(coordinates[5]), Integer.parseInt(coordinates[6]));
+		ImmutableLocation lesserBoundaryCorner = new ImmutableLocation(world, Double.parseDouble(coordinates[1]), Double.parseDouble(coordinates[2]), Double.parseDouble(coordinates[3]));
+		ImmutableLocation greaterBoundaryCorner = new ImmutableLocation(world, Double.parseDouble(coordinates[4]), Double.parseDouble(coordinates[5]), Double.parseDouble(coordinates[6]));
 		return new Region(lesserBoundaryCorner, greaterBoundaryCorner);
 	}
 
