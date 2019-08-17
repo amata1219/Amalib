@@ -1,12 +1,10 @@
 package amata1219.amalib.string.message;
 
 import java.util.Collection;
-import java.util.function.BiConsumer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import amata1219.amalib.string.StringLocalize;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -14,8 +12,7 @@ import net.md_5.bungee.api.chat.HoverEvent;
 
 public class Message {
 
-	private final String text;
-	private boolean localize;
+	public final String text;
 
 	public static Message wrap(String text){
 		return new Message(text);
@@ -25,13 +22,8 @@ public class Message {
 		this.text = text;
 	}
 
-	public Message localize(){
-		localize = true;
-		return this;
-	}
-
 	public void display(Player player){
-		player.sendMessage(getCorrespondText(player, text));
+		player.sendMessage(text);
 	}
 
 	public void display(Collection<? extends Player> players){
@@ -43,60 +35,67 @@ public class Message {
 	}
 
 	public void displayOnActionBar(Player player){
-		sendComponent(player, (receiver, component) -> {}, ChatMessageType.ACTION_BAR);
+		player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(text));
 	}
 
 	public void displayOnActionBar(Collection<Player> players){
-		for(Player player : players) displayOnActionBar(player);
+		TextComponent component = new TextComponent(text);
+
+		for(Player player : players) player.spigot().sendMessage(ChatMessageType.ACTION_BAR, component);
 	}
 
 	public void sendAsClickable(Player player, ClickAction clickAction, String clickText){
-		sendComponent(player, (receiver, component) -> component.setClickEvent(new ClickEvent(clickAction.action, getCorrespondText(receiver, clickText))));
+		TextComponent component = new TextComponent(text);
+		component.setClickEvent(new ClickEvent(clickAction.action, clickText));
+		sendComponent(player, component);
 	}
 
 	public void sendAsClickable(Collection<Player> players, ClickAction clickAction, String clickText){
-		for(Player player : players) sendAsClickable(player, clickAction, clickText);
+		TextComponent component = new TextComponent(text);
+		component.setClickEvent(new ClickEvent(clickAction.action, clickText));
+		sendComponentToAll(players, component);
 	}
 
 	public void sendAsHoverable(Player player, HoverAction hoverAction, String... hoverTexts){
-		sendComponent(player, (receiver, component) -> component.setHoverEvent(new HoverEvent(hoverAction.action, toHoverComponents(receiver, hoverTexts))));
+		TextComponent component = new TextComponent(text);
+		component.setHoverEvent(new HoverEvent(hoverAction.action, toHoverComponents(hoverTexts)));
+		sendComponent(player, component);
 	}
 
 	public void sendAsHoverable(Collection<Player> players, HoverAction hoverAction, String... hoverTexts){
-		for(Player player : players) sendAsHoverable(player, hoverAction, hoverTexts);
+		TextComponent component = new TextComponent(text);
+		component.setHoverEvent(new HoverEvent(hoverAction.action, toHoverComponents(hoverTexts)));
+		sendComponentToAll(players, component);
 	}
 
 	public void displayAsClickableAndHoverable(Player player, ClickAction clickAction, String clickText, HoverAction hoverAction, String... hoverTexts){
-		sendComponent(player, (receiver, component) -> {
-			component.setClickEvent(new ClickEvent(clickAction.action, getCorrespondText(receiver, clickText)));
-			component.setHoverEvent(new HoverEvent(hoverAction.action, toHoverComponents(receiver, hoverTexts)));
-		});
+		TextComponent component = new TextComponent(text);
+		component.setClickEvent(new ClickEvent(clickAction.action, clickText));
+		component.setHoverEvent(new HoverEvent(hoverAction.action, toHoverComponents(hoverTexts)));
+		sendComponent(player, component);
 	}
 
 	public void displayAsClickableAndHoverable(Collection<Player> players, ClickAction clickAction, String clickText, HoverAction hoverAction, String... hoverTexts){
-		for(Player player : players) displayAsClickableAndHoverable(player, clickAction, clickText, hoverAction, hoverTexts);
+		TextComponent component = new TextComponent(text);
+		component.setClickEvent(new ClickEvent(clickAction.action, clickText));
+		component.setHoverEvent(new HoverEvent(hoverAction.action, toHoverComponents(hoverTexts)));
+		sendComponentToAll(players, component);
 	}
 
-	private TextComponent[] toHoverComponents(Player player, String... texts){
+	private TextComponent[] toHoverComponents(String... texts){
 		TextComponent[] components = new TextComponent[texts.length];
 		for(int index = 0; index < texts.length; index++)
-			components[index] = new TextComponent(getCorrespondText(player, texts[index]));
+			components[index] = new TextComponent(texts[index]);
 
 		return components;
 	}
 
-	private void sendComponent(Player player, BiConsumer<Player, TextComponent> effect){
-		sendComponent(player, effect, ChatMessageType.CHAT);
+	private void sendComponent(Player player, TextComponent component){
+		player.spigot().sendMessage(component);
 	}
 
-	private void sendComponent(Player player, BiConsumer<Player, TextComponent> effect, ChatMessageType type){
-		TextComponent component = new TextComponent(getCorrespondText(player, text));
-		effect.accept(player, component);
-		player.spigot().sendMessage(type, component);
-	}
-
-	private String getCorrespondText(Player player, String text){
-		return localize ? StringLocalize.apply(text, player) : text;
+	private void sendComponentToAll(Collection<Player> players, TextComponent component){
+		for(Player player : players) sendComponent(player, component);
 	}
 
 	public static enum HoverAction {

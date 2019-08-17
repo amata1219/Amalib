@@ -1,5 +1,7 @@
 package amata1219.amalib.string.message;
 
+import org.bukkit.entity.Player;
+
 import amata1219.amalib.string.StringTemplate;
 
 public class MessageTemplate {
@@ -14,6 +16,10 @@ public class MessageTemplate {
 
 	public static Message capply(String text, Object... objects){
 		return Message.wrap(StringTemplate.capply(text, objects));
+	}
+
+	public static Message clapply(String text, Player player, Object... objects){
+		return Message.wrap(StringTemplate.clapply(text, player, objects));
 	}
 
 }
