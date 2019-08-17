@@ -1,5 +1,7 @@
 package amata1219.amalib.string;
 
+import org.bukkit.entity.Player;
+
 public class StringColor {
 
 	private static final String COLORS = "0123456789AaBbCcDdEeFfKkLlMmNnOoRr";
@@ -38,6 +40,10 @@ public class StringColor {
 			}
 		}
 		return new String(characters).replace(NULL, "");
+	}
+
+	public static String lcolor(String text, Player player){
+		return color(StringLocalize.apply(text, player));
 	}
 
 }
