@@ -18,8 +18,8 @@ public class MessageLocalize {
 		return Message.wrap(StringLocalize.color(text, player));
 	}
 
-	public static Message ctemplate(String text, Player player, Object... objects){
-		return Message.wrap(StringLocalize.ctemplate(text, player, objects));
+	public static Message applyAll(String text, Player player, Object... objects){
+		return Message.wrap(StringLocalize.applyAll(text, player, objects));
 	}
 
 

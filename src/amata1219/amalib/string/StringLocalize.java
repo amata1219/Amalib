@@ -16,7 +16,7 @@ public class StringLocalize {
 		return StringColor.color(localize(text, player));
 	}
 
-	public static String ctemplate(String text, Player player, Object... objects){
+	public static String applyAll(String text, Player player, Object... objects){
 		return StringColor.color(template(text, player, objects));
 	}
 
