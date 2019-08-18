@@ -98,11 +98,11 @@ public class Region {
 	}
 
 	public Region sub(int x, int y, int z){
-		return new Region(lesserBoundaryCorner.add(x, y, z), greaterBoundaryCorner.add(x, y, z));
+		return new Region(lesserBoundaryCorner.sub(x, y, z), greaterBoundaryCorner.sub(x, y, z));
 	}
 
 	public Region sub(Location location){
-		return add(-location.getIntX(), -location.getIntY(), -location.getIntZ());
+		return sub(location.getIntX(), location.getIntY(), location.getIntZ());
 	}
 
 	public Region relative(int x, int y, int z){
