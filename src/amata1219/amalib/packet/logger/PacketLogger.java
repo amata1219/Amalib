@@ -1,8 +1,5 @@
 package amata1219.amalib.packet.logger;
 
-import java.util.Map;
-import java.util.Map.Entry;
-
 import org.bukkit.entity.Player;
 
 import amata1219.amalib.packet.PacketHandler;
@@ -12,14 +9,6 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.ChannelPromise;
-import net.minecraft.server.v1_13_R2.Advancement;
-import net.minecraft.server.v1_13_R2.Advancement.SerializedAdvancement;
-import net.minecraft.server.v1_13_R2.AdvancementDisplay;
-import net.minecraft.server.v1_13_R2.AdvancementRequirements;
-import net.minecraft.server.v1_13_R2.AdvancementRewards;
-import net.minecraft.server.v1_13_R2.Criterion;
-import net.minecraft.server.v1_13_R2.MinecraftKey;
-import net.minecraft.server.v1_13_R2.PacketPlayOutAdvancements;
 
 public class PacketLogger extends PacketHandler {
 
@@ -50,7 +39,14 @@ public class PacketLogger extends PacketHandler {
 
 	@Override
 	public void write(ChannelHandlerContext context, Object message, ChannelPromise promise) throws Exception {
-		String name = message.getClass().getSimpleName();
+		//String name = message.getClass().getSimpleName();
+		//System.out.println(name);
+
+		/*
+		 * PacketPlayOutPlayerInfo
+		 * PacketPlayOutCustomPayload
+		 */
+
 		/*if(name.equals("PacketPlayOutScoreboardDisplayObjective")){
 			PacketPlayOutScoreboardDisplayObjective packet = (PacketPlayOutScoreboardDisplayObjective) message;
 			int a = Reflection.getFieldValue(Reflection.getField(packet.getClass(), "a"), packet);
@@ -81,14 +77,14 @@ public class PacketLogger extends PacketHandler {
 			log("int c: " + c);
 			log("Action d: " + d.toString());
 		}*/
-		if(name.equals("PacketPlayOutAdvancements")){
-			System.out.println("write @ " + name);
+		/*if(name.equals("PacketPlayOutAdvancements")){
+		/*	System.out.println("write @ " + name);
 			PacketPlayOutAdvancements packet = (PacketPlayOutAdvancements) message;
 			Map<MinecraftKey, SerializedAdvancement> b = Reflection.getFieldValue(Reflection.getField(PacketPlayOutAdvancements.class, "b"), packet);
 			for(Entry<MinecraftKey, SerializedAdvancement> entry : b.entrySet()){
 				MinecraftKey key = entry.getKey();
 				System.out.println(key.toString());
-				SerializedAdvancement ad = entry.getValue();
+				SerializedAdvancement ad = entry.getValue();*/
 				 /*private MinecraftKey a;
 		private Advancement b;
 		private AdvancementDisplay c;
@@ -97,14 +93,14 @@ public class PacketLogger extends PacketHandler {
 		private String[][] f;
 		private AdvancementRequirements g;*/
 
-				Class<SerializedAdvancement> cl = SerializedAdvancement.class;
+		/*		Class<SerializedAdvancement> cl = SerializedAdvancement.class;
 				MinecraftKey akey = Reflection.getFieldValue(Reflection.getField(cl, "a"), ad);
 				Advancement bb = Reflection.getFieldValue(Reflection.getField(cl, "b"), ad);
 
 
 
 
-				AdvancementDisplay c = Reflection.getFieldValue(Reflection.getField(cl, "c"), ad);
+				AdvancementDisplay c = Reflection.getFieldValue(Reflection.getField(cl, "c"), ad);*/
 
 				/*
 				 * ichatbasecomponent a = icon
@@ -119,7 +115,7 @@ public class PacketLogger extends PacketHandler {
 				 * new AD(icon, title, description:empty, background:bedrock, frame:task, show_toast:true, announce_to_chat:false, hidden:false)
 */
 
-				AdvancementRewards d = Reflection.getFieldValue(Reflection.getField(cl, "d"), ad);
+			/*	AdvancementRewards d = Reflection.getFieldValue(Reflection.getField(cl, "d"), ad);
 				Map<String, Criterion> e = Reflection.getFieldValue(Reflection.getField(cl, "e"), ad);
 				String[][] f = Reflection.getFieldValue(Reflection.getField(cl, "f"), ad);
 				AdvancementRequirements g = Reflection.getFieldValue(Reflection.getField(cl, "g"), ad);
@@ -145,13 +141,22 @@ public class PacketLogger extends PacketHandler {
 				System.out.println("AdvancementRequirements: " + (g != null ? g.toString() : "null"));
 				System.out.println("------------------------------------");
 			}
-		}
+		}*/
 		super.write(context, message, promise);
 	}
 
 	@Override
 	public void channelRead(ChannelHandlerContext context, Object message) throws Exception {
-		//System.out.println("read @ " + message.getClass().getSimpleName());
+		/*String name = message.getClass().getSimpleName();
+		System.out.println("read @ " + name);
+		if(name.equals("PacketPlayInSettings")){
+			PacketPlayInSettings packet = (PacketPlayInSettings) message;
+			String language = Reflection.getFieldValue(Reflection.getField(packet.getClass(), "a"), packet);
+			System.out.println(language);
+		}
+		/*
+		 * PacketPlayInSettings
+		 */
 		super.channelRead(context, message);
 	}
 

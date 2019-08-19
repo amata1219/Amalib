@@ -6,7 +6,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 
 import amata1219.amalib.enchantment.GleamEnchantment;
-import amata1219.amalib.event.PlayerJumpEvent;
+import amata1219.amalib.event.PlayerJumpEvent.PlayerJumpListener;
 import amata1219.amalib.inventory.ui.dsl.component.InventoryLayout;
 import amata1219.amalib.inventory.ui.listener.UIListener;
 
@@ -23,8 +23,8 @@ public class Amalib extends Plugin {
 		);
 
 		registerListeners(
-			UIListener.listener,
-			PlayerJumpEvent.listener
+			new UIListener(),
+			new PlayerJumpListener()
 		);
 
 		registerEnchantments(

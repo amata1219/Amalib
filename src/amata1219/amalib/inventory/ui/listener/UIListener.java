@@ -19,9 +19,7 @@ import amata1219.amalib.inventory.ui.dsl.component.Slot;
 
 public class UIListener implements Listener {
 
-	public static final UIListener listener = new UIListener();
-
-	private UIListener(){
+	public UIListener(){
 
 	}
 

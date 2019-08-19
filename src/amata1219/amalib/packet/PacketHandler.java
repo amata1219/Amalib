@@ -16,8 +16,6 @@ public class PacketHandler extends ChannelDuplexHandler {
 
 	@Override
 	public void write(ChannelHandlerContext context, Object message, ChannelPromise promise) throws Exception {
-		//message is packet
-		//message.getClass().getSimpleName() -> PacketPlayOut～
 		super.write(context, message, promise);
 	}
 

@@ -19,7 +19,6 @@ import amata1219.amalib.listener.PlayerQuitListener;
 
 public class PlayerJumpEvent extends PlayerEvent {
 
-	public static final PlayerJumpListener listener = new PlayerJumpListener();
 	private static final HandlerList handlers = new HandlerList();
 
 	public PlayerJumpEvent(Player player){
@@ -35,11 +34,11 @@ public class PlayerJumpEvent extends PlayerEvent {
 		return handlers;
 	}
 
-	private static class PlayerJumpListener implements PlayerJoinListener, PlayerQuitListener {
+	public static class PlayerJumpListener implements PlayerJoinListener, PlayerQuitListener {
 
 		private HashMap<UUID, Integer> jumps = new HashMap<>();
 
-		private PlayerJumpListener(){
+		public PlayerJumpListener(){
 
 		}
 
