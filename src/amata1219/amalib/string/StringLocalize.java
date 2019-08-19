@@ -5,7 +5,9 @@ import org.bukkit.entity.Player;
 public class StringLocalize {
 
 	public static String localize(String text, Player player){
-		return text.split(" | ", 2)[player.getLocale().equals("ja_jp") ? 0 : 1];
+		int separatorFirstIndex = text.indexOf(" | ");
+
+		return player.getLocale().equals("ja_jp") ? text.substring(0, separatorFirstIndex) : text.substring(separatorFirstIndex + 3);
 	}
 
 	public static String template(String text, Player player, Object... objects){
