@@ -49,7 +49,6 @@ public class LocationOnBorderCollector {
 			double nextZ = z + direction.zComponent;
 
 			if(!region.isIn(world, nextX, y, nextZ)){
-				System.out.println("change");
 				//反時計回りに向きを変える
 				switch(direction){
 				case RIGHT:
