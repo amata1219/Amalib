@@ -7,7 +7,7 @@ import org.bukkit.inventory.InventoryView;
 
 import amata1219.amalib.enchantment.GleamEnchantment;
 import amata1219.amalib.event.PlayerJumpEvent.PlayerJumpListener;
-import amata1219.amalib.inventory.ui.dsl.component.InventoryLayout;
+import amata1219.amalib.inventory.ui.dsl.InventoryUI;
 import amata1219.amalib.inventory.ui.listener.UIListener;
 
 public class Amalib extends Plugin {
@@ -49,18 +49,13 @@ public class Amalib extends Plugin {
 			if(opened == null)
 				continue;
 
-			tryCloseInventoryUI(player, opened.getTopInventory());
-			tryCloseInventoryUI(player, opened.getBottomInventory());
+			closeInventoryUI(player, opened.getTopInventory());
+			closeInventoryUI(player, opened.getBottomInventory());
 		}
 	}
 
-	private void tryCloseInventoryUI(Player player, Inventory inventory){
-		if(inventory == null)
-			return;
-
-		InventoryLayout layout = UIListener.getLayout(inventory.getHolder(), player);
-		if(layout != null)
-			player.closeInventory();
+	private void closeInventoryUI(Player player, Inventory inventory){
+		if(inventory != null && inventory.getHolder() instanceof InventoryUI) player.closeInventory();
 	}
 
 }
