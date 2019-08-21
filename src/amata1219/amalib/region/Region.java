@@ -25,8 +25,8 @@ public class Region {
 				greaterBoundaryCorner.getIntX(), greaterBoundaryCorner.getIntY(), greaterBoundaryCorner.getIntZ());
 	}
 
-	public Region(World world, int lesserBoundaryCornerX, int lesserBoundaryCornerY, int lesserBoundaryCornerZ,
-					int greaterBoundaryCornerX, int greaterBoundaryCornerY, int greaterBoundaryCornerZ){
+	public Region(World world, double lesserBoundaryCornerX, double lesserBoundaryCornerY, double lesserBoundaryCornerZ,
+					double greaterBoundaryCornerX, double greaterBoundaryCornerY, double greaterBoundaryCornerZ){
 
 		this.world = world;
 
@@ -106,7 +106,7 @@ public class Region {
 	}
 
 	public Region relative(int x, int y, int z){
-		return new Region(lesserBoundaryCorner.relative(x, y, z), greaterBoundaryCorner.relative(x, y, z));
+		return new Region(world, lesserBoundaryCorner.x - x, lesserBoundaryCorner.y - y, lesserBoundaryCorner.z - z, greaterBoundaryCorner.x - x, greaterBoundaryCorner.y - y, greaterBoundaryCorner.z - z);
 	}
 
 	public Region relative(Location location){

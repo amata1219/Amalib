@@ -18,7 +18,7 @@ import amata1219.amalib.command.Command;
 import amata1219.amalib.command.Sender;
 import amata1219.amalib.listener.PlayerJoinListener;
 import amata1219.amalib.listener.PlayerQuitListener;
-import amata1219.amalib.reflection.Reflection;
+import amata1219.amalib.util.Reflection;
 
 public class Plugin extends JavaPlugin {
 

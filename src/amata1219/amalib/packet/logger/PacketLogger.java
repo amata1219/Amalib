@@ -4,7 +4,7 @@ import org.bukkit.entity.Player;
 
 import amata1219.amalib.packet.PacketHandler;
 import amata1219.amalib.packet.PacketInjector;
-import amata1219.amalib.reflection.Reflection;
+import amata1219.amalib.util.Reflection;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPipeline;

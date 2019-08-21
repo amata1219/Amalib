@@ -5,6 +5,21 @@ import org.bukkit.World;
 
 public class ImmutableLocation implements Location {
 
+	/*
+	 * Location
+	 *
+	 * 相対座標 = 原点.相対(絶対座標)
+	 *
+	 * 絶対座標 = 原点.追加(相対座標)
+	 *
+	 * Region
+	 *
+	 * 相対領域 = 絶対領域.相対(原点)
+	 *
+	 * 絶対領域 = 相対領域.追加(原点)
+	 *
+	 */
+
 	public static ImmutableLocation deserialize(String data){
 		String[] coordinates = data.split(",");
 		return new ImmutableLocation(Bukkit.getWorld(coordinates[0]), Double.parseDouble(coordinates[1]), Double.parseDouble(coordinates[2]), Double.parseDouble(coordinates[3]), Float.parseFloat(coordinates[4]), Float.parseFloat(coordinates[5]));

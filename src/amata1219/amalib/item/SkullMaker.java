@@ -1,4 +1,4 @@
-package amata1219.amalib.util;
+package amata1219.amalib.item;
 
 import java.util.UUID;
 
