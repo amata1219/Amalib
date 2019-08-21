@@ -56,6 +56,10 @@ public class Scoreboard {
 		return texts[score] != null;
 	}
 
+	public String getScore(int score){
+		return texts[score];
+	}
+
 	//指定されたスコアのテキストを書き換える
 	public void updateScore(int score, String text){
 		//スコアが範囲外であればエラーを投げる
