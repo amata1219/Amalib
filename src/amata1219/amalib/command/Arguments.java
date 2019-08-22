@@ -28,7 +28,7 @@ public class Arguments {
 		if(start > end)
 			throw new IllegalArgumentException("Start must be lesser end");
 
-		StringBuilder builder = new StringBuilder(args.length > start ? args[start] : "");
+		StringBuilder builder = new StringBuilder(args.length > start ? args[start++] : "");
 		for(; start <= Math.min(end, args.length - 1); start++)
 			builder.append(" ").append(args[start]);
 
